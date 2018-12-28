@@ -40,8 +40,11 @@ public class ShiroConfig {
         return loginRealm;
     }
 
+    /**
+     * 配置权限
+     * @return
+     */
     @Bean
-
     public ShiroFilterFactoryBean shiroFilterFactoryBean() {
 
         ShiroFilterFactoryBean filterFactoryBean = new ShiroFilterFactoryBean();
