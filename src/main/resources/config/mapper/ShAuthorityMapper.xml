@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shgoods.goods.mapper.ShAuthorityMapper">
+
+    <resultMap id="AllAuthority" type="com.shgoods.goods.pojo.ShAuthority">
+        <id property="authorityId" column="authorityId"/>
+        <result property="authorityDes" column="authorityDes"/>
+        <result property="authorityNum" column="authorityNum"/>
+        <result property="authorityName" column="authorityName"/>
+        <result property="authorityState" column="authorityState"/>
+        <result property="authorityUpdateTime" column="authorityUpdateTime"/>
+        <result property="authorityCreationTime" column="authorityCreationTime"/>
+
+    </resultMap>
+    <select id="findAllAuthority" resultMap="AllAuthority">
+        SELECT
+            authority_id authorityId,
+            authority_des authorityDes,
+            authority_num authorityNum,
+            authority_name authorityName,
+            authority_state authorityState,
+            authority_updateTime authorityUpdateTime,
+            authority_creationTime authorityCreationTime
+        FROM
+            sh_authority
+    </select>
+    <select id="finaAuthorityByCondition" resultMap="AllAuthority">
+        <bind name="Name" value="'%'+authorityName+'%'"/>
+        SELECT
+            authority_id authorityId,
+            authority_des authorityDes,
+            authority_num authorityNum,
+            authority_name authorityName,
+            authority_state authorityState,
+            authority_updateTime authorityUpdateTime,
+            authority_creationTime authorityCreationTime
+        FROM
+            sh_authority
+        <where>
+            <if test="authorityId!=null">
+                authority_id=#{authorityId}
+            </if>
+            <if test="authorityNum!=null">
+                authority_num=#{authorityNum}
+            </if>
+            <if test="authorityName!=null">
+                authority_name LIKE #{Name}
+            </if>
+            <if test="authorityState!=null">
+                authority_state=#{authorityState}
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <insert id="insertAuthority">
+
+        INSERT INTO sh_authority ( authority_id, authority_des, authority_num, authority_name, authority_state, authority_updateTime, authority_creationTime )
+        VALUES
+            ( UUID_SHORT( ),#{authorityDes},#{authorityNum},#{authorityName},#{authorityState},#{authorityUpdateTime},#{authorityCreationTime} )
+
+    </insert>
+
+    <update id="updateAuthority">
+
+        UPDATE sh_authority
+        SET
+            authority_des =#{authorityDes},
+            authority_num =#{authorityNum},
+            authority_name =#{authorityName},
+            authority_state =#{authorityState},
+            authority_updateTime = NOW( )
+        WHERE
+	        authority_id=#{authorityId}
+
+    </update>
+
+    <update id="forbidAuthority">
+        UPDATE sh_authority
+        SET
+
+            authority_state =#{authorityState},
+            authority_updateTime = NOW( )
+        WHERE
+	        authority_id=#{authorityId}
+
+    </update>
+
+    <select id="checkAuthority" resultMap="AllAuthority">
+        SELECT
+            authority_id authorityId,
+            authority_des authorityDes,
+            authority_num authorityNum,
+            authority_name authorityName,
+            authority_state authorityState,
+            authority_updateTime authorityUpdateTime,
+            authority_creationTime authorityCreationTime
+        FROM
+            sh_authority
+        WHERE
+            authority_id=#{authorityId}
+            AND
+            authority_state=1
+    </select>
+</mapper>

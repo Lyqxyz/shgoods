@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap-grid.css}">
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{css/bootstrap-reboot.css}">
+    <link rel="stylesheet" th:href="@{css/font-awesome.css}">
+
+    <script th:src="@{js/bootstrap.js}"></script>
+    <script th:src="@{js/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.bundle.js}"></script>
+
+    <script th:src="@{js/vue.js}"></script>
+    <script th:src="@{js/qs.js}"></script>
+    <script th:src="@{js/axios.min.js}"></script>
+    <script th:src="@{js/validator.min.js}"></script>
+</head>
+<body>
+    <div class="container-fluid" id="reg">
+        <div class="row">
+            <div class="col-lg-4 offset-lg-4 col-sm-12 mt-5 col-md-6 offset-md-3">
+                <h1 class="text-center text-info mb-1">注册</h1>
+                <form class="mb-3">
+                    <div class="form-group">
+                        <label for="schoolNum">学号</label>
+                        <input required v-model.trim="reg.num" type="text" class="form-control" id="schoolNum"  placeholder="输入学号">
+                        <small id="numHelp" class="form-text text-muted">{{errors.numError}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">名字</label>
+                        <input required type="text" v-model.trim="reg.name" class="form-control" id="name" max="8" placeholder="输入霸气的名字">
+                        <small id="nameHelp" class="form-text text-muted">{{errors.nameError}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input required type="password"  v-model.trim="reg.password" class="form-control" id="password" placeholder="输入密码">
+                        <small id="pwdHelp" class="form-text text-muted">{{errors.pwdError}}</small>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label for="rePassword">确认密码</label>-->
+                        <!--<input type="password" class="form-control" id="rePassword" placeholder="再次输入密码">-->
+                        <!--&lt;!&ndash;<small id="pwdHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>&ndash;&gt;-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label for="email">邮箱</label>
+                        <input required type="email" v-model.trim="reg.email" class="form-control" id="email" placeholder="输入邮箱">
+                        <small id="emailHelp" class="form-text text-muted">{{errors.emailError}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">电话</label>
+                        <input required type="tel" v-model.trim="reg.phone" class="form-control" id="phone" placeholder="输入电话">
+                        <small id="phoneHelp" class="form-text text-muted">{{errors.phoneError}}</small>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input v-model="reg.gender" class="form-check-input" type="radio" name="gender" id="man" value="1">
+                        <label class="form-check-label" for="man">男</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input v-model="reg.gender" class="form-check-input" type="radio" name="gender" id="woman" value="0">
+                        <label class="form-check-label" for="woman">女</label>
+                    </div>
+                    <button type="button" @click="reg1" class="btn btn-primary btn-block mt-2">注册</button>
+                </form>
+                <a href="#" class="btn-link text-info">[忘记密码]</a>
+                <a th:href="@{/login}" class="btn-link text-info">[登录]</a>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="RegModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">注册信息</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-info">{{Result}}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+    let vm = new Vue({
+
+        el:'#reg',
+        data:{
+            reg:{
+                num:'',
+                name:'',
+                password:'',
+                email:'',
+                phone:'',
+                gender:''
+
+            },
+            Result:'',
+            errors:{
+                numError:'请填写真实学号',
+                nameError:'请填写4-8位名字',
+                emailError:'请填写真实邮箱',
+                phoneError:'请填写真实电话',
+                pwdError:'密码不能为空'
+            }
+        },
+        methods:{
+            reg1(){
+
+
+               let n= this.validatorReg();
+
+               if(n===6){
+
+                   axios.baseURL='http://localhost:8080';
+
+                   axios.defaults.withCredentials=true;
+
+                   axios.post('/registered', Qs.stringify(this.reg)
+
+                   ).then(res=>{
+                       console.log(res.data.code)
+                       if(res.data.code==='1'){
+                           this.Result=res.data.message+',正跳转登录页面...'
+                           $('#RegModalCenter').modal({
+                               keyboard: false,
+                               //backdrop:false,
+                           })
+                           setTimeout(function () {
+                               window.location="http://localhost:8080/login";
+                           },1500)
+                       }else {
+
+                           this.Result = res.data.errors.attrsErrors.join(' ')
+                           $('#RegModalCenter').modal({
+                               keyboard: false,
+                               //backdrop:false,
+                           })
+                       }
+
+                   }).catch(err=>{
+
+                       this.Result='服务器错误,请稍后再试!'
+                       $('#RegModalCenter').modal({
+                           keyboard: false,
+                           //backdrop:false,
+                       })
+                   })
+
+               }
+               console.log(n)
+            },
+            validatorReg(){
+
+                let i=0;
+                let numRes = validator.isEmpty(this.reg.num)
+                //let nameRes1 =validator.isEmpty(this.reg.name)
+                let nameRes2 =validator.isLength(this.reg.name,{min:4,max:8})
+                let phoneRes1 =validator.isEmpty(this.reg.phone)
+                let phoneRes2 = validator.isMobilePhone(this.reg.phone)
+                let emailRes1 = validator.isEmpty(this.reg.email)
+                let emailRes2 = validator.isEmail(this.reg.email);
+                let pwdRes =validator.isEmpty(this.reg.password)
+
+                if(numRes){
+                    this.errors.numError='学号不能为空';
+                }else{
+                    this.errors.numError='';
+                    i++
+                }
+                // if(nameRes1){
+                //     this.errors.nameError='名字不能为空';
+                // }else{
+                //     this.errors.nameError='';
+                //     i++
+                // }
+                if(!nameRes2){
+                    this.errors.nameError='名字必须4-8位';
+                }else{
+                    this.errors.nameError='';
+                    i++
+                }
+
+                if(phoneRes1){
+                    this.errors.phoneError='电话不能为空';
+                }else{
+                    this.errors.phoneError='';
+                    i++
+                }
+                if(!phoneRes2){
+                    this.errors.phoneError='电话格式不正确';
+                }else{
+                    this.errors.phoneError='';
+                    i++
+                }
+                if(pwdRes){
+                    this.errors.pwdError='密码不能为空';
+                }else{
+                    this.errors.pwdError='';
+                    i++
+                }
+                if(!emailRes2){
+                    this.errors.emailError='邮箱格式不正确';
+                }else{
+                    this.errors.emailError='';
+                    i++
+                }
+                return i;
+            }
+
+        }
+
+
+    })
+</script>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" th:href="@{css/bootstrap-grid.css}">
+    <link rel="stylesheet" th:href="@{css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{css/bootstrap-reboot.css}">
+    <link rel="stylesheet" th:href="@{css/font-awesome.css}">
+
+    <script th:src="@{js/bootstrap.js}"></script>
+    <script th:src="@{js/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.bundle.js}"></script>
+
+    <script th:src="@{js/vue.js}"></script>
+    <script th:src="@{js/qs.js}"></script>
+    <script th:src="@{js/axios.min.js}"></script>
+    <script th:src="@{js/validator.min.js}"></script>
+</head>
+<body>
+    <div class="container-fluid" id="login">
+        <div class="row">
+            <div class="col-lg-4 offset-lg-4 col-sm-12 mt-5 col-md-6 offset-md-3">
+                <h1 class="text-center text-info mt-3 mb-2">辽科大二手交易平台</h1>
+                <form class="mb-3" autocomplete="off">
+                    <input ref="token" type="hidden" name="token" th:value="${token}">
+                    <div class="form-group">
+                        <label for="InputNum">学号</label>
+                        <input type="text" v-model.trim="login.username" class="form-control" id="InputNum" aria-describedby="NumHelp" max="20" placeholder="输入学号">
+                        <small id="numHelp" class="text-warning form-text text-muted">{{error1Msg}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="InputPassword">密码</label>
+                        <input type="password" v-model.trim="login.pwd" class="form-control" id="InputPassword" placeholder="输入密码">
+                        <small id="pwdHelp" class="text-warning form-text text-muted">{{error2Msg}}</small>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" v-model="remember" type="checkbox" id="inlineCheckbox1" value="remember">
+                        <label class="form-check-label" for="inlineCheckbox1">记住账号</label>
+                    </div>
+                    <!--<div class="form-check form-check-inline">-->
+                        <!--<input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">-->
+                        <!--<label class="form-check-label" for="inlineCheckbox2">记住密码</label>-->
+                    <!--</div>-->
+                    <button type="button" @click="Login" class="btn btn-primary btn-block mt-2">登录</button>
+                </form>
+                <a href="#" class="btn-link text-info">[忘记密码]</a>
+                <a th:href="@{/reg}" class="btn-link text-info">[注册]</a>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">错误详情</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-danger">{{errorResult}}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+</body>
+
+<script>
+
+        Vue.config.productionTip = false;
+
+        let vm=new Vue({
+
+            mode: 'production',
+            el:'#login',
+            data:{
+                login:{
+                    username:'',
+                    pwd:'',
+                    token:'',
+                },
+                remember:'',
+                error1Msg:'',
+                error2Msg:'',
+
+                errorResult:''
+
+            },
+
+            mounted(){
+
+                let username = localStorage.getItem("username");
+                if(username){
+                    this.login.username=username;
+                }
+
+            },
+            methods: {
+                Login: function () {
+                    this.login.token = this.$refs.token.value;
+
+                    let username =validator.isEmpty(this.login.username);
+
+                    let pwd =validator.isEmpty(this.login.pwd);
+
+                    let token =validator.isUUID( this.login.token);
+
+                    if(username){
+                        this.error1Msg='用户名不能为空';
+                    }
+                    else{
+                        this.error1Msg='';
+                    }
+                    if(pwd){
+                        this.error2Msg='密码不能为空';
+                    }else{
+                        this.error2Msg='';
+                    }
+                    axios.baseURL='http://localhost:8080';
+                    axios.defaults.withCredentials=true;
+                     if(!username && !pwd && token){
+
+                        let data=Qs.stringify(this.login);
+                        axios.post('/check',data,{}).then(res=>{
+
+                            if(res.data.code==='1'){
+
+                                this.saveUsername();
+                                window.location="http://localhost:8080/index";
+                            }else {
+
+                                this.errorResult=res.data.message;
+                                $('#exampleModalCenter').modal({
+                                    keyboard: false,
+                                    //backdrop:false,
+                                })
+                            }
+                        }).catch(err=>{
+
+                            this.errorResult='服务器错误,请稍后再试!';
+                            $('#exampleModalCenter').modal({
+                                keyboard: false,
+                                //backdrop:false,
+                            })
+                        })
+                     }
+                },
+                saveUsername(){
+
+                    if(this.remember===true){
+                        localStorage.setItem("username",this.login.username)
+                    }else{
+                        let username=localStorage.getItem("username");
+
+                        if(username){
+
+                            localStorage.removeItem("username");
+                        }
+                    }
+
+                }
+
+            }
+        });
+
+</script>
+</html>

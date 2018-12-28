@@ -1,0 +1,179 @@
+package com.shgoods.goods.service.impl;
+
+import com.shgoods.goods.mapper.ShUserMapper;
+import com.shgoods.goods.pojo.ShUser;
+import com.shgoods.goods.service.ShUserService;
+import com.shgoods.goods.vo.LoginVo;
+import com.shgoods.goods.vo.RegVo;
+import com.shgoods.goods.vo.ResponseVo;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.nio.channels.ShutdownChannelGroupException;
+import java.util.*;
+
+/**
+ * @author lyq
+ */
+@Service
+@Slf4j
+//@CacheConfig(cacheNames = "shuser", cacheManager = "SHUSERRedisCacheManager")
+public class ShUserServiceImpl implements ShUserService {
+
+    @Autowired
+    ShUserMapper shUserMapper;
+
+    @Override
+//    @Cacheable(cacheNames = "shuser1")
+    public List<ShUser> FindAllUser(Integer id){
+
+        return shUserMapper.findAllUser();
+    }
+    @Override
+    public ResponseVo login(LoginVo loginVo, HttpServletRequest request, HttpSession session) {
+
+        ResponseVo responseVo = new ResponseVo();
+
+        Subject currentUser = SecurityUtils.getSubject();
+
+        if (!currentUser.isAuthenticated()) {
+
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(loginVo.getUsername(), loginVo.getPwd());
+            try {
+                currentUser.login(usernamePasswordToken);
+                responseVo.setCode("1");
+                responseVo.setMessage("登录成功");
+                ShUser principal = (ShUser)currentUser.getPrincipal();
+                principal.setUserLoginip(request.getRemoteAddr());
+                Integer integer = this.afterLogin(principal);
+                session.setAttribute("user",principal);
+            } catch (UnknownAccountException uae) {
+
+                log.info(usernamePasswordToken.getPrincipal() + "账户不存在");
+                responseVo.setCode("-1");
+                responseVo.setMessage("账户不存在");
+
+            } catch (LockedAccountException lae) {
+
+                log.info(usernamePasswordToken.getPrincipal() + "用户被锁定了 ");
+                responseVo.setCode("-1");
+                responseVo.setMessage("用户被锁定了");
+
+            } catch (IncorrectCredentialsException e) {
+
+                log.info(usernamePasswordToken.getPrincipal() + "密码不正确");
+                responseVo.setCode("-1");
+
+                responseVo.setMessage("密码不正确");
+            } catch (AuthenticationException ae) {
+
+                responseVo.setCode("-1");
+                responseVo.setMessage("服务器错误");
+                log.info(ae.getMessage());
+            }
+        }
+
+        responseVo.setDate(new Date());
+        responseVo.setPath(request.getRequestURI());
+        return  responseVo;
+
+    }
+    @Override
+    public ShUser checkLogin(ShUser shUser) {
+
+        return shUserMapper.login(shUser);
+    }
+    @Transactional
+    @Override
+    public Integer afterLogin(ShUser shUser) {
+
+        return shUserMapper.afterLogin(shUser);
+    }
+
+    @Transactional
+    @Override
+    public ResponseVo register(RegVo regVo, HttpServletRequest request) {
+
+
+        ResponseVo responseVo = new ResponseVo();
+
+        ShUser shUser= new ShUser();
+
+        shUser.setUserNum(regVo.getNum());
+
+        shUser.setUserEmail(regVo.getEmail());
+
+        shUser.setUserPhone(regVo.getPhone());
+
+        //检查注册信息是否重复(学号,电话，邮箱)
+        List<String> errors = this.attrsToCheck(shUser);
+
+        if(errors.size()>0){
+
+            responseVo.setCode("-1");
+            responseVo.setMessage("注册失败");
+            responseVo.getErrors().put("attrsErrors",errors);
+            responseVo.setDate(new Date());
+            responseVo.setPath(request.getRequestURI());
+
+        }else {
+
+            shUser.setUserName(regVo.getName());
+
+            Md5Hash md5Hash = new Md5Hash(regVo.getPassword(), ByteSource.Util.bytes(regVo.getNum()),20);
+
+            shUser.setUserPwd(md5Hash.toString());
+
+            shUser.setUserGender(regVo.getGender());
+
+            shUser.setUserRegip(request.getRemoteAddr());
+            shUser.setUserState(1);
+            Integer register = shUserMapper.register(shUser);
+            responseVo.setCode("1");
+            responseVo.setMessage("注册成功");
+            responseVo.setDate(new Date());
+            responseVo.setPath(request.getRequestURI());
+
+        }
+        return responseVo;
+    }
+
+    @Override
+    public List<String> attrsToCheck(ShUser shUser) {
+
+        List<String> errors= new ArrayList<>();
+        if(shUser!=null){
+            ShUser shUser1 = shUserMapper.checkShUserNum(shUser);
+
+            ShUser shUser2 = shUserMapper.checkShUserPhone(shUser);
+
+            ShUser shUser3 = shUserMapper.checkShUserEmail(shUser);
+
+            if(shUser1!=null){
+
+                errors.add("学号已被注册");
+            }
+
+            if(shUser2!=null){
+
+                errors.add("电话已被注册");
+            }
+
+            if(shUser3!=null){
+                errors.add("邮箱已被注册");
+            }
+        }
+        return errors;
+    }
+}

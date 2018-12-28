@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shgoods.goods.mapper.ShRoleMapper">
+
+
+    <resultMap id="ShRole" type="com.shgoods.goods.pojo.ShRole">
+        <id property="roleId" column="role_id"/>
+        <result property="roleDes" column="role_des"/>
+        <result property="roleNum" column="role_num"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleUpdateTime" column="role_updateTime"/>
+        <result property="roleCreationTime" column="role_creationTime"/>
+        <result property="roleState" column="role_state"/>
+    </resultMap>
+    <select id="findAllRole" resultMap="ShRole">
+        SELECT
+            role_id,
+            role_num,
+            role_name,
+            role_des,
+            role_updateTime,
+            role_creationTime,
+            role_state
+        FROM
+            sh_role
+    </select>
+
+    <select id="findAllRoleByCondition" resultMap="ShRole">
+
+        <bind name="Name" value="'%'+roleName+'%'"/>
+        SELECT
+            role_id,
+            role_num,
+            role_name,
+            role_des,
+            role_updateTime,
+            role_creationTime,
+            role_state
+        FROM
+            sh_role
+        <where>
+            <if test="roleId!=null">
+                role_id=#{roleId}
+            </if>
+            <if test="roleName!=null">
+                AND role_name LIKE #{Name}
+            </if>
+            <if test="roleNum!=null">
+                AND role_num=#{roleNum}
+            </if>
+            <if test="roleState!=null">
+                AND role_state=#{roleState}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertRole" useGeneratedKeys="true" keyColumn="role_id" keyProperty="roleId">
+          INSERT INTO sh_role (
+                              role_id, role_num, role_name, role_des,
+                              role_updateTime, role_creationTime, role_state )
+           VALUES
+            ( UUID_SHORT( ),#{roleNum},#{roleName},#{roleDes},NOW(),
+              NOW(),#{roleState})
+    </insert>
+    <update id="updateRole">
+
+        UPDATE sh_role
+
+        SET role_num =#{roleNum},
+            role_name =#{roleName},
+            role_des=#{roleDes},
+            role_updateTime=#{roleUpdateTime},
+            role_creationTime=#{roleCreationTime},
+            role_state=#{roleState}
+        WHERE
+            role_id=#{roleId}
+    </update>
+    <update id="forbidRole">
+        UPDATE sh_role
+        SET role_state = #{roleState},role_updateTime=NOW()
+        WHERE
+            role_id =#{roleId}
+    </update>
+
+    <select id="usableRole" resultMap="ShRole">
+        SELECT
+            role_id,
+            role_num,
+            role_name,
+            role_des,
+            role_updateTime,
+            role_creationTime,
+            role_state
+        FROM
+            sh_role
+        <where>
+            <if test="roleId!-null">
+                role_id=#{roleId}
+            </if>
+            <if test="roleNum!=null and roleId==null">
+                AND
+                role_num=#{roleNum}
+            </if>
+
+        </where>
+
+
+    </select>
+
+</mapper>

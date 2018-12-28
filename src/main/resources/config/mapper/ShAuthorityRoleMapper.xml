@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shgoods.goods.mapper.ShAuthorityRoleMapper">
+
+    <resultMap id="AllAuthRole" type="com.shgoods.goods.pojo.ShAuthorityRole">
+        <id property="arId" column="arId"/>
+        <result property="arState" column="arState"/>
+        <result property="arUpdateTime" column="arUpdateTime"/>
+        <result property="arCreationTime" column="arCreationTime"/>
+
+        <association property="arAid" javaType="com.shgoods.goods.pojo.ShAuthority">
+            <id  property="authorityId" column="authorityId"/>
+            <result property="authorityDes" column="authorityDes"/>
+            <result property="authorityNum" column="authorityNum"/>
+            <result property="authorityName" column="authorityName"/>
+            <result property="authorityState" column="authorityState"/>
+            <result property="authorityUpdateTime" column="authorityUpdateTime"/>
+            <result property="authorityCreationTime" column="authorityCreationTime"/>
+        </association>
+        <association property="arRid" javaType="com.shgoods.goods.pojo.ShRole">
+            <id property="roleId" column="roleId"/>
+            <result property="roleDes" column="roleDes"/>
+            <result property="roleNum" column="roleNum"/>
+            <result property="roleName" column="roleName"/>
+            <result property="roleUpdateTime" column="roleUpdateTime"/>
+            <result property="roleCreationTime" column="roleCreationTime"/>
+            <result property="roleState" column="roleState"/>
+        </association>
+
+    </resultMap>
+
+    <select id="findAllAuthRole" resultMap="AllAuthRole">
+
+        SELECT
+            role_id roleId,
+            role_num roleNum,
+            role_name roleName,
+            role_des roleDes,
+            role_updateTime roleUpdateTime,
+            role_creationTime roleUpdateTime,
+            role_state roleState,
+            authority_id authorityId,
+            authority_des authorityDes,
+            authority_num authorityNum,
+            authority_name authorityName,
+            authority_state authorityState,
+            authority_updateTime authorityUpdateTime,
+            authority_creationTime authorityCreationTime,
+            ar_id arId,
+            ar_state arState,
+            ar_updateTime arUpdateTime,
+            ar_creationTime arCreationTime
+        FROM
+            sh_role r,
+            sh_authority a,
+            sh_authority_role ar
+        WHERE
+            r.role_id = ar.ar_rid
+            AND a.authority_id = ar.ar_aid
+
+    </select>
+
+    <insert id="insertAuthRole">
+        INSERT INTO sh_authority_role ( ar_id, ar_aid, ar_rid, ar_state, ar_updateTime, ar_creationTime )
+        VALUES
+        ( UUID_SHORT( ),#{arAid.authorityId},#{arRid.roleId},#{arState},NOW(),NOW() )
+
+    </insert>
+    <update id="updateAuthRole">
+        UPDATE sh_authority_role
+        SET
+            ar_aid =#{arAid.authorityId},
+            ar_rid=#{arRid.roleId},
+            ar_state=#{arState},
+            ar_updateTime =NOW()
+        WHERE
+            ar_id =#{arId},
+
+    </update>
+
+    <update id="forbidAuthRole">
+        UPDATE sh_authority_role
+        SET
+            ar_state=#{arState},
+            ar_updateTime =NOW()
+        WHERE
+            ar_id =#{arId}
+    </update>
+
+    <select id="RoleHasAuth" resultMap="AllAuthRole">
+         SELECT
+            role_id roleId,
+            role_num roleNum,
+            role_name roleName,
+            role_des roleDes,
+            role_updateTime roleUpdateTime,
+            role_creationTime roleUpdateTime,
+            role_state roleState,
+            authority_id authorityId,
+            authority_des authorityDes,
+            authority_num authorityNum,
+            authority_name authorityName,
+            authority_state authorityState,
+            authority_updateTime authorityUpdateTime,
+            authority_creationTime authorityCreationTime,
+            ar_id arId,
+            ar_state arState,
+            ar_updateTime arUpdateTime,
+            ar_creationTime arCreationTime
+        FROM
+            sh_role r,
+            sh_authority a,
+            sh_authority_role ar
+        WHERE
+            r.role_id = ar.ar_rid
+            AND a.authority_id = ar.ar_aid
+            AND r.role_num=#{roleNum}
+            AND a.authority_state!=-1
+    </select>
+
+    <resultMap id="NoAuthority" type="com.shgoods.goods.pojo.ShAuthority">
+        <id property="authorityId" column="authorityId"/>
+        <result property="authorityDes" column="authorityDes"/>
+        <result property="authorityNum" column="authorityNum"/>
+        <result property="authorityName" column="authorityName"/>
+        <result property="authorityState" column="authorityState"/>
+        <result property="authorityUpdateTime" column="authorityUpdateTime"/>
+        <result property="authorityCreationTime" column="authorityCreationTime"/>
+
+    </resultMap>
+
+    <select id="RoleNoAuth" resultMap="NoAuthority">
+        SELECT
+	        authority_id authorityId,
+            authority_des authorityDes,
+            authority_num authorityNum,
+            authority_name authorityName,
+            authority_state authorityState,
+            authority_updateTime authorityUpdateTime,
+            authority_creationTime authorityCreationTime
+        FROM
+            sh_authority
+        WHERE
+            authority_id NOT IN (
+                SELECT
+                    authority_id authorityId
+                FROM
+                    sh_role r,
+                    sh_authority a,
+                    sh_authority_role ar
+                WHERE
+                    r.role_id = ar.ar_rid
+                    AND a.authority_id = ar.ar_aid
+                AND r.role_num =#{roleId}
+            )
+            AND
+              authority_id!=-1
+    </select>
+</mapper>

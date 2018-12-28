@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shgoods.goods.mapper.ShUserMapper">
+
+    <resultMap id="findByConditions" type="com.shgoods.goods.pojo.ShUser">
+
+        <id property="userId" column="user_id"/>
+        <result property="userNum" column="user_num"/>
+        <result property="userName" column="user_name"/>
+        <result property="userGender" column="user_gender"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userIsactive" column="user_isactive"/>
+        <result property="userLoginip" column="user_loginip"/>
+        <result property="userLogintime" column="user_logintime"/>
+        <result property="userPhoto" column="user_photo"/>
+        <result property="userRegip" column="user_regip"/>
+        <result property="userState" column="user_state"/>
+        <association property="userCid" javaType="com.shgoods.goods.pojo.ShCollege">
+            <id property="collegeId" column="college_id"/>
+            <result property="collegeNum" column="college_num"/>
+            <result property="collegeName" column="college_name"/>
+            <result property="collegeDes" column="college_des"/>
+        </association>
+    </resultMap>
+
+
+    <resultMap id="login" type="com.shgoods.goods.pojo.ShUser">
+
+        <id property="userId" column="user_id"/>
+        <result property="userNum" column="user_num"/>
+        <result property="userName" column="user_name"/>
+        <result property="userGender" column="user_gender"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userIsactive" column="user_isactive"/>
+        <result property="userLoginip" column="user_loginip"/>
+        <result property="userLogintime" column="user_logintime"/>
+        <result property="userPhoto" column="user_photo"/>
+        <result property="userRegip" column="user_regip"/>
+        <result property="userState" column="user_state"/>
+
+    </resultMap>
+
+
+    <select id="findAllUser" resultMap="findByConditions">
+
+        SELECT
+               user_id,
+               user_num,
+               user_pwd,
+               user_email,
+               user_phone user_photo,
+               user_regip,
+               user_state,
+               user_gender user_loginip,
+               user_regtime,
+               user_isactive,
+               user_cid,
+               college_id,
+               college_des,
+               college_num,
+               college_name
+        FROM
+             sh_user,
+             sh_college
+        WHERE
+            sh_user.user_cid = sh_college.college_id
+
+    </select>
+
+    <select id="login" resultMap="login">
+          SELECT * FROM sh_user WHERE user_num =#{userNum} AND user_state!=-1
+    </select>
+
+    <select id="findByConditions" resultMap="findByConditions">
+
+        SELECT
+        user_id,
+        user_num,
+        user_pwd,
+        user_email,
+        user_phone,
+        user_photo,
+        user_regip,
+        user_state,
+        user_gender,
+        user_loginip,
+        user_regtime,
+        user_isactive,
+        user_cid,
+        college_id,
+        college_des,
+        college_num,
+        college_name
+        FROM
+        sh_user,
+        sh_college
+        <where>
+            <if test="userCid!=null">
+                sh_user.user_cid = sh_college.college_id
+            </if>
+            <if test="userId!=null">
+                AND user_id=#{userId}
+            </if>
+            <if test="userNum!=null">
+                AND user_num=#{userNum}
+            </if>
+            <if test="userName!=null">
+                AND user_name=#{userName}
+            </if>
+            <if test="userPhone!=null">
+                AND user_phone=#{userPhone}
+            </if>
+            <if test="userEmail!=null">
+                AND user_email=#{userEmail}
+            </if>
+            <if test="userPwd!=null">
+                AND user_pwd=#{userPwd}
+            </if>
+        </where>
+    </select>
+
+    <update id="afterLogin">
+
+        UPDATE sh_user
+
+        SET user_loginip =#{userLoginip},
+            user_isactive = 1,
+            user_logintime=NOW()
+        WHERE
+            user_id=#{userId}
+    </update>
+
+    <update id="afterLogout">
+
+        UPDATE sh_user
+
+        SET
+            user_isactive = 0
+        WHERE
+            user_id=#{userId}
+
+    </update>
+
+    <insert id="register">
+
+        <selectKey keyProperty="userId" keyColumn="uuid" order="BEFORE" resultType="string">
+
+            SELECT UUID_SHORT() uuid
+
+        </selectKey>
+
+        INSERT INTO
+              sh_user(user_id,
+                    user_num,
+                    user_name,
+                    user_pwd,
+                    user_email,
+                    user_phone,
+                    user_regip,
+                    user_state,
+                    user_gender,
+                    user_regtime
+                   )
+        VALUES(
+                    #{userId},#{userNum},
+                    #{userName},#{userPwd},
+                    #{userEmail},#{userPhone},
+                    #{userRegip},#{userState},
+                    #{userGender},NOW()
+                   )
+    </insert>
+
+    <select id="checkShUserNum" resultMap="login">
+        SELECT
+               user_id,
+               user_num,
+               user_pwd,
+               user_email,
+               user_phone user_photo,
+               user_regip,
+               user_state,
+               user_gender user_loginip,
+               user_regtime,
+               user_isactive
+        FROM sh_user
+
+        WHERE
+            user_num=#{userNum}
+    </select>
+
+    <select id="checkShUserPhone" resultMap="login">
+        SELECT
+               user_id,
+               user_num,
+               user_pwd,
+               user_email,
+               user_phone user_photo,
+               user_regip,
+               user_state,
+               user_gender user_loginip,
+               user_regtime,
+               user_isactive
+        FROM sh_user
+
+        WHERE
+                user_phone=#{userPhone}
+    </select>
+    <select id="checkShUserEmail" resultMap="login">
+        SELECT
+               user_id,
+               user_num,
+               user_pwd,
+               user_email,
+               user_phone user_photo,
+               user_regip,
+               user_state,
+               user_gender user_loginip,
+               user_regtime,
+               user_isactive
+        FROM sh_user
+
+        WHERE
+              user_email=#{userEmail}
+    </select>
+
+
+
+</mapper>
