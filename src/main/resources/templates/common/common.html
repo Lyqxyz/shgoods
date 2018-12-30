@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script-css  th:fragment="ScriptAndCss">
+        <link rel="stylesheet" th:href="@{css/bootstrap-grid.css}">
+        <link rel="stylesheet" th:href="@{css/bootstrap.css}">
+        <link rel="stylesheet" th:href="@{css/bootstrap-reboot.css}">
+        <link rel="stylesheet" th:href="@{css/font-awesome.css}">
+        <script th:src="@{js/jquery.3.2.1.min.js}"></script>
+        <script th:src="@{js/bootstrap.bundle.js}"></script>
+        <script th:src="@{js/bootstrap.js}"></script>
+        <script th:src="@{js/holder.js}"></script>
+    </script-css>
+</head>
+<body>
+    <nav th:fragment="headNav" class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+
+        <a class="navbar-brand text-center" href="#" >二手物品后台管理</a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">主页<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-battery-4 text-info">系统监控</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                    <a class="dropdown-item" target="_blank" th:href="@{/druid}">sql监控</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">缓存监控</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">系统信息</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">访问日志</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">服务器监控</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">在线用户</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-envelope text-info">消息推送</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown5">
+                    <a class="fa fa-plus dropdown-item text-info" href="#">写入消息</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-pencil dropdown-item text-warning" href="#">未完成</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-search dropdown-item text-info" href="#">已完成</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-bars text-info">商品详细管理</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                    <a class="fa fa-plus dropdown-item text-info" href="#">添加</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-pencil dropdown-item text-warning" href="#">修改</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-search dropdown-item text-info" href="#">查询</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-trash dropdown-item text-danger" href="#">删除</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-bars text-info">权限角色管理</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown4">
+                    <a class="fa fa-plus dropdown-item text-info" href="#">添加</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-pencil dropdown-item text-warning" href="#">修改</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-search dropdown-item text-info" href="#">查询</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-trash dropdown-item text-danger" href="#">删除</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-bars text-info">用户角色管理</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                    <a class="fa fa-plus dropdown-item text-info" href="#">添加</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-pencil dropdown-item text-warning" href="#">修改</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-search dropdown-item text-info" href="#">查询</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="fa fa-trash dropdown-item text-danger" href="#">删除</a>
+                </div>
+            </li>
+
+        </ul>
+        <!--全屏-->
+        <a href="#" class="nav-link fa fa-arrows-alt" id="full"></a>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+        </form>
+
+
+    </div>
+
+        <div class="dropdown mr-5">
+        <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img class="card-img-top" src="holder.js/20x20" alt="Card image cap">
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="#">个人中心</a>
+            <a class="dropdown-item" href="#">修改密码</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" th:href="@{/logout}">退出系统</a>
+        </div>
+    </div>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+</body>
+</html>
