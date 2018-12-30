@@ -4,6 +4,7 @@ import com.shgoods.goods.dto.UserInfoDto;
 import com.shgoods.goods.mapper.dto.UserInfoDtoMapper;
 import com.shgoods.goods.service.dto.UserInfoDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -12,13 +13,14 @@ import java.util.List;
  * @author lyq
  *
  */
-public class UserInfoServiceImol implements UserInfoDtoService {
+@Service
+public class UserInfoDtoServiceImpl implements UserInfoDtoService {
 
     @Autowired
     UserInfoDtoMapper userInfoDtoMapper;
     @Override
     public List<UserInfoDto> findAllUser() {
-        //可以在这里对数据进行处理
+        //可以根据权限做判断  过滤数据
         List<UserInfoDto> allUser = userInfoDtoMapper.findAllUser();
 
         return allUser;
