@@ -30,9 +30,9 @@ public class ShUser implements Serializable {
 
     private String userEmail;
 
-    @JSONField(format = "YYYY-mm-dd")
+    @JSONField(format = "YYYY-mm-dd HH:MM:SS")
     private Date userRegtime;
-
+    @JSONField(format = "YYYY-mm-dd HH:MM:SS")
     private Date userLogintime;
 
     private Integer userIsactive;

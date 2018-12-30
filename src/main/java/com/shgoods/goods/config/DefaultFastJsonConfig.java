@@ -16,7 +16,8 @@ public class DefaultFastJsonConfig {
 
         fastJsonConfig.setSerializerFeatures(
                         SerializerFeature.WriteNullStringAsEmpty,
-                        SerializerFeature.WriteNullNumberAsZero
+//                        SerializerFeature.WriteNullNumberAsZero,
+                        SerializerFeature.WriteNullListAsEmpty
         );
 
 

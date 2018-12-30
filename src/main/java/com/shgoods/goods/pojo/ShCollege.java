@@ -11,4 +11,5 @@ public class ShCollege implements Serializable {
     private String collegeNum;
     private String collegeName;
     private String collegeDes;
+    private Integer collegeState;
 }

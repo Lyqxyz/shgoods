@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shgoods.goods.mapper.ShCollegeMapper">
+
+    <resultMap id="college" type="com.shgoods.goods.pojo.ShCollege">
+        <id property="collegeId" column="collegeId"/>
+        <result property="collegeDes" column="collegeDes"/>
+        <result property="collegeName" column="collegeName"/>
+        <result property="collegeState" column="collegeState"/>
+        <result property="collegeNum" column="collegeNum"/>
+    </resultMap>
+
+    <select id="findAllCollege" resultMap="college">
+        SELECT
+            college_id collegeId,
+            college_num collegeNum,
+            college_des collegeDes,
+            college_name collegeName,
+            college_state collegeState
+        FROM
+            sh_college
+    </select>
+
+
+
+</mapper>
