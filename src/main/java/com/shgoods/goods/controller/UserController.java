@@ -16,6 +16,8 @@ public class UserController {
     @GetMapping(value = "/info")
     public String info(){
 
+
+
         return "user/userInfo";
     }
 

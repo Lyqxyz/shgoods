@@ -8,10 +8,15 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.css}">
     <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+
+    <script th:src="@{/js/bootstrap.js}"></script>
     <script th:src="@{/js/jquery.3.2.1.min.js}"></script>
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
-    <script th:src="@{/js/bootstrap.js}"></script>
-    <script th:src="@{/js/holder.js}"></script>
+
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/js/qs.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script th:src="@{/js/validator.min.js}"></script>
     <style>
         body{
             margin-top: 70px;
@@ -124,40 +129,40 @@
 <script>
 
 
-    let vm = new Vue({
+    window.onload=function(){
 
-        el:'#UserInfo',
+        let vm = new Vue({
 
-        created(){
+            el:'#UserInfo',
 
-            console.log("aaa")
+            created(){
 
-        },
-        mounted(){
+                console.log("aaa")
 
-            console.log('bbbb')
+            },
+            mounted(){
 
-        },
+                console.log('bbbb')
 
-
-        data:{
-
-        },
-        methods:{
+            },
 
 
-        },
-        computed:{
+            data:{
+
+            },
+            methods:{
 
 
-        }
+            },
+            computed:{
 
 
+            }
+
+        })
+    }
 
 
-
-
-    })
 
 </script>
 </html>
