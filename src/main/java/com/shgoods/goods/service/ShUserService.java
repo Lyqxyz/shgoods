@@ -13,7 +13,6 @@ import java.util.Map;
 
 public interface ShUserService {
 
-    public List<ShUser> FindAllUser(Integer id);
 
     /**
      *

@@ -35,12 +35,6 @@ public class ShUserServiceImpl implements ShUserService {
     ShUserMapper shUserMapper;
 
     @Override
-//    @Cacheable(cacheNames = "shuser1")
-    public List<ShUser> FindAllUser(Integer id){
-
-        return shUserMapper.findAllUser();
-    }
-    @Override
     public ResponseVo login(LoginVo loginVo, HttpServletRequest request, HttpSession session) {
 
         ResponseVo responseVo = new ResponseVo();

@@ -46,32 +46,6 @@
     </resultMap>
 
 
-    <select id="findAllUser" resultMap="findByConditions">
-
-        SELECT
-               user_id,
-               user_num,
-               user_pwd,
-               user_email,
-               user_phone user_photo,
-               user_regip,
-               user_state,
-               user_gender user_loginip,
-               user_regtime,
-               user_isactive,
-               user_cid,
-               college_id,
-               college_des,
-               college_num,
-               college_name
-        FROM
-             sh_user,
-             sh_college
-        WHERE
-            sh_user.user_cid = sh_college.college_id
-
-    </select>
-
     <select id="login" resultMap="login">
           SELECT * FROM sh_user WHERE user_num =#{userNum} AND user_state!=-1
     </select>
@@ -149,22 +123,19 @@
     <insert id="register">
 
         <selectKey keyProperty="userId" keyColumn="uuid" order="BEFORE" resultType="string">
-
             SELECT UUID_SHORT() uuid
-
         </selectKey>
-
         INSERT INTO
-              sh_user(user_id,
-                    user_num,
-                    user_name,
-                    user_pwd,
-                    user_email,
-                    user_phone,
-                    user_regip,
-                    user_state,
-                    user_gender,
-                    user_regtime
+              sh_user(  user_id,
+                        user_num,
+                        user_name,
+                        user_pwd,
+                        user_email,
+                        user_phone,
+                        user_regip,
+                        user_state,
+                        user_gender,
+                        user_regtime
                    )
         VALUES(
                     #{userId},#{userNum},
@@ -172,7 +143,7 @@
                     #{userEmail},#{userPhone},
                     #{userRegip},#{userState},
                     #{userGender},NOW()
-                   )
+              )
     </insert>
 
     <select id="checkShUserNum" resultMap="login">

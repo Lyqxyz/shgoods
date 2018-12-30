@@ -13,10 +13,6 @@ import java.util.List;
 @Mapper
 public interface ShUserMapper {
 
-
-    //查询所有的用户
-    public List<ShUser> findAllUser();
-
     //用户登录
     public ShUser login(ShUser shUser);
 

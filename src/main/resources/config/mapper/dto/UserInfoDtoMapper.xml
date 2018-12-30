@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shgoods.goods.mapper.dto.UserInfoDtoMapper">
+
+    <resultMap id="userInfo" type="com.shgoods.goods.dto.UserInfoDto">
+        <association property="shUser" javaType="com.shgoods.goods.pojo.ShUser">
+            <id property="userId" column="userId"/>
+            <result property="userNum" column="userNum"/>
+            <result property="userPwd" column="userPwd"/>
+            <result property="userName" column="userName"/>
+            <result property="userGender" column="userGender"/>
+            <result property="userPhone" column="userPhone"/>
+            <result property="userEmail" column="userEmail"/>
+            <result property="userIsactive" column="userIsactive"/>
+            <result property="userLoginip" column="userLoginip"/>
+            <result property="userLogintime" column="userLogintime"/>
+            <result property="userPhoto" column="userPhoto"/>
+            <result property="userRegip" column="userRegip"/>
+            <result property="userState" column="userState"/>
+            <result property="userRegtime" column="userRegtime"/>
+        </association>
+        <association property="shCollege" javaType="com.shgoods.goods.pojo.ShCollege">
+            <id property="collegeId" column="collegeId"/>
+            <result property="collegeNum" column="collegeNum"/>
+            <result property="collegeName" column="collegeName"/>
+            <result property="collegeDes" column="collegeDes"/>
+        </association>
+    </resultMap>
+    <select id="findAllUser" resultMap="userInfo">
+       SELECT
+            user_id userId,
+            user_num userNum,
+            user_name userName,
+            user_pwd userPwd,
+            user_email userEmail,
+            user_phone userPhone,
+            user_photo userPhoto,
+            user_regip userRegip,
+            user_state userState,
+            user_gender userGender,
+            user_loginip userLoginip,
+            user_regtime userRegtime,
+            user_isactive userIsactive,
+            college_id collegeId,
+            college_des collegeDes,
+            college_num collegeNum,
+            college_name collegeName
+        FROM
+	        sh_user
+	    LEFT JOIN
+	        sh_college
+	    ON
+	        sh_user.user_cid = sh_college.college_id
+    </select>
+</mapper>
