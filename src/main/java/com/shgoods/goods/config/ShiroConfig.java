@@ -53,23 +53,43 @@ public class ShiroConfig {
 
         Map<String,String> definition = new LinkedHashMap<>();
 
+        /**
+         * 静态文件过滤
+         */
         definition.put("/css/**","anon");
         definition.put("/js/**","anon");
         definition.put("/images/**","anon");
         definition.put("/fonts/**","anon");
-
         definition.put("/favicon.ico","anon");
-        definition.put("/login","anon");
 
+
+        /**
+         * 登录
+         */
+        definition.put("/login","anon");
         definition.put("/check","anon");
 
-        definition.put("/logout","logout");
 
+
+        /**
+         * 注册
+         */
         definition.put("/reg","anon");
-
         definition.put("/registered","anon");
 
+        /**
+         * sql监控
+         */
         definition.put("/druid/*","authc");
+
+        /**
+         *用户url
+         * 后期完成权限控制
+         */
+        definition.put("/user/*","anon");
+
+
+        definition.put("/logout","logout");
 
         definition.put("/**","authc");
 
