@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCaching
 @SpringBootApplication
 public class GoodsApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(GoodsApplication.class, args);
     }

@@ -1,6 +1,10 @@
 package com.shgoods.goods;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shgoods.goods.dto.UserInfoDto;
 import com.shgoods.goods.mapper.dto.UserInfoDtoMapper;
 import org.junit.Test;
@@ -23,10 +27,16 @@ public class UserInfoDtoTest {
     public void test1(){
 
 
+
+        PageHelper.startPage(1, 1);
+
         List<UserInfoDto> allUser = userInfoDtoMapper.findAllUser();
 
-        allUser.stream().forEach(System.out::println);
+        PageInfo page = new PageInfo(allUser,5);
 
+        String s = JSON.toJSONString(page);
+
+        System.out.println(s);
 
     }
 
