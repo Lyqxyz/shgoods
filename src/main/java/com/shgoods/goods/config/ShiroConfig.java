@@ -86,7 +86,7 @@ public class ShiroConfig {
          *用户url
          * 后期完成权限控制
          */
-        definition.put("/user/*","anon");
+        definition.put("/user/**","anon");
 
 
         definition.put("/logout","logout");
