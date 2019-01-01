@@ -5,15 +5,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shgoods.goods.mapper.ShUserRoleMapper">
 
-    <resultMap id="findAllRoleByShUser" type="com.shgoods.goods.pojo.ShUserRole">
-
-
-    </resultMap>
     <resultMap id="AllUserRole" type="com.shgoods.goods.pojo.ShUserRole">
         <id property="urId" column="urId"/>
         <result property="urState" column="urState"/>
         <result property="urCreationTime" column="urCreationTime"/>
         <result property="urUpdateTime" column="urUpdateTime"/>
+
         <association property="urUid" javaType="com.shgoods.goods.pojo.ShUser">
             <id property="userId" column="userId"/>
             <result property="userName" column="userName"/>
@@ -51,8 +48,9 @@
                 r.role_id = ur.ur_rid
                 AND u.user_id = ur.ur_uid
                 AND u.user_num= #{userNum}
-                AND r.role_state!=-1
+                AND r.role_state=1
     </select>
+
     <select id="findAllUSerRole" resultMap="AllUserRole">
 
         SELECT
