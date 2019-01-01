@@ -1,6 +1,6 @@
 /*!
 
-Holder - client side image placeholders
+Holder - client side images placeholders
 Version 2.9.0+f2dkw
 © 2015 Ivan Malopinsky - http://imsky.co
 
@@ -305,7 +305,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
-	Holder.js - client side image placeholders
+	Holder.js - client side images placeholders
 	(c) 2012-2015 Ivan Malopinsky - http://imsky.co
 	*/
 
@@ -317,7 +317,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*
-	Holder.js - client side image placeholders
+	Holder.js - client side images placeholders
 	(c) 2012-2015 Ivan Malopinsky - http://imsky.co
 	*/
 
@@ -376,8 +376,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 
 	    /**
-	     * Sets whether or not an image is updated on resize.
-	     * If an image is set to be updated, it is immediately rendered.
+	     * Sets whether or not an images is updated on resize.
+	     * If an images is set to be updated, it is immediately rendered.
 	     *
 	     * @param {Object} el Image DOM element
 	     * @param {Boolean} value Resizable update flag value
@@ -433,7 +433,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        bgnodes.forEach(function (bgNode) {
 	            //Skip processing background nodes if getComputedStyle is unavailable, since only modern browsers would be able to use canvas or SVG to render to background
 	            if (!global.getComputedStyle) return;
-	            var backgroundImage = global.getComputedStyle(bgNode, null).getPropertyValue('background-image');
+	            var backgroundImage = global.getComputedStyle(bgNode, null).getPropertyValue('background-images');
 	            var dataBackgroundImage = bgNode.getAttribute('data-background-src');
 	            var rawURL = dataBackgroundImage || backgroundImage;
 
@@ -507,7 +507,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        //If the placeholder has already been render, re-render it
 	                        prepareImageElement(options, engineSettings, imageAttr.dataSrc, image);
 	                    } else {
-	                        //If the placeholder has not been rendered, check if the image exists and render a fallback if it doesn't
+	                        //If the placeholder has not been rendered, check if the images exists and render a fallback if it doesn't
 	                        (function(src, options, engineSettings, dataSrc, image) {
 	                            utils.imageExists(src, function(exists) {
 	                                if (!exists) {
@@ -686,7 +686,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Modifies the DOM to fit placeholders and sets up resizable image callbacks (for fluid and automatically sized placeholders)
+	 * Modifies the DOM to fit placeholders and sets up resizable images callbacks (for fluid and automatically sized placeholders)
 	 *
 	 * @private
 	 * @param settings DOM prep settings
@@ -837,7 +837,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Core function that takes output from renderers and sets it as the source or background-image of the target element
+	 * Core function that takes output from renderers and sets it as the source or background-images of the target element
 	 *
 	 * @private
 	 * @param renderSettings Renderer settings
@@ -904,7 +904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (el.nodeName.toLowerCase() === 'object') {
 	            DOM.setAttr(el, {
 	                'data': image,
-	                'type': 'image/svg+xml'
+	                'type': 'images/svg+xml'
 	            });
 	        }
 	        if (engineSettings.reRender) {
@@ -921,7 +921,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                } else if (el.nodeName.toLowerCase() === 'object') {
 	                    DOM.setAttr(el, {
 	                        'data': image,
-	                        'type': 'image/svg+xml'
+	                        'type': 'images/svg+xml'
 	                    });
 	                }
 	            }, 150);
@@ -1044,7 +1044,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var lineKey;
 	        line = new Shape.Group('line' + lineIndex);
 
-	        //Double margin so that left/right-aligned next is not flush with edge of image
+	        //Double margin so that left/right-aligned next is not flush with edge of images
 	        if (scene.align === 'left' || scene.align === 'right') {
 	            maxLineWidth = scene.width * (1 - (1 - lineWrap) * 2);
 	        }
@@ -1274,7 +1274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	/**
-	 * Sets a unique ID for an image detected to be invisible and adds it to the map of invisible images checked by visibilityCheck
+	 * Sets a unique ID for an images detected to be invisible and adds it to the map of invisible images checked by visibilityCheck
 	 *
 	 * @private
 	 * @param el Invisible DOM element
@@ -1450,7 +1450,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var canvas = DOM.newEl('canvas');
 
 	    if (canvas.getContext) {
-	        if (canvas.toDataURL('image/png').indexOf('data:image/png') != -1) {
+	        if (canvas.toDataURL('images/png').indexOf('data:images/png') != -1) {
 	            App.setup.renderer = 'canvas';
 	            App.setup.supportsCanvas = true;
 	        }
@@ -1991,10 +1991,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Checks if an image exists
+	 * Checks if an images exists
 	 *
-	 * @param src URL of image
-	 * @param callback Callback to call once image status has been found
+	 * @param src URL of images
+	 * @param callback Callback to call once images status has been found
 	 */
 	exports.imageExists = function(src, callback) {
 	    var image = new Image();
@@ -2179,8 +2179,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param [base64] Use base64 encoding for data URI
 	 */
 	exports.svgStringToDataURI = function() {
-	    var rawPrefix = 'data:image/svg+xml;charset=UTF-8,';
-	    var base64Prefix = 'data:image/svg+xml;charset=UTF-8;base64,';
+	    var rawPrefix = 'data:images/svg+xml;charset=UTF-8,';
+	    var base64Prefix = 'data:images/svg+xml;charset=UTF-8;base64,';
 
 	    return function(svgString, base64) {
 	        if (base64) {
@@ -2965,7 +2965,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        }
 
-	        return canvas.toDataURL('image/png');
+	        return canvas.toDataURL('images/png');
 	    };
 	})();
 

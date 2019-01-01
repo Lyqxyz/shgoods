@@ -8,13 +8,17 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.css}">
     <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
-    <script th:src="@{/js/bootstrap.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/css/dialog.css}">
     <script th:src="@{/js/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
     <script th:src="@{/js/bootstrap.bundle.js}"></script>
     <script th:src="@{/js/vue.js}"></script>
     <script th:src="@{/js/qs.js}"></script>
     <script th:src="@{/js/axios.min.js}"></script>
     <script th:src="@{/js/validator.min.js}"></script>
+    <!--<script th:src="@{/js/zepto.min.js}"></script>-->
+    <script th:src="@{/js/dialog.js}"></script>
     <style>
         body{
             margin-top: 70px;
@@ -56,7 +60,7 @@
                                 <!--<th>性别</th>-->
                                 <!--<th>密码</th>-->
                                 <!--<th>注册时间</th>-->
-                                <th>上次登录时间</th>
+                                <!--<th>上次登录时间</th>-->
                                 <th>是否在线</th>
                                 <!--<th>注册ip</th>-->
                                 <th>登录ip</th>
@@ -64,57 +68,55 @@
                                 <!--<th>学院编号</th>-->
                                 <th>学院名字</th>
                                 <th>学院状态</th>
+                                <th>详细</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+
+                            <tr v-for="(item,index) in a.list" :key="index">
+                                <td>{{item.userNum}}</td>
+                                <td>{{item.userName}}</td>
+                                <td>{{item.userPhone}}</td>
+                                <td>{{item.userEmail}}</td>
+                                <td>{{item.userIsactive}}</td>
+                                <td>{{item.userLoginip}}</td>
+                                <td>{{item.userState | state}}</td>
+                                <td>{{item.collegeName}}</td>
+                                <td>{{item.collegeState | state}}</td>
+                                <th><button @click="info(item.userNum)" class="btn btn-info">点击</button></th>
+                                <td>
+                                    <a href="#" class="text-warning" title="修改用户"><i class="fa fa-pencil"></i></a>
+                                    <a href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
+                                    <a @click.prevent="forbid(item.userNum)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
+                                </td>
                             </tr>
+
                         </tbody>
                     </table>
                 </div>
 
                 <div class="row">
 
+                    <div class="col-lg-2">
+                        <p>当前页:{{currentPage}}----总数:{{a.total}}</p>
+                    </div>
                     <div class="col-lg-8 offset-lg-2">
                         <!--分页-->
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
+                                <li v-if="a.hasPreviousPage" class="page-item">
+                                    <a @click.prevent="previous" class="page-link" href="#" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
-                                        <span class="sr-only">Previous</span>
+                                        <span class="sr-only">上一页</span>
                                     </a>
                                 </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
+                                <li  v-for="n in a.navigatepageNums" class="page-item"><a @click.prevent="page(n)" class="page-link" href="#">{{n}}</a></li>
+
+                                <li v-if="a.hasNextPage" class="page-item">
+                                    <a  @click.prevent="next" class="page-link" href="#" aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
-                                        <span class="sr-only">Next</span>
+                                        <span class="sr-only">下一页</span>
                                     </a>
                                 </li>
                             </ul>
@@ -124,32 +126,211 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">用户详情</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel panel-default">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading"></div>
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">用户id:{{b.userId}}</li>
+                                    <li class="list-group-item">用户学号:{{b.userNum}}</li>
+                                    <li class="list-group-item">用户名:{{b.userName}}</li>
+                                    <li class="list-group-item">用户性别:{{b.userGender | gender}}</li>
+                                    <li class="list-group-item">用户电话:{{b.userPhone}}</li>
+                                    <li class="list-group-item">用户邮箱:{{b.userEmail}}</li>
+                                    <li class="list-group-item">用户密码:{{b.userPwd}}</li>
+                                    <li class="list-group-item">用户状态:{{b.userState | state}}</li>
+                                    <li class="list-group-item">用户登录ip:{{b.userLoginip}}</li>
+                                    <li class="list-group-item">用户注册ip:{{b.userRegip}}</li>
+                                    <li class="list-group-item">用户注册时间:{{b.userRegtime}}</li>
+                                    <li class="list-group-item">用户上次登录时间:{{b.userLogintime}}</li>
+                                    <li class="list-group-item">学院id:{{b.collegeId}}</li>
+                                    <li class="list-group-item">学院编号:{{b.collegeNum}}</li>
+                                    <li class="list-group-item">学院名:{{b.collegeName}}</li>
+                                    <li class="list-group-item">学院状态:{{b.collegeState | state}}</li>
+                                    <li class="list-group-item">学院描述:{{b.collegeDes}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </body>
 <script>
 
+    Vue.filter('state', function (value) {
 
-    window.onload=function(){
+        try {
+            if(value===null||value==='undefined'){
 
-        let vm = new Vue({
+                return '未知';
+            }
+            let state= parseInt(value)
+            switch (state) {
+                case 0:
+                    return '禁用';
+                case 1:
+                    return '正常';
+                case -1:
+                    return '删除';
+                default:
+                    return '未知';
 
+            }
+        }catch (e) {
+
+            return '未知';
+        }
+
+    })
+
+    Vue.filter('gender',function (value) {
+        try {
+            let gender= parseInt(value)
+            switch (gender) {
+                case 0:
+                    return '女';
+                case 1:
+                    return '男';
+                default:
+                    return '未知';
+            }
+        }
+        catch (e) {
+            return '未知';
+        }
+    })
+
+    let vm = new Vue({
             el:'#UserInfo',
-
             created(){
 
-                console.log("aaa")
+                axios.baseURL='http://localhost:8080';
+                axios.defaults.withCredentials=true;
+                axios.get('/user/users/1/4').then(res=>{
 
+                    this.a=res.data.info.data;
+
+                }).catch(err=>{
+
+                    console.log(err)
+
+                })
             },
             mounted(){
 
-                console.log('bbbb')
-
             },
 
+
+
             data:{
+                a:{},
+                currentPage:1,
+                b:{}
 
             },
             methods:{
+                page(n){
+
+                    if(n!==this.a.pageNum){
+                        let infoDialog = $.dialog({
+                            type : 'info',
+                            infoText : '加载中…',
+                            infoIcon : '/images/icon/loading.gif'
+                        });
+
+                        axios.get(`/user/users/${n}/${this.a.pageSize}`).then(res=>{
+
+                            this.a=res.data.info.data;
+                            this.currentPage=n;
+                            infoDialog.dialog.update({
+                                autoClose : 1500,
+                                infoText : '请求成功',
+                                infoIcon : '/images/icon/success.png'
+                            });
+
+                        }).catch(err=>{
+                            infoDialog.dialog.update({
+                                autoClose : 1500,
+                                infoText : '请求失败',
+                                infoIcon : '/images/icon/fail.png'
+                            });
+                            console.log(err)
+                        })
+                    }
+                },
+                previous(){
+                    if( this.a.hasPreviousPage){
+                        this.page(this.a.prePage)
+                    }
+                },
+                next(){
+                    if( this.a.hasNextPage){
+                        this.page(this.a.nextPage)
+                    }
+                },
+                info(userNum){
+
+                    this.b =this.a.list.filter((item,index)=>item.userNum===userNum)[0]
+                    $('#exampleModalCenter').modal({
+                        keyboard: false,
+                        //backdrop:false,
+                    })
+                },
+                forbid(userNum){
+
+                  let b=this.a.list.filter((item,index)=>item.userNum===userNum)[0];
+                  if( b.userState===0){
+
+                      $.dialog({
+                          type:'confirm',
+                          titleText: '警告',
+                          contentHtml: '<h3>用户已是禁用状态,是否还要更新?</h3>',
+                          onClickOk(){
+                              $.dialog({
+                                  type : 'info',
+                                  infoText : '加载中…',
+                                  infoIcon : '/images/icon/loading.gif',
+
+                              });
+
+                              window.setTimeout(function () {
+                                  infoDialog.dialog.update({
+                                      autoClose : 1500,
+                                      infoText : '请求成功',
+                                      infoIcon : '/images/icon/success.png'
+                                  });
+                              },2000)
+
+
+                            console.log("点击ok")
+                          },
+                          onClickCancel(){
+                              console.log("点击取消了")
+                          }
+
+                      })
+
+                  }
+
+
+                }
 
 
             },
@@ -159,7 +340,7 @@
             }
 
         })
-    }
+
 
 
 

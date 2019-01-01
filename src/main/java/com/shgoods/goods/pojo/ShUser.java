@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author lyq
@@ -43,9 +44,11 @@ public class ShUser implements Serializable {
 
     private String userPhoto;
 
-    //private String userCid;
     private ShCollege userCid;
 
     private Integer userState;
+
+    private List<ShRole> shRoles;
+
 
 }

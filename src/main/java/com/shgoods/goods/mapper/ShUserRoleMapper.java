@@ -6,6 +6,7 @@ import com.shgoods.goods.pojo.ShUserRole;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lyq
@@ -37,6 +38,10 @@ public interface ShUserRoleMapper {
 
     //插入用户角色
     public Integer insertUserRole(ShUserRole shUserRole);
+
+
+    //查询用户拥有的角色
+    public ShUser findAllRole(ShUser shUser);
 
 
 }

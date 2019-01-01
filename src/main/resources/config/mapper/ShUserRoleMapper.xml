@@ -26,6 +26,48 @@
         </association>
 
     </resultMap>
+
+
+    <resultMap id="findAllRole" type="com.shgoods.goods.pojo.ShUser">
+        <id property="userId" column="userId"/>
+        <result property="userNum" column="userNum"/>
+        <result property="userName" column="userName"/>
+        <result property="userState" column="userState"/>
+        <collection property="shRoles" ofType="com.shgoods.goods.pojo.ShRole">
+            <id property="roleId" column="roleId"/>
+            <result property="roleNum" column="roleNum"/>
+            <result property="roleName" column="roleName"/>
+            <result property="roleState" column="roleState"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="findAllRole" resultMap="findAllRole">
+          SELECT
+                u.user_id userId,
+                u.user_name userName,
+                u.user_num userNum,
+                u.user_state userState,
+                r.role_id roleId,
+                r.role_num roleNum,
+                r.role_name roleName,
+                r.role_state roleState,
+                ur.ur_id urId,
+                ur.ur_state urState,
+                ur.ur_creationTime urCreationTime,
+                ur.ur_updateTime urUpdateTime
+            FROM
+                sh_role r,
+                sh_user u,
+                sh_user_role ur
+            WHERE
+                r.role_id = ur.ur_rid
+                AND u.user_id = ur.ur_uid
+                AND u.user_num= #{userNum}
+                AND r.role_state=1
+    </select>
+
+
     <select id="findAllRoleByShUser" resultMap="AllUserRole">
           SELECT
                 u.user_id userId,
@@ -146,7 +188,7 @@
             ur_id=#{urId}
     </update>
 
-    <insert id="insertUserRole" useGeneratedKeys="true" keyColumn="ur_id" keyProperty="urId">
+    <insert id="insertUserRole">
 
         INSERT INTO sh_user_role ( ur_id, ur_rid, ur_uid, ur_state, ur_updateTime, ur_creationTime )
         VALUES

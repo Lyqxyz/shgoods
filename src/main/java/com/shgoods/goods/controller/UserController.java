@@ -42,6 +42,7 @@ public class UserController {
         PageHelper.startPage(pageNum, pageSize);
 
         List<UserInfoDto> allUser = userInfoDtoService.findAllUser();
+
         PageInfo page = new PageInfo(allUser,10);
 
         ResponseVo responseVo = new ResponseVo();

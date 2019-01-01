@@ -24,11 +24,14 @@ public interface ShAuthorityRoleMapper {
     //禁用角色权限
     public Integer forbidAuthRole(ShAuthorityRole shAuthorityRole);
 
-    //查询角色拥有的权限
+    //查询角色拥有的权限(不包括删除的)
     public List<ShAuthorityRole> RoleHasAuth(ShRole shRole);
 
     //查询角色没有的权限
     public List<ShAuthority> RoleNoAuth(ShRole shRole);
 
+
+    //查询角色所有权限
+    public List<ShAuthority> AllAuthByRoles(List<ShRole> shRoles);
 
 }

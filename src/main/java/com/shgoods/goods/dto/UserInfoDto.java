@@ -30,6 +30,7 @@ public class UserInfoDto {
 
     @JSONField(format = "YYYY-mm-dd HH:MM:SS")
     private Date userRegtime;
+
     @JSONField(format = "YYYY-mm-dd HH:MM:SS")
     private Date userLogintime;
 

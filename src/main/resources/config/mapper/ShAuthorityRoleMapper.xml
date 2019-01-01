@@ -11,7 +11,6 @@
         <result property="arState" column="arState"/>
         <result property="arUpdateTime" column="arUpdateTime"/>
         <result property="arCreationTime" column="arCreationTime"/>
-
         <association property="arAid" javaType="com.shgoods.goods.pojo.ShAuthority">
             <id  property="authorityId" column="authorityId"/>
             <result property="authorityDes" column="authorityDes"/>
@@ -30,8 +29,52 @@
             <result property="roleCreationTime" column="roleCreationTime"/>
             <result property="roleState" column="roleState"/>
         </association>
-
     </resultMap>
+
+
+
+    <resultMap id="Authority" type="com.shgoods.goods.pojo.ShAuthority">
+        <id property="authorityId" column="authorityId"/>
+        <result property="authorityDes" column="authorityDes"/>
+        <result property="authorityNum" column="authorityNum"/>
+        <result property="authorityName" column="authorityName"/>
+        <result property="authorityState" column="authorityState"/>
+        <result property="authorityUpdateTime" column="authorityUpdateTime"/>
+        <result property="authorityCreationTime" column="authorityCreationTime"/>
+    </resultMap>
+    <select id="AllAuthByRoles" resultMap="Authority">
+          SELECT
+                role_id roleId,
+                role_num roleNum,
+                role_name roleName,
+                role_des roleDes,
+                role_updateTime roleUpdateTime,
+                role_creationTime roleUpdateTime,
+                role_state roleState,
+                authority_id authorityId,
+                authority_des authorityDes,
+                authority_num authorityNum,
+                authority_name authorityName,
+                authority_state authorityState,
+                authority_updateTime authorityUpdateTime,
+                authority_creationTime authorityCreationTime,
+                ar_id arId,
+                ar_state arState,
+                ar_updateTime arUpdateTime,
+                ar_creationTime arCreationTime
+          FROM
+                sh_role r,
+                sh_authority a,
+                sh_authority_role ar
+          WHERE
+                r.role_id = ar.ar_rid
+                AND a.authority_id = ar.ar_aid
+                AND r.role_id
+                <foreach collection="list" item="role" open="IN(" close=")" separator=",">
+                        #{role.roleId}
+                </foreach>
+    </select>
+
 
     <select id="findAllAuthRole" resultMap="AllAuthRole">
 

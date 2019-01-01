@@ -17,7 +17,6 @@ import java.util.Map;
 @Data
 public class ResponseVo implements Serializable {
 
-
     private String code;
     private String message;
     @JSONField(format = "YYYY-MM-dd HH:mm:ss")
