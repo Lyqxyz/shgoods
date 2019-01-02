@@ -4,8 +4,11 @@ package com.shgoods.goods.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shgoods.goods.dto.UserInfoDto;
+import com.shgoods.goods.pojo.ShUser;
+import com.shgoods.goods.service.ShUserService;
 import com.shgoods.goods.service.dto.UserInfoDtoService;
 import com.shgoods.goods.vo.ResponseVo;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,10 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
+
+
+    @Autowired
+    ShUserService shUserService;
 
     @Autowired
     UserInfoDtoService userInfoDtoService;
@@ -60,6 +67,40 @@ public class UserController {
         return responseVo;
 
     }
+
+    @ResponseBody
+    @GetMapping(value = "/forbid/{userId}")
+    public Object forbidUser(@PathVariable(value = "userId") String userId,HttpServletRequest request){
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(userId);
+
+        ResponseVo responseVo = shUserService.forbidUser(shUser);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return  responseVo;
+
+    }
+
+//    @RequiresRoles(value = {"user","admin"})
+    @ResponseBody
+    @GetMapping(value = "/delete/{userId}")
+    public Object delUser(@PathVariable(value = "userId") String userId,HttpServletRequest request){
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(userId);
+
+        ResponseVo responseVo = shUserService.delUser(shUser);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return  responseVo;
+
+    }
+
 
 
 }

@@ -163,7 +163,6 @@
         WHERE
             user_num=#{userNum}
     </select>
-
     <select id="checkShUserPhone" resultMap="login">
         SELECT
                user_id,
@@ -199,6 +198,32 @@
               user_email=#{userEmail}
     </select>
 
+    <update id="forbidUser">
+        UPDATE sh_user
+
+        SET user_state = 0
+        WHERE
+                user_id=#{userId}
+    </update>
+    <update id="delUser">
+        UPDATE sh_user
+
+        SET user_state = -1
+
+        WHERE
+                user_id=#{userId}
+
+    </update>
+
+    <update id="restoreUser">
+        UPDATE sh_user
+
+        SET user_state = 1
+
+        WHERE
+                user_id=#{userId}
+
+    </update>
 
 
 </mapper>

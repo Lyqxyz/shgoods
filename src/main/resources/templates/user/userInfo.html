@@ -87,8 +87,9 @@
                                 <th><button @click="info(item.userNum)" class="btn btn-info">点击</button></th>
                                 <td>
                                     <a href="#" class="text-warning" title="修改用户"><i class="fa fa-pencil"></i></a>
-                                    <a href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
-                                    <a @click.prevent="forbid(item.userNum)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
+                                    <a href="#" class="text-info" title="恢复用户"><i class="fa fa-asterisk"></i></a>
+                                    <a @click.prevent="deleteUser(item.userNum)" href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
+                                    <a @click.prevent="forbidUser(item.userNum)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
                                 </td>
                             </tr>
 
@@ -293,43 +294,54 @@
                         //backdrop:false,
                     })
                 },
-                forbid(userNum){
+                checkState(userNum,method){
+                    let b=this.a.list.filter((item,index)=>item.userNum===userNum)[0];
+                    let infoDialog = $.dialog({
+                        type : 'info',
+                        infoText : '加载中…',
+                        infoIcon : '/images/icon/loading.gif'
+                    });
+                    axios.get(`/user/${method}/${b.userId}/`).then(res=>{
 
-                  let b=this.a.list.filter((item,index)=>item.userNum===userNum)[0];
-                  if( b.userState===0){
+                        let message=res.data.message;
+                        if(res.data.code==='1'){
 
-                      $.dialog({
-                          type:'confirm',
-                          titleText: '警告',
-                          contentHtml: '<h3>用户已是禁用状态,是否还要更新?</h3>',
-                          onClickOk(){
-                              $.dialog({
-                                  type : 'info',
-                                  infoText : '加载中…',
-                                  infoIcon : '/images/icon/loading.gif',
+                            if(method==='forbid'){
+                                b.userState= 0;
+                            }else if (method==='delete') {
+                                b.userState=-1;
+                            }else{
+                                b.userState=1;
+                            }
 
-                              });
+                            infoDialog.dialog.update({
+                                autoClose : 1500,
+                                infoText : message,
+                                infoIcon : '/images/icon/success.png'
+                            });
 
-                              window.setTimeout(function () {
-                                  infoDialog.dialog.update({
-                                      autoClose : 1500,
-                                      infoText : '请求成功',
-                                      infoIcon : '/images/icon/success.png'
-                                  });
-                              },2000)
+                        }else{
+                            infoDialog.dialog.update({
+                                autoClose : 1500,
+                                infoText : message,
+                                infoIcon : '/images/icon/fail.png'
+                            });
+                        }
+                    }).catch(err=>{
+                        infoDialog.dialog.update({
+                            autoClose : 1500,
+                            infoText : message,
+                            infoIcon : '/images/icon/fail.png'
+                        });
 
+                    })
 
-                            console.log("点击ok")
-                          },
-                          onClickCancel(){
-                              console.log("点击取消了")
-                          }
-
-                      })
-
-                  }
-
-
+                },
+                forbidUser(userNum){
+                    this.checkState(userNum,'forbid');
+                },
+                deleteUser(userNum){
+                    this.checkState(userNum,'delete');
                 }
 
 

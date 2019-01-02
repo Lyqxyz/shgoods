@@ -170,4 +170,55 @@ public class ShUserServiceImpl implements ShUserService {
         }
         return errors;
     }
+
+    @Transactional
+    @Override
+    public ResponseVo forbidUser(ShUser shUser) {
+
+        ResponseVo responseVo = new ResponseVo();
+        if(shUser!=null&&shUser.getUserId()!=null){
+
+            Integer integer = shUserMapper.forbidUser(shUser);
+            if(integer==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("禁用成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是禁用状态");
+                responseVo.getErrors().put("errors",Arrays.asList("用户已经是禁用状态"));
+            }
+
+        }else{
+            responseVo.setCode("-1");
+            responseVo.setMessage("禁用失败");
+            responseVo.getErrors().put("errors",Arrays.asList("用户id为空"));
+        }
+        responseVo.setDate(new Date());
+        return responseVo;
+    }
+
+    @Transactional
+    @Override
+    public ResponseVo delUser(ShUser shUser) {
+        ResponseVo responseVo = new ResponseVo();
+
+        if(shUser!=null&&shUser.getUserId()!=null){
+            Integer integer = shUserMapper.forbidUser(shUser);
+            if(integer==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("删除成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是删除状态");
+                responseVo.getErrors().put("errors",Arrays.asList("用户已经是删除状态"));
+            }
+        }else{
+
+            responseVo.setCode("-1");
+            responseVo.setMessage("删除失败");
+            responseVo.getErrors().put("errors",Arrays.asList("用户id为空"));
+        }
+        responseVo.setDate(new Date());
+        return responseVo;
+    }
 }

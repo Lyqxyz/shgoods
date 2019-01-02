@@ -49,6 +49,20 @@ public interface ShUserService {
     public List<String> attrsToCheck(ShUser shUser);
 
 
+    /**
+     * 禁用用户
+     * @param shUser
+     * @return
+     */
+    public ResponseVo forbidUser(ShUser shUser);
+
+    /**
+     * 删除用户(逻辑删除)
+     * @param shUser
+     * @return
+     */
+    public ResponseVo delUser(ShUser shUser);
+
 
 
 }

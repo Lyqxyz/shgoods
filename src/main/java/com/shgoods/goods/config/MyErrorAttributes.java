@@ -31,11 +31,10 @@ public class MyErrorAttributes extends DefaultErrorAttributes {
 
         errorAttributes.remove("errors");
 
-        errorAttributes.remove("message");
+        errorAttributes.put("message","服务器错误");
 
-//        Object msg = webRequest.getAttribute("data",0);
-//
-//        errorAttributes.put("data",msg);
+        errorAttributes.put("code","-1");
+
 
         return errorAttributes;
     }

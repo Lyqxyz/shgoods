@@ -37,6 +37,14 @@ public interface ShUserMapper {
     //检查邮箱是否重复
     public ShUser checkShUserEmail(ShUser shUser);
 
+    //禁止用户
+    public Integer forbidUser(ShUser shUser);
+
+    //删除用户
+    public Integer delUser(ShUser shUser);
+
+    public Integer restoreUser(ShUser shUser);
+
 
 
 }
