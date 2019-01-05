@@ -43,7 +43,11 @@ public interface ShUserMapper {
     //删除用户
     public Integer delUser(ShUser shUser);
 
+    //恢复用户(除删除的用户)
     public Integer restoreUser(ShUser shUser);
+
+    //增加用户
+    public Integer addUser(ShUser shUser);
 
 
 

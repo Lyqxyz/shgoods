@@ -13,9 +13,24 @@ import java.util.List;
 @Mapper
 public interface ShCollegeMapper {
 
+    /**
+     * 查询学院的信息(包括已禁用和删除)
+     * @return
+     */
     public List<ShCollege> findAllCollege();
 
+    /**
+     * 查询学院的信息(不包括已禁用和删除)
+     * @return
+     */
+    public List<ShCollege> findUsefulCollege();
 
+    /**
+     * 检查学院编号是否重复
+     * @param shCollege
+     * @return
+     */
+    public ShCollege checkCollegeNum(ShCollege shCollege);
 
 
 }

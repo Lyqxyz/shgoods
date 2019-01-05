@@ -221,4 +221,14 @@ public class ShUserServiceImpl implements ShUserService {
         responseVo.setDate(new Date());
         return responseVo;
     }
+
+    @Override
+    public ResponseVo addUser(ShUser shUser) {
+
+        ResponseVo responseVo = new ResponseVo();
+
+        shUserMapper.addUser(shUser);
+
+        return responseVo;
+    }
 }

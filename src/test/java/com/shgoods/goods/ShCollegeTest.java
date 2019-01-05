@@ -22,8 +22,16 @@ public class ShCollegeTest {
     public void test(){
 
         List<ShCollege> allCollege = shCollegeMapper.findAllCollege();
-
         allCollege.stream().forEach(System.out::println);
 
     }
+
+    @Test
+    public void test1(){
+
+        List<ShCollege> usefulCollege = shCollegeMapper.findUsefulCollege();
+        usefulCollege.stream().forEach(System.out::println);
+
+    }
+
 }

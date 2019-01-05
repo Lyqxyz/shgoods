@@ -225,5 +225,35 @@
 
     </update>
 
+    <insert id="addUser">
+        <selectKey keyProperty="userId" keyColumn="uuid" order="BEFORE" resultType="string">
+            SELECT UUID_SHORT() uuid
+        </selectKey>
+        INSERT INTO
+        sh_user(
+                user_id,
+                user_num,
+                user_name,
+                user_pwd,
+                user_email,
+                user_phone,
+                user_regip,
+                user_state,
+                user_gender,
+                user_regtime,
+                user_photo,
+                user_cid
+        )
+        VALUES(
+                #{userId},#{userNum},
+                #{userName},#{userPwd},
+                #{userEmail},#{userPhone},
+                #{userRegip},#{userState},
+                #{userGender},NOW(),#{userPhoto},
+                #{userCid.collegeId}
+        )
+
+    </insert>
+
 
 </mapper>

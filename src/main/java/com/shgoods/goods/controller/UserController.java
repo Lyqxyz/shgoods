@@ -1,21 +1,21 @@
 package com.shgoods.goods.controller;
 
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shgoods.goods.dto.UserInfoDto;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShUserService;
 import com.shgoods.goods.service.dto.UserInfoDtoService;
+import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.vo.ResponseVo;
+import com.shgoods.goods.vo.user.UserAddVo;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
@@ -83,8 +83,8 @@ public class UserController {
         return  responseVo;
 
     }
-
-//    @RequiresRoles(value = {"user","admin"})
+    @RequiresRoles(value = {"user","admin"})
+//
     @ResponseBody
     @GetMapping(value = "/delete/{userId}")
     public Object delUser(@PathVariable(value = "userId") String userId,HttpServletRequest request){
@@ -101,6 +101,29 @@ public class UserController {
 
     }
 
+
+    @ResponseBody
+    @PostMapping("/add")
+    public Object addUser(@Validated UserAddVo userAddVo, BindingResult result,HttpServletRequest request){
+
+
+        ShUser shUser = new ShUser();
+
+        BeanUtils.copyProperties(userAddVo,shUser);
+
+        ResponseVo responseVo=null;
+
+        if(result.hasErrors()){
+
+            responseVo = BindingErrorUtil.common("添加失败", request.getRequestURI(), result);
+        }else {
+
+            responseVo = shUserService.addUser(shUser);
+
+        }
+        System.out.println(shUser);
+        return responseVo;
+    }
 
 
 }

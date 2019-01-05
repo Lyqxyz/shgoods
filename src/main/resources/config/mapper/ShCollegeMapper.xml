@@ -23,6 +23,32 @@
             sh_college
     </select>
 
+    <select id="findUsefulCollege" resultMap="college">
+        SELECT
+            college_id collegeId,
+            college_num collegeNum,
+            college_des collegeDes,
+            college_name collegeName,
+            college_state collegeState
+        FROM
+            sh_college
+        WHERE
+            college_state=1
+    </select>
+    <select id="checkCollegeNum" resultMap="college">
+
+        SELECT
+            college_id collegeId,
+            college_num collegeNum,
+            college_des collegeDes,
+            college_name collegeName,
+            college_state collegeState
+        FROM
+            sh_college
+        WHERE
+            college_state!=-1
+            AND college_num=#{collegeNum}
+    </select>
 
 
 </mapper>

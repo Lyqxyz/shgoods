@@ -64,5 +64,12 @@ public interface ShUserService {
     public ResponseVo delUser(ShUser shUser);
 
 
+    /**
+     * 增加用户
+     * @param shUser
+     * @return
+     */
+    public ResponseVo addUser(ShUser shUser);
+
 
 }
