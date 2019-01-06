@@ -61,6 +61,7 @@ public class ShiroConfig {
         definition.put("/images/**","anon");
         definition.put("/fonts/**","anon");
         definition.put("/favicon.ico","anon");
+        definition.put("/upload/**","anon");
 
 
         /**

@@ -227,7 +227,34 @@ public class ShUserServiceImpl implements ShUserService {
 
         ResponseVo responseVo = new ResponseVo();
 
-        shUserMapper.addUser(shUser);
+        responseVo.setDate(new Date());
+
+        List<String> errors = this.attrsToCheck(shUser);
+
+        if(errors.size()>0){
+
+            responseVo.getErrors().put("errors",errors);
+
+            responseVo.setCode("-1");
+
+            responseVo.setMessage("添加失败");
+        }else{
+
+            Md5Hash md5Hash = new Md5Hash(shUser.getUserPwd(), ByteSource.Util.bytes(shUser.getUserNum()),20);
+
+            shUser.setUserPwd(md5Hash.toString());
+
+            Integer integer = shUserMapper.addUser(shUser);
+
+            if(integer==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("添加成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("添加失败");
+                responseVo.getErrors().put("errors",Arrays.asList("非法添加"));
+            }
+        }
 
         return responseVo;
     }

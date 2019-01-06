@@ -9,14 +9,22 @@ import com.shgoods.goods.service.dto.UserInfoDtoService;
 import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import com.shgoods.goods.vo.user.UserAddVo;
+import org.apache.commons.collections.bag.SynchronizedSortedBag;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -104,8 +112,11 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/add")
-    public Object addUser(@Validated UserAddVo userAddVo, BindingResult result,HttpServletRequest request){
+    public Object addUser(@RequestParam(value = "userPhoto",required = false) MultipartFile userPhotos, @Validated UserAddVo userAddVo, BindingResult result, HttpServletRequest request) throws IOException {
 
+        long size = userPhotos.getSize();
+
+        System.out.println(size);
 
         ShUser shUser = new ShUser();
 
@@ -117,11 +128,10 @@ public class UserController {
 
             responseVo = BindingErrorUtil.common("添加失败", request.getRequestURI(), result);
         }else {
-
             responseVo = shUserService.addUser(shUser);
 
+            responseVo.setPath(request.getRequestURI());
         }
-        System.out.println(shUser);
         return responseVo;
     }
 
