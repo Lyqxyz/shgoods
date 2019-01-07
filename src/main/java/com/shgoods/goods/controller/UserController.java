@@ -7,6 +7,7 @@ import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShUserService;
 import com.shgoods.goods.service.dto.UserInfoDtoService;
 import com.shgoods.goods.util.BindingErrorUtil;
+import com.shgoods.goods.util.FileUploadUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import com.shgoods.goods.vo.user.UserAddVo;
 import org.apache.commons.collections.bag.SynchronizedSortedBag;
@@ -36,6 +37,9 @@ import java.util.List;
 @RequestMapping(value = "/user")
 public class UserController {
 
+
+    @Autowired
+    private FileUploadUtil fileUploadUtil;
 
     @Autowired
     ShUserService shUserService;
@@ -112,11 +116,12 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/add")
-    public Object addUser(@RequestParam(value = "userPhoto",required = false) MultipartFile userPhotos, @Validated UserAddVo userAddVo, BindingResult result, HttpServletRequest request) throws IOException {
+    public Object addUser(@RequestParam(value = "userPhoto",required = false) MultipartFile[] userPhotos, @Validated UserAddVo userAddVo, BindingResult result, HttpServletRequest request) throws IOException {
 
-        long size = userPhotos.getSize();
 
-        System.out.println(size);
+        List<List<String>> upload = fileUploadUtil.upload(userPhotos,"goodsImage");
+
+        List<List<String>> upload1 = fileUploadUtil.upload(userPhotos,"bookImage");
 
         ShUser shUser = new ShUser();
 
@@ -132,6 +137,11 @@ public class UserController {
 
             responseVo.setPath(request.getRequestURI());
         }
+
+      responseVo.getInfo().put("path",upload);
+
+        responseVo.getInfo().put("path1",upload1);
+
         return responseVo;
     }
 

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -30,11 +31,10 @@ public class FIleUploadTest {
 
 
     @Test
-    public void test1(){
+    public void test1() throws IOException {
 
-        System.out.println(this.types.contains("image/png"));
 
-        System.out.println(this.types.contains("image/png1"));
+
     }
 
     @Test
