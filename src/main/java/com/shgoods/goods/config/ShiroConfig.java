@@ -84,10 +84,16 @@ public class ShiroConfig {
         definition.put("/druid/*","authc");
 
         /**
-         *用户url
+         *  所有api
          * 后期完成权限控制
          */
         definition.put("/user/**","anon");
+
+        definition.put("/college/**","anon");
+
+
+
+
 
 
         definition.put("/logout","logout");

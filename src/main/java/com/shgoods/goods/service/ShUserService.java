@@ -4,6 +4,7 @@ import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.vo.LoginVo;
 import com.shgoods.goods.vo.RegVo;
 import com.shgoods.goods.vo.ResponseVo;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -66,10 +67,10 @@ public interface ShUserService {
 
     /**
      * 增加用户
-     * @param shUser
+     * @param shUser file
      * @return
      */
-    public ResponseVo addUser(ShUser shUser);
+    public ResponseVo addUser(ShUser shUser, MultipartFile file);
 
 
 }

@@ -1,8 +1,10 @@
 package com.shgoods.goods.service.impl;
 
+import com.shgoods.goods.exception.FileUploadException;
 import com.shgoods.goods.mapper.ShUserMapper;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShUserService;
+import com.shgoods.goods.util.FileUploadUtil;
 import com.shgoods.goods.vo.LoginVo;
 import com.shgoods.goods.vo.RegVo;
 import com.shgoods.goods.vo.ResponseVo;
@@ -17,9 +19,11 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.nio.channels.ShutdownChannelGroupException;
 import java.util.*;
 
@@ -33,6 +37,9 @@ public class ShUserServiceImpl implements ShUserService {
 
     @Autowired
     ShUserMapper shUserMapper;
+
+    @Autowired
+    FileUploadUtil fileUploadUtil;
 
     @Override
     public ResponseVo login(LoginVo loginVo, HttpServletRequest request, HttpSession session) {
@@ -223,7 +230,7 @@ public class ShUserServiceImpl implements ShUserService {
     }
 
     @Override
-    public ResponseVo addUser(ShUser shUser) {
+    public ResponseVo addUser(ShUser shUser, MultipartFile file) {
 
         ResponseVo responseVo = new ResponseVo();
 
@@ -244,11 +251,20 @@ public class ShUserServiceImpl implements ShUserService {
 
             shUser.setUserPwd(md5Hash.toString());
 
-            Integer integer = shUserMapper.addUser(shUser);
+            String upload="";
+            try {
+                upload = fileUploadUtil.upload(file);
 
+            } catch (IOException e) {
+
+               throw new  FileUploadException("文件上传失败");
+            }
+            shUser.setUserPhoto(upload);
+            Integer integer = shUserMapper.addUser(shUser);
             if(integer==1){
                 responseVo.setCode("1");
                 responseVo.setMessage("添加成功");
+                responseVo.getInfo().put("path",upload);
             }else{
                 responseVo.setCode("-1");
                 responseVo.setMessage("添加失败");

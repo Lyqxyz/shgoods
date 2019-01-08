@@ -116,7 +116,7 @@ public final class FileUploadUtil {
 
     }
 
-    public Object upload(MultipartFile multipartFile) throws IOException {
+    public String upload(MultipartFile multipartFile) throws IOException {
 
         if(multipartFile==null){
 

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.css}">
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+
+
+    <script th:src="@{/js/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/js/qs.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script th:src="@{/js/validator.min.js}"></script>
+    <script th:src="@{/js/holder.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/css/dialog.css}">
+    <script th:src="@{/js/dialog.js}"></script>
+    <style>
+        body{
+            margin-top: 70px;
+            background-color: #b3d7ff;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container-fluid" id="addUser">
+    <div th:replace="~{common/common :: headNav}"></div>
+
+    <div class="row mt-2 mb-2">
+        <div th:replace="~{common/common :: leftNav}"></div>
+        <div class="col-lg-10">
+
+
+            <h6><i class="fa fa-user-plus"></i>新增用户</h6>
+            <hr>
+            <h6 class="text-info">基本信息</h6>
+            <hr>
+
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <label for="userNum" class="col-sm-2 col-form-label">学号</label>
+                        <div class="col-sm-10">
+                            <input id="userNum" v-model="user.userNum" type="text" class="form-control"  placeholder="请输入学号">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="userPassword" class="col-sm-2 col-form-label">密码</label>
+                        <div class="col-sm-10">
+                            <input id="userPassword" v-model="user.userPwd" type="password" class="form-control" placeholder="请输入密码">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <div class="form-group row">
+                        <label for="userPhone" class="col-sm-2 col-form-label">电话</label>
+                        <div class="col-sm-10">
+                            <input id="userPhone" v-model="user.userPhone" type="tel" class="form-control"  placeholder="请输入电话">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="userEmail" class="col-sm-2 col-form-label">邮箱</label>
+                        <div class="col-sm-10">
+                            <input id="userEmail" v-model="user.userEmail" type="email" class="form-control"  placeholder="请输入邮箱">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <h6 class="text-info">详细信息</h6>
+
+            <hr>
+
+            <div class="row">
+
+                <!--用户头像-->
+                <div class="col-lg-6">
+                    <img :src="imgSrc" class="rounded" alt="用户头像">
+                    <!--<img src="holder.js/50x50" class="rounded" alt="用户头像">-->
+                </div>
+                <!--详细信息-->
+                <div class="col-lg-6">
+
+                    <div class="form-group row">
+                        <label for="userName" class="col-sm-2 col-form-label">昵称</label>
+                        <div class="col-sm-10">
+                            <input id="userName" v-model="user.userName"  type="text" class="form-control"  placeholder="请输入昵称">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label  class="col-sm-2 col-form-label">性别</label>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input v-model="user.userGender" id="man" class="form-check-input" type="radio" name="gender" value="1" checked>
+                                <label class="form-check-label" for="man">
+                                    男
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input v-model="user.userGender" id="woman" class="form-check-input" type="radio" name="gender" value="0">
+                                <label class="form-check-label" for="woman">
+                                    女
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="userCollege" class="col-sm-2 col-form-label">学院</label>
+                        <div class="col-sm-10">
+                            <select v-model="user.userCollege" id="userCollege" class="custom-select">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">上传头像</span>
+                        </div>
+                        <div class="custom-file">
+                            <input @change="fileChange" accept="image/*" id="userPhoto" type="file" class="custom-file-input">
+                            <label class="custom-file-label" for="userPhoto">选择图像</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-info" @click="add">添加</button>
+                    <button class="btn btn-warning">重置</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">用户提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+                <div class="modal-body">
+                    <div class="progress">
+                        <div :class="{'progress-bar':true,'bg-success':bs, 'bg-info':bi,'bg-danger':bd}" role="progressbar" :aria-valuenow="value" aria-valuemin="0" aria-valuemax="80" style="width: 100%">
+                            {{value}}%
+                        </div>
+                    </div>
+
+                    <div class="thumbnail">
+                        <h3>用户信息</h3>
+                        <img :src="imgSrc" alt="用户头像">
+                        <div class="caption">
+                            <p class="text-info">用户学号:{{user.userNum}}</p>
+                            <p class="text-info">用户昵称:{{user.userName}}</p>
+                            <p class="text-info">用户电话:{{user.userPhone}}</p>
+                            <p class="text-info">用户邮箱:{{user.userEmail}}</p>
+                            <p class="text-info">用户性别:{{user.userGender}}</p>
+                            <p class="text-info">用户学院:{{user.userCollege}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回修改</button>
+                    <button @click="addUser" type="button" class="btn btn-primary">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+
+<script>
+
+    let vm = new Vue({
+        el:'#addUser',
+        data:{
+            user:{
+                userNum:'',
+                userName:'',
+                userPhone:'',
+                userEmail:'',
+                userGender:'',
+                userPwd:'',
+                userCollege:'',
+            },
+            bs:true,
+            bi:false,
+            bd:false,
+            value:0,
+            file:'',
+            errors:[],
+            imgSrc:'holder.js/200x200'
+
+        },
+
+
+
+
+        created(){
+
+
+
+        },
+        methods:{
+            add(){
+                let b = this.checkUser(this.user)
+                if(b===0){
+
+                    $('#exampleModal').modal()
+
+                }else {
+
+                    let str='';
+                    this.errors.forEach((item,index)=>{
+                        str+=`<h4 class='text-danger'>${item}</h4>`;
+                    })
+                    $.dialog({
+                        type:'alert',
+                        titleText:'警告',
+                        contentHtml: str,
+                    })
+                }
+            },
+            fileChange(e){
+                this.file=e.target.files[0]
+                let filereader= new FileReader()
+                filereader.readAsDataURL(this.file);
+                filereader.onload=(e)=>{
+                    this.imgSrc=e.target.result;
+                    console.log(e)
+                }
+
+            },
+            addUser(){
+                this.value=88;
+
+                setTimeout(()=> {
+                    this.value=100;
+                    this.bs=false;
+                    this.bi=true;
+                }, 2500);
+
+            },
+            checkUser({userNum,userName,userPhone,userEmail,userGender,userPwd,userCollege}){
+
+                this.errors=[];
+                let n=0;
+                let num =validator.isEmpty(userNum);
+                let name=validator.isEmpty(userName);
+                let name1= validator.isLength(userName,{min:4,max:8});
+                let phone=validator.isEmpty(userPhone);
+                let email=validator.isEmpty(userEmail);
+                let email1=validator.isEmail(userEmail);
+                //let gender=validator.isEmpty(userGender);
+                let pwd=validator.isEmpty(userPwd);
+                //let pwd1=validator.isLength(userPwd,{min: 8,max:20});
+                let college=validator.isEmpty(userCollege);
+                if(num){
+                    n++;
+                    this.errors.push("学号不能为空")
+                }
+                if(name){
+                    n++;
+                    this.errors.push("昵称不能为空")
+                }
+                if(!name1){
+                    n++;
+                    this.errors.push("昵称4-8位")
+                }
+                if(email){
+                    n++;
+                    this.errors.push("邮箱不能为空")
+                }
+                if(phone){
+                    n++;
+                    this.errors.push("电话不能为空")
+                }
+                if(!email1){
+                    n++;
+                    this.errors.push("邮箱格式不正确")
+                }
+                if(pwd){
+                    n++;
+                    this.errors.push("密码不能为空")
+                }
+
+                if(college){
+                    n++;
+                    this.errors.push("学院不能为空")
+                }
+
+                return n;
+            }
+
+        }
+
+
+
+
+    })
+
+</script>
+</html>

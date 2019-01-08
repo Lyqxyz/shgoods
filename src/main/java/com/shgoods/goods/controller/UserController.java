@@ -38,6 +38,8 @@ import java.util.List;
 public class UserController {
 
 
+
+
     @Autowired
     private FileUploadUtil fileUploadUtil;
 
@@ -96,7 +98,7 @@ public class UserController {
 
     }
     @RequiresRoles(value = {"user","admin"})
-//
+
     @ResponseBody
     @GetMapping(value = "/delete/{userId}")
     public Object delUser(@PathVariable(value = "userId") String userId,HttpServletRequest request){
@@ -114,14 +116,17 @@ public class UserController {
     }
 
 
+    @GetMapping(value = "/addview")
+    public String addPage(){
+
+        return "user/addUser";
+    }
+
+
     @ResponseBody
     @PostMapping("/add")
-    public Object addUser(@RequestParam(value = "userPhoto",required = false) MultipartFile[] userPhotos, @Validated UserAddVo userAddVo, BindingResult result, HttpServletRequest request) throws IOException {
+    public Object addUser(@RequestParam(value = "userPhoto",required = false) MultipartFile userPhoto, @Validated UserAddVo userAddVo, BindingResult result, HttpServletRequest request) throws IOException {
 
-
-        List<List<String>> upload = fileUploadUtil.upload(userPhotos,"goodsImage");
-
-        List<List<String>> upload1 = fileUploadUtil.upload(userPhotos,"bookImage");
 
         ShUser shUser = new ShUser();
 
@@ -133,17 +138,17 @@ public class UserController {
 
             responseVo = BindingErrorUtil.common("添加失败", request.getRequestURI(), result);
         }else {
-            responseVo = shUserService.addUser(shUser);
+
+            responseVo = shUserService.addUser(shUser,userPhoto);
 
             responseVo.setPath(request.getRequestURI());
         }
 
-      responseVo.getInfo().put("path",upload);
-
-        responseVo.getInfo().put("path1",upload1);
-
         return responseVo;
     }
+
+
+
 
 
 }
