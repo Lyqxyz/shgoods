@@ -127,7 +127,6 @@ public class UserController {
     @PostMapping("/add")
     public Object addUser(@RequestParam(value = "userPhoto",required = false) MultipartFile userPhoto, @Validated UserAddVo userAddVo, BindingResult result, HttpServletRequest request) throws IOException {
 
-
         ShUser shUser = new ShUser();
 
         BeanUtils.copyProperties(userAddVo,shUser);
