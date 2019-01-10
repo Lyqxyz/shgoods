@@ -60,4 +60,14 @@ public class ShRoleTest {
         all.stream().forEach(System.out::println);
     }
 
+    @Test
+    public void test4(){
+
+        List<ShRole> allRole = shRoleMapper.findAllRole();
+
+        allRole.stream().forEach(System.out::println);
+
+
+    }
+
 }

@@ -91,7 +91,7 @@ public class ShiroConfig {
 
         definition.put("/college/**","anon");
 
-
+        definition.put("/role/**","anon");
 
 
 

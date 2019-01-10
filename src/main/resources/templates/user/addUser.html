@@ -319,23 +319,21 @@
                     if(res.data.code==="1"){
 
 
-                        $('#exampleModal').close()
+
+                        $('#exampleModal').modal('hide')
 
                         for(let key in this.user){
-
                             this.user[key]='';
                             this.file=null;
                         }
-
                         this.value=100;
-                        this.bs=false;
-                        this.bi=true;
-
+                        this.imgSrc='holder.js/200x200';
+                        // this.bs=false;
+                        // this.bi=true;
                         $.dialog({
                             type:'alert',
                             titleText:msg,
                         })
-
 
                     }else{
 
