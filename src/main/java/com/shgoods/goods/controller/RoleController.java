@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
@@ -68,6 +65,13 @@ public class RoleController {
         return "/role/RoleInfo";
     }
 
+    @RequestMapping(value = "/addView")
+    public String addView(){
+
+        return "role/addRole";
+    }
+
+
     @ResponseBody
     @GetMapping(value = "/forbid/{roleId}")
     public Object forbidUser(@PathVariable(value = "roleId") String roleId,HttpServletRequest request){
@@ -103,11 +107,19 @@ public class RoleController {
 
     }
 
+
+
+
+
+    @PostMapping(value = "/add")
+    @ResponseBody
     public Object addRole(@Validated RoleAddVo roleAddVo, BindingResult bindingResult,HttpServletRequest request) throws InvocationTargetException, IllegalAccessException {
 
         ShRole shRole = new ShRole();
 
         BeanUtils.copyProperties(roleAddVo,shRole);
+
+        shRole.setRoleState(1);
 
         ResponseVo responseVo=null;
 
@@ -115,12 +127,13 @@ public class RoleController {
 
             responseVo = BindingErrorUtil.common("添加失败", request.getRequestURI(), bindingResult);
 
+        }else{
+
+            responseVo = shRoleService.addRole(shRole);
+
         }
-
-
-
-
-        return null;
+        responseVo.setPath(request.getRequestURI());
+        return responseVo;
 
     }
 

@@ -318,8 +318,6 @@
                     let msg= res.data.message
                     if(res.data.code==="1"){
 
-
-
                         $('#exampleModal').modal('hide')
 
                         for(let key in this.user){
@@ -333,6 +331,7 @@
                         $.dialog({
                             type:'alert',
                             titleText:msg,
+                            autoClose:1000,
                         })
 
                     }else{

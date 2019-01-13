@@ -1,5 +1,7 @@
 package com.shgoods.goods.vo.role;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -7,6 +9,8 @@ import javax.validation.constraints.NotNull;
  * @author lyq
  * 采集增加角色页面的数据
  */
+
+@Data
 public class RoleAddVo {
 
 

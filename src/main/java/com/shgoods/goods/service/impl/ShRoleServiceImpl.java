@@ -7,9 +7,7 @@ import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ShRoleServiceImpl implements ShRoleService {
@@ -80,17 +78,49 @@ public class ShRoleServiceImpl implements ShRoleService {
     @Override
     public ResponseVo addRole(ShRole shRole) {
 
-        Integer integer = shRoleMapper.insertRole(shRole);
+        List<String> errors = this.checkAttrs(shRole);
 
+        ResponseVo responseVo= new ResponseVo();
 
-        return null;
+        responseVo.setDate(new Date());
+
+        if(errors.size()>0){
+
+            responseVo.getErrors().put("errors",errors);
+
+            responseVo.setCode("-1");
+
+            responseVo.setMessage("添加失败");
+        }else {
+
+            Integer integer = shRoleMapper.insertRole(shRole);
+
+            responseVo.setCode("1");
+
+            responseVo.setMessage("添加成功");
+
+        }
+
+        return responseVo;
     }
 
     @Override
     public List<String> checkAttrs(ShRole shRole) {
 
+        List<String> errors = new ArrayList<>();
 
 
-        return null;
+        ShRole shRole1 = shRoleMapper.checkRoleNum(shRole);
+
+        ShRole shRole2 = shRoleMapper.checkRoleName(shRole);
+
+
+        if(!Objects.isNull(shRole1)){
+            errors.add("编号已经存在了");
+        }
+        if (!Objects.isNull(shRole2)){
+            errors.add("角色名已经存在了");
+        }
+        return errors;
     }
 }
