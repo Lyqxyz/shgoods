@@ -3,6 +3,7 @@ package com.shgoods.goods;
 
 import com.shgoods.goods.mapper.ShRoleMapper;
 import com.shgoods.goods.pojo.ShRole;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,20 @@ public class ShRoleTest {
 
         allRole.stream().forEach(System.out::println);
 
+    }
+
+    @Test
+    public void test5(){
+        ShRole shRole = new ShRole();
+        shRole.setRoleName("角色1");
+
+        shRole.setRoleNum("1");
+        ShRole shRole1 = shRoleMapper.checkRoleName(shRole);
+
+        ShRole shRole2 = shRoleMapper.checkRoleNum(shRole);
+
+        System.out.println(shRole1);
+        System.out.println(shRole2);
 
     }
 

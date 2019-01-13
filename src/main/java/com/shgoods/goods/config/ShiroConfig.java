@@ -93,9 +93,6 @@ public class ShiroConfig {
 
         definition.put("/role/**","anon");
 
-
-
-
         definition.put("/logout","logout");
 
         definition.put("/**","authc");

@@ -3,14 +3,23 @@ package com.shgoods.goods.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shgoods.goods.pojo.ShRole;
+import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShRoleService;
+import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.vo.ResponseVo;
+import com.shgoods.goods.vo.role.RoleAddVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.List;
 
@@ -26,11 +35,12 @@ public class RoleController {
     ShRoleService shRoleService;
 
     @ResponseBody
-    @RequestMapping(value = "/info")
-    public Object info(HttpServletRequest request){
+    @RequestMapping(value = "/info/{pageNum}/{pageSize}")
+    public Object info(@PathVariable(value = "pageNum") Integer pageNum,
+                       @PathVariable(value = "pageSize") Integer pageSize,
+                       HttpServletRequest request){
 
-        PageHelper.startPage(1,3);
-
+        PageHelper.startPage(pageNum,pageSize);
 
         List<ShRole> all = shRoleService.findAll();
 
@@ -55,8 +65,65 @@ public class RoleController {
     public String infoView(){
 
 
-        return "";
+        return "/role/RoleInfo";
     }
+
+    @ResponseBody
+    @GetMapping(value = "/forbid/{roleId}")
+    public Object forbidUser(@PathVariable(value = "roleId") String roleId,HttpServletRequest request){
+
+        ShRole shRole = new ShRole();
+
+        shRole.setRoleId(roleId);
+
+        ResponseVo responseVo = shRoleService.forbidRole(shRole);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return  responseVo;
+
+    }
+
+
+    @ResponseBody
+    @GetMapping(value = "/delete/{roleId}")
+    public Object delUser(@PathVariable(value = "roleId") String roleId,HttpServletRequest request){
+
+        ShRole shRole = new ShRole();
+
+        shRole.setRoleId(roleId);
+
+        ResponseVo responseVo = shRoleService.delRole(shRole);
+
+
+        responseVo.setPath(request.getRequestURI());
+
+        return  responseVo;
+
+
+    }
+
+    public Object addRole(@Validated RoleAddVo roleAddVo, BindingResult bindingResult,HttpServletRequest request) throws InvocationTargetException, IllegalAccessException {
+
+        ShRole shRole = new ShRole();
+
+        BeanUtils.copyProperties(roleAddVo,shRole);
+
+        ResponseVo responseVo=null;
+
+        if(bindingResult.hasErrors()){
+
+            responseVo = BindingErrorUtil.common("添加失败", request.getRequestURI(), bindingResult);
+
+        }
+
+
+
+
+        return null;
+
+    }
+
 
 
 }

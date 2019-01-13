@@ -57,12 +57,19 @@
         </where>
     </select>
 
-    <insert id="insertRole" useGeneratedKeys="true" keyColumn="role_id" keyProperty="roleId">
+    <insert id="insertRole">
+          <selectKey order="BEFORE" keyProperty="roleId" keyColumn="roleId" resultType="string">
+              SELECT UUID_SHORT( ) as roleId
+          </selectKey>
           INSERT INTO sh_role (
-                              role_id, role_num, role_name, role_des,
-                              role_updateTime, role_creationTime, role_state )
+                              role_id, role_num,
+                              role_name, role_des,
+                              role_updateTime, role_creationTime,
+                              role_state )
            VALUES
-            ( UUID_SHORT( ),#{roleNum},#{roleName},#{roleDes},NOW(),
+            ( #{roleId},#{roleNum},
+              #{roleName},
+              #{roleDes},NOW(),
               NOW(),#{roleState})
     </insert>
     <update id="updateRole">
@@ -80,7 +87,14 @@
     </update>
     <update id="forbidRole">
         UPDATE sh_role
-        SET role_state = #{roleState},role_updateTime=NOW()
+        SET role_state = 0,role_updateTime=NOW()
+        WHERE
+            role_id =#{roleId}
+    </update>
+
+    <update id="delRole">
+        UPDATE sh_role
+        SET role_state = -1,role_updateTime=NOW()
         WHERE
             role_id =#{roleId}
     </update>
@@ -109,5 +123,14 @@
 
 
     </select>
+
+    <select id="checkRoleNum" resultMap="ShRole">
+        SELECT role_id FROM sh_role WHERE role_num=#{roleNum}
+    </select>
+
+    <select id="checkRoleName" resultMap="ShRole">
+        SELECT role_id FROM sh_role WHERE role_name=#{roleName}
+    </select>
+
 
 </mapper>

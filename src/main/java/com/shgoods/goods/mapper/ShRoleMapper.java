@@ -25,11 +25,18 @@ public interface ShRoleMapper {
     //根据角色修改
     public Integer updateRole(ShRole shRole);
 
-    //修改角色的状态
+    //禁用角色的状态
     public Integer forbidRole(ShRole shRole);
+
+    //禁用角色的状态
+    public Integer delRole(ShRole shRole);
 
     //检查角色是否可用
     public ShRole usableRole(ShRole shRole);
+
+    public ShRole checkRoleNum(ShRole shRole);
+
+    public ShRole checkRoleName(ShRole shRole);
 
 
 }
