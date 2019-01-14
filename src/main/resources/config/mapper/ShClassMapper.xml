@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shgoods.goods.mapper.ShClassMapper">
+
+
+    <insert id="addClass">
+        <selectKey order="BEFORE" resultType="string" keyColumn="classId" keyProperty="classId">
+            SELECT UUID_SHORT() as classId
+        </selectKey>
+        INSERT INTO sh_class VALUES(#{classId},#{classNum},#{className},#{classPid})
+    </insert>
+</mapper>
