@@ -3,7 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shgoods.goods.mapper.ShClassMapper">
-
+    <resultMap id="shClassInfo" type="com.shgoods.goods.pojo.ShClass">
+        <id property="classId" column="classId"/>
+        <result property="classNum" column="classNum"/>
+        <result property="classPid" column="classPid"/>
+        <result property="className" column="className"/>
+    </resultMap>
 
     <insert id="addClass">
         <selectKey order="BEFORE" resultType="string" keyColumn="classId" keyProperty="classId">
@@ -11,4 +16,45 @@
         </selectKey>
         INSERT INTO sh_class VALUES(#{classId},#{classNum},#{className},#{classPid})
     </insert>
+
+
+    <select id="withoutParentClass" resultMap="shClassInfo">
+        SELECT
+            class_id AS classId,
+            class_num AS classNum,
+            class_pid AS classPid,
+            class_name AS className
+        FROM
+        	sh_class
+        WHERE
+	        class_pid IS NULL
+    </select>
+
+    <select id="checkClassNum" resultMap="shClassInfo">
+        SELECT
+            class_id AS classId,
+            class_num AS classNum,
+            class_pid AS classPid,
+            class_name AS className
+        FROM
+        	sh_class
+        WHERE
+	       class_num=#{classNum}
+
+    </select>
+
+    <select id="checkClassName" resultMap="shClassInfo">
+        SELECT
+            class_id AS classId,
+            class_num AS classNum,
+            class_pid AS classPid,
+            class_name AS className
+        FROM
+        	sh_class
+        WHERE
+	       class_name=#{className}
+
+    </select>
+
+
 </mapper>

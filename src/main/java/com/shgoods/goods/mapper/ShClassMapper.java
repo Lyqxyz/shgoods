@@ -16,4 +16,9 @@ public interface ShClassMapper {
     public Integer addClass(ShClass shClass);
 
     public List<ShClass> withoutParentClass();
+
+    public ShClass checkClassNum(ShClass shClass);
+
+    public ShClass checkClassName(ShClass shClass);
+
 }
