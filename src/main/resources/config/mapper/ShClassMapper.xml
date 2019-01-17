@@ -14,7 +14,9 @@
         <selectKey order="BEFORE" resultType="string" keyColumn="classId" keyProperty="classId">
             SELECT UUID_SHORT() as classId
         </selectKey>
-        INSERT INTO sh_class VALUES(#{classId},#{classNum},#{className},#{classPid})
+        INSERT INTO sh_class(class_id,class_num,class_name,class_pid)
+
+        VALUES(#{classId},#{classNum},#{className},#{classPid})
     </insert>
 
 

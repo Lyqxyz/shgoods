@@ -32,9 +32,7 @@
     <div class="row mt-2 mb-2">
         <div th:replace="~{common/common :: leftNav}"></div>
         <div class="col-lg-10">
-
-
-            <h6><i class="fa fa-user-plus"></i>新增角色</h6>
+            <h6><i class="fa fa-user-plus"></i>新增类型</h6>
             <hr>
             <h6 class="text-info">基本信息</h6>
             <hr>
@@ -45,23 +43,27 @@
                     <div class="form-group row">
                         <label for="roleNum" class="col-sm-2 col-form-label">编号</label>
                         <div class="col-sm-10">
-                            <input v-model="role.roleNum" id="roleNum" type="text" class="form-control"  placeholder="前输入编号">
+                            <input v-model="classInfo.classInfoNum" id="roleNum" type="text" class="form-control"  placeholder="请输入编号">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="roleName" class="col-sm-2 col-form-label">角色名</label>
+                        <label for="roleName" class="col-sm-2 col-form-label">分类名</label>
                         <div class="col-sm-10">
-                            <input v-model="role.roleName" id="roleName" type="text" class="form-control" placeholder="请输入角色名">
+                            <input v-model="classInfo.classInfoName" id="roleName" type="text" class="form-control" placeholder="请输入名字">
                         </div>
                     </div>
+
+
                     <div class="form-group row">
-                        <label for="roleDes" class="col-sm-2 col-form-label">描述</label>
-                        <div class="col-sm-10">
-                            <textarea rows="10" minlength="0" maxlength="100" v-model="role.roleDes" id="roleDes" class="form-control"></textarea>
+                        <label for="pid" class="col-sm-2 col-form-label">父分类</label>
+                        <div class="col-sm-4">
+                            <select id="pid" v-model="classInfo.classInfoPid" class="custom-select">
+                                <option v-for="(item,index) in pid" :value="item.classId">{{item.className}}</option>
+                            </select>
                         </div>
                     </div>
                     <button @click="showInfo" class="btn btn-info">添加</button>
-                    <button @click="reset" class="btn btn-warning">重置</button>
+                    <button class="btn btn-warning">重置</button>
                 </div>
             </div>
 
@@ -79,11 +81,11 @@
 
                     <div class="modal-body">
                         <div class="thumbnail">
-                            <h3>角色信息</h3>
+                            <h3>分类信息</h3>
                             <div class="caption">
-                                <p class="text-info">角色编号:{{role.roleNum}}</p>
-                                <p class="text-info">角色名:{{role.roleName}}</p>
-                                <p class="text-info">角色描述:{{role.roleDes}}</p>
+                                <p class="text-info">分类编号:{{classInfo.classInfoNum}}</p>
+                                <p class="text-info">分类名:{{classInfo.classInfoName}}</p>
+                                <p class="text-info">父分类名:{{classInfoPidName}}</p>
                             </div>
                         </div>
                     </div>
@@ -102,43 +104,61 @@
     new Vue({
         el:'#roleInfo',
         data:{
-            role:{
-                roleNum:'',
-                roleName:'',
-                roleDes:'',
+            classInfo:{
+                classInfoNum:'',
+                classInfoName:'',
+                classInfoPid:'',
             },
+
+            classInfoPidName:'',
+            pid:[],
             errors:[],
+        },
+        created(){
+
+            axios.baseURL='http://localhost:8080';
+            axios.defaults.withCredentials=true;
+            axios.get('/class/info').then(res=>{
+
+                this.pid=res.data.info.data;
+            }).catch(err=>{
+                console.log(err)
+            })
+
         },
         methods:{
 
             showInfo(){
 
-                this.errors=[];
-                this.check(this.role)
+                this.check(this.classInfo);
+                if(this.errors.length>0){
 
-                let {errors} = this
 
-                if(errors.length>0){
                     let str = '';
-                    this.errors.forEach(item=>{
-                        str+=`<h4 class="text-danger">${item}</h4>` ;
+                    this.errors.forEach((item)=>{
+                        str+=`<h4 class="text-danger">${item}</h4>`
                     })
+
                     $.dialog({
                         type:'alert',
                         titleText:'警告',
-                        contentHtml:str,
-                        autoClose:2000,
+                        contentHtml:str
                     })
-                }else{
-
-                    $('#exampleModal').modal()
+                    return;
                 }
+
+
+                let a = this.pid.find(item=>item.classId===this.classInfo.classInfoPid)
+
+                $('#exampleModal').modal()
+
+                this.classInfoPidName= a.className
+
+
             },
             add(){
 
-                axios.baseURL='http://localhost:8080';
-                axios.defaults.withCredentials=true;
-                axios.post('/role/add/',this.qs(this.role)).then(res=>{
+                axios.post('/class/add',this.qs(this.classInfo)).then(res=>{
 
                     let {message,code}= res.data;
                     if(code==='1'){
@@ -150,9 +170,9 @@
                         })
 
                         $('#exampleModal').modal('hide')
-                        for(let key in this.role){
+                        for(let key in this.classInfo){
 
-                            this.role[key]='';
+                            this.classInfo[key]='';
                         }
                     }else{
 
@@ -189,38 +209,32 @@
                 })
 
             },
-            check({roleNum,roleName}){
 
-                let num= validator.isEmpty(roleName);
+            check({classInfoNum,classInfoName}){
 
-                let name =validator.isEmpty(roleName);
+                this.errors=[]
+                let name = validator.isEmpty(classInfoName)
 
-                if(num){
-                    this.errors.push("编号不能为空")
-                }
+                let num = validator.isEmpty(classInfoNum);
+
                 if(name){
-                    this.errors.push("角色名不能为空")
+
+                    this.errors.push('名字不能为空')
                 }
+                if(num){
+
+                    this.errors.push('编号不能为空')
+                }
+
             },
             qs(obj){
 
                 console.log(Qs.stringify(obj))
                 return Qs.stringify(obj)
-            },
-            reset(){
-                for(let key in this.role){
-
-                    this.role[key]='';
-                }
-
             }
 
 
         }
-
-
-
-
 
     })
 
