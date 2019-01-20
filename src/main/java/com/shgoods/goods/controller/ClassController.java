@@ -1,7 +1,9 @@
 package com.shgoods.goods.controller;
 
+import com.shgoods.goods.dto.ClassInfoDto;
 import com.shgoods.goods.pojo.ShClass;
 import com.shgoods.goods.service.ShClassService;
+import com.shgoods.goods.service.dto.ClassInfoDtoService;
 import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import com.shgoods.goods.vo.classinfo.AddClassVo;
@@ -28,14 +30,13 @@ public class ClassController {
     @Autowired
     ShClassService shClassService;
 
+    @Autowired
+    ClassInfoDtoService classInfoDtoService;
+
     @GetMapping(value ="/addView")
     public String addView(){
-
         return "classInfo/addClass";
-
     }
-
-
     @ResponseBody
     @RequestMapping(value = "/info")
     public Object ClassInfo(HttpServletRequest request){
@@ -85,6 +86,28 @@ public class ClassController {
         responseVo.setPath(request.getRequestURI());
         return responseVo;
 
+    }
+
+
+    @ResponseBody
+    @GetMapping(value ="/allInfo")
+    public Object info(HttpServletRequest request){
+
+        List<ClassInfoDto> all = classInfoDtoService.findAll();
+
+        ResponseVo responseVo = new ResponseVo();
+
+        responseVo.setMessage("所有信息");
+
+        responseVo.setDate(new Date());
+
+        responseVo.setCode("1");
+
+        responseVo.setPath(request.getRequestURI());
+
+        responseVo.getInfo().put("data",all);
+
+        return responseVo;
     }
 
 
