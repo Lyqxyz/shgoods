@@ -88,7 +88,6 @@ public class ClassController {
 
     }
 
-
     @ResponseBody
     @GetMapping(value ="/allInfo")
     public Object info(HttpServletRequest request){
@@ -109,6 +108,29 @@ public class ClassController {
 
         return responseVo;
     }
+
+    @ResponseBody
+    @GetMapping(value ="/InfoWithoutPid")
+    public Object noPidClassInfo(HttpServletRequest request){
+        List<ShClass> noPidClass = shClassService.getNoPidClass();
+
+        ResponseVo responseVo = new ResponseVo();
+
+        responseVo.setMessage("所有信息");
+
+        responseVo.setDate(new Date());
+
+        responseVo.setCode("1");
+
+        responseVo.setPath(request.getRequestURI());
+
+        responseVo.getInfo().put("data",noPidClass);
+
+        return responseVo;
+    }
+
+
+
 
 
 

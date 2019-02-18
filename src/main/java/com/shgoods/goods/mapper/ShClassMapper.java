@@ -21,4 +21,7 @@ public interface ShClassMapper {
 
     public ShClass checkClassName(ShClass shClass);
 
+    public List<ShClass> selectClassByPid(ShClass shClass);
+
+
 }

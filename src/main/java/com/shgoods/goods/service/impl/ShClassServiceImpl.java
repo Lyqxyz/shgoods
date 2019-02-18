@@ -86,4 +86,12 @@ public class ShClassServiceImpl implements ShClassService {
 
         return shClasses;
     }
+
+    @Override
+    public List<ShClass> getClassByPid(ShClass shClass) {
+
+        List<ShClass> shClasses = shClassMapper.selectClassByPid(shClass);
+
+        return shClasses;
+    }
 }

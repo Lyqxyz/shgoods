@@ -17,5 +17,6 @@ public interface ShClassService {
 
     public List<ShClass> getNoPidClass();
 
+    public List<ShClass> getClassByPid(ShClass shClass);
 
 }
