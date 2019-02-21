@@ -111,6 +111,21 @@ public class ShClassTest {
 
     }
 
+    @Test
+    public void test8(){
+
+        ShClass shClass = new ShClass();
+
+        shClass.setClassPid("98019743847415817");
+
+        List<ShClass> shClasses = shClassMapper.selectClassByPid(shClass);
+
+        shClasses.stream().forEach(System.out::println);
+
+
+
+    }
+
 
 
 

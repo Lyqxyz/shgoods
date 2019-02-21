@@ -4,6 +4,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * @author lyq
+ * 启动程序
+ */
 @EnableTransactionManagement
 @EnableCaching
 @SpringBootApplication

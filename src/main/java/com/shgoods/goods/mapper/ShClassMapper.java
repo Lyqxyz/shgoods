@@ -9,7 +9,6 @@ import java.util.List;
  * @author lyq
  * 收集分类数据
  */
-
 @Mapper
 public interface ShClassMapper {
 
@@ -22,6 +21,5 @@ public interface ShClassMapper {
     public ShClass checkClassName(ShClass shClass);
 
     public List<ShClass> selectClassByPid(ShClass shClass);
-
 
 }

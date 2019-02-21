@@ -65,8 +65,10 @@
             class_name AS className
         FROM
             sh_class
-        WHERE
+        <where>
             class_pid =#{classPid}
+        </where>
+
     </select>
 
 

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -130,6 +131,37 @@ public class ClassController {
     }
 
 
+    @ResponseBody
+    @GetMapping(value = "/pid/{pid}")
+    public Object findClassByPid(@PathVariable("pid") String pid,HttpServletRequest request){
+        ResponseVo responseVo = new ResponseVo();
+
+        responseVo.setCode("1");
+
+        responseVo.setDate(new Date());
+
+        responseVo.setMessage("请求成功");
+
+        responseVo.setPath(request.getRequestURI());
+
+        if(pid==null){
+            responseVo.setCode("-1");
+            responseVo.setMessage("请求失败");
+        }else{
+
+            ShClass shClass = new ShClass();
+
+            shClass.setClassPid(pid);
+
+            List<ShClass> classByPid = shClassService.getClassByPid(shClass);
+
+            responseVo.getInfo().put("data",classByPid);
+
+        }
+
+        return responseVo;
+
+    }
 
 
 
