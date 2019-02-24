@@ -6,7 +6,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * @author lyq
@@ -26,12 +25,10 @@ public class AddBookVo {
 
     private String bookPublish;
 
-    @NotNull(message = "原价解析异常")
-    @NotBlank(message = "原价ISBN书名不能为空")
-    private Double bookOridinaPrice;
+    private Double bookOriginalPrice;
 
     @NotNull(message = "售价解析异常")
-    @NotBlank(message = "售价书名不能为空")
+    @Min(value = 0,message = "售价不能是负数")
     private Double bookSellingPrice;
 
     @Max(value = 999,message = "数量不能超过999")

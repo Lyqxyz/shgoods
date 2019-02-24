@@ -12,7 +12,7 @@ public class ShBook {
     private String bookIsbn;
     private String bookAuthor;
     private String bookPublish;
-    private Double bookOridinaPrice;
+    private Double bookOriginalPrice;
     private Double bookSellingPrice;
     private Integer bookCount;
     private Integer bookNao;

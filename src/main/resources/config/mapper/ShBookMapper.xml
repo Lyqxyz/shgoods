@@ -6,9 +6,17 @@
 <mapper namespace="com.shgoods.goods.mapper.ShBookMapper">
     <insert id="addBook">
         <selectKey order="BEFORE" keyProperty="bookId" keyColumn="bookId" resultType="string">
-            SELECT UUID_SHORT( ) as roleId
+            SELECT UUID_SHORT( ) as bookId
         </selectKey>
 
+        INSERT INTO sh_book ( book_id, book_isbn, book_name,
+                        book_des, book_cid, book_count, book_state, book_publish,
+                        book_author, book_originalPrice, book_sellingPrice,
+                        book_updateTime, book_creationTime,book_nao )
+        VALUES
+        (#{bookId},#{bookIsbn},#{bookName},#{bookDes},#{bookCid},#{bookCount},
+        #{bookState},#{bookPublish},#{bookAuthor},#{bookOriginalPrice},#{bookSellingPrice},
+        #{bookNao},NOW(),NOW())
 
 
     </insert>
