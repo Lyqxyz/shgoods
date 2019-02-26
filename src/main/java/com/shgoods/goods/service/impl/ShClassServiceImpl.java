@@ -64,7 +64,6 @@ public class ShClassServiceImpl implements ShClassService {
         List<String> errors = new ArrayList<>();
         if(!Objects.isNull(shClass1)){
             errors.add("编号已经存在了");
-
         }
 
         if (!Objects.isNull(shClass2)) {

@@ -11,4 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ShBookMapper {
 
     public Integer addBook(ShBook shBook);
+
+
+    public ShBook checkISBN(ShBook shBook);
 }

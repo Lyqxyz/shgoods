@@ -4,6 +4,28 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shgoods.goods.mapper.ShBookMapper">
+    <resultMap id="bookInfo" type="com.shgoods.goods.pojo.ShBook">
+        <id property="bookId" column="book_id"/>
+        <result property="bookIsbn" column="book_isbn"/>
+        <result property="bookName" column="book_name"/>
+        <result property="bookDes" column="book_des"/>
+        <result property="bookCid" column="book_cid"/>
+        <result property="bookCount" column="book_count"/>
+        <result property="bookState" column="book_state"/>
+        <result property="bookPublish" column="book_publish"/>
+        <result property="bookAuthor" column="book_author"/>
+        <result property="bookOriginalPrice" column="book_originalPrice"/>
+        <result property="bookSellingPrice" column="book_sellingPrice"/>
+        <result property="bookUpdateTime" column="book_updateTime"/>
+        <result property="bookCreationTime" column="book_creationTime"/>
+        <result property="bookNao" column="book_nao"/>
+    </resultMap>
+    <resultMap id="checkAttrs" type="com.shgoods.goods.pojo.ShBook">
+        <id property="bookId" column="book_id"/>
+        <result property="bookIsbn" column="book_isbn"/>
+        <result property="bookName" column="book_name"/>
+    </resultMap>
+
     <insert id="addBook">
         <selectKey order="BEFORE" keyProperty="bookId" keyColumn="bookId" resultType="string">
             SELECT UUID_SHORT( ) as bookId
@@ -20,4 +42,13 @@
 
 
     </insert>
+
+    <select id="checkISBN" resultMap="checkAttrs">
+        SELECT book_id,book_isbn,book_name
+        FROM sh_book
+        <where>
+            book_isbn=#{bookIsbn}
+        </where>
+
+    </select>
 </mapper>

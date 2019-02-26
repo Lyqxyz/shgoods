@@ -20,4 +20,5 @@ public class ShBook {
     private Integer bookState;
     private Date bookCreationTime;
     private Date bookUpdateTime;
+    private String bookCid;
 }
