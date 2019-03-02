@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/dialog.css}">
+    <script th:src="@{/js/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/js/qs.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script th:src="@{/js/validator.min.js}"></script>
+    <script th:src="@{/js/holder.js}"></script>
+    <script th:src="@{/js/dialog.js}"></script>
+    <style>
+        body{
+            margin-top: 70px;
+            background-color: #b3d7ff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid" id="auth">
+    <div th:replace="~{common/common :: headNav}"></div>
+    <div class="row mt-2 mb-2">
+        <div th:replace="~{common/common :: leftNav}"></div>
+        <div class="col-lg-10">
+            <h6><i class="fa fa-user-plus"></i>新增权限</h6>
+            <hr>
+            <h6 class="text-info">基本信息</h6>
+            <hr>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <label for="authNum" class="col-sm-2 col-form-label">编号</label>
+                        <div class="col-sm-10">
+                            <input v-model="auth.num" id="authNum" type="text" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="authName" class="col-sm-2 col-form-label">权限名</label>
+                        <div class="col-sm-10">
+                            <input v-model="auth.name" id="authName" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="authDes" class="col-sm-2 col-form-label">描述</label>
+                        <div class="col-sm-10">
+                            <textarea v-model="auth.des" id="authDes"  class="form-control"></textarea>
+                        </div>
+                    </div>
+                   <button @click="showInfo" class="btn btn-info">添加</button>
+                    <button class="btn btn-warning">重置</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">用户提示</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="thumbnail">
+                        <h3>权限信息</h3>
+                        <div class="caption">
+                            <p class="text-info">权限编号:{{auth.num}}</p>
+                            <p class="text-info">权限名:{{auth.name}}</p>
+                            <p class="text-info">权限描述:{{auth.des}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回修改</button>
+                    <button @click="add" type="button" class="btn btn-primary">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+
+<script>
+    let vm = new Vue({
+
+        el:'#auth',
+        data:{
+
+            auth:{
+                num:'',
+                des:'',
+                name:''
+            },
+            errors:[],
+
+        },
+        methods:{
+
+            showInfo(){
+
+                this.errors=[];
+                this.check(this.auth)
+
+                let {errors} = this
+
+                if(errors.length>0){
+                    let str = '';
+                    this.errors.forEach(item=>{
+                        str+=`<h4 class="text-danger">${item}</h4>` ;
+                    })
+                    $.dialog({
+                        type:'alert',
+                        titleText:'警告',
+                        contentHtml:str,
+                        autoClose:2000,
+                    })
+                }else{
+
+                    $('#exampleModal').modal()
+                }
+
+            },
+            add(){
+
+                axios.baseURL='http://localhost:8080';
+                axios.defaults.withCredentials=true;
+                axios.post('/auth/add/',this.qs(this.auth)).then(res=>{
+
+                    let {message,code}= res.data;
+                    if(code==='1'){
+
+                        $.dialog({
+                            type:'alert',
+                            titleText:message,
+                            autoClose: 1000
+                        })
+
+                        $('#exampleModal').modal('hide')
+                        for(let key in this.auth){
+
+                            this.auth[key]='';
+                        }
+                    }else{
+
+                        let str='';
+
+                        let errors = res.data.errors.AllError;
+
+                        let errors1 = res.data.errors.errors;
+
+                        for(let i in errors1){
+                            let info=errors1[i]
+                            str+=`<h4 class='text-danger'>${info}</h4>`;
+                        }
+                        for(let i in errors){
+                            errors[i].forEach((item,index)=>{
+                                str+=`<h4 class='text-danger'>${item}</h4>`;
+                            })
+                        }
+                        $.dialog({
+                            type:'alert',
+                            titleText:message,
+                            contentHtml: str,
+                        })
+
+                    }
+                }).catch(err=>{
+
+                    $.dialog({
+                        type:'alert',
+                        titleText:'网路异常',
+
+                    })
+
+                })
+
+            },
+            check({num,des,name}){
+
+                let numError = validator.isEmpty(num)
+
+                let nameError = validator.isEmpty(num)
+                if(!num){
+                    this.errors.push("编号不能为空")
+                }
+                if(!name){
+                    this.errors.push("权限名不能为空")
+                }
+
+
+            },
+            qs(obj){
+
+                return Qs.stringify(obj)
+            }
+
+        }
+
+
+    })
+
+
+</script>
+
+</html>
