@@ -30,4 +30,10 @@ public interface ShAuthorityMapper {
 
     //检查权限是否可用
     public ShAuthority checkAuthority(ShAuthority shAuthority);
+
+    //检查编号是否重复
+    public ShAuthority checkAuthNum(ShAuthority shAuthority);
+
+    //检查名字是否重复
+    public ShAuthority checkAuthName(ShAuthority shAuthority);
 }

@@ -97,6 +97,7 @@ public class ShiroConfig {
 
         definition.put("/book/**","anon");
 
+        definition.put("/auth/**","anon");
 
 
 

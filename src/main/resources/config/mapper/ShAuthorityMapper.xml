@@ -63,7 +63,7 @@
 
         INSERT INTO sh_authority ( authority_id, authority_des, authority_num, authority_name, authority_state, authority_updateTime, authority_creationTime )
         VALUES
-            ( UUID_SHORT( ),#{authorityDes},#{authorityNum},#{authorityName},#{authorityState},#{authorityUpdateTime},#{authorityCreationTime} )
+            ( UUID_SHORT( ),#{authorityDes},#{authorityNum},#{authorityName},#{authorityState},NOW(),NOW() )
 
     </insert>
 
@@ -108,4 +108,28 @@
             AND
             authority_state=1
     </select>
+
+    <select id="checkAuthNum" resultMap="AllAuthority">
+         SELECT
+            authority_id authorityId
+        FROM
+            sh_authority
+        WHERE
+            authority_num=#{authorityNum}
+            AND
+            authority_state!=-1
+
+    </select>
+
+    <select id="checkAuthName" resultMap="AllAuthority">
+        SELECT
+            authority_id authorityId
+        FROM
+            sh_authority
+        WHERE
+            authority_name=#{authorityName}
+            AND
+            authority_state!=-1
+    </select>
+
 </mapper>

@@ -109,7 +109,6 @@ public class ShRoleServiceImpl implements ShRoleService {
 
         List<String> errors = new ArrayList<>();
 
-
         ShRole shRole1 = shRoleMapper.checkRoleNum(shRole);
 
         ShRole shRole2 = shRoleMapper.checkRoleName(shRole);
