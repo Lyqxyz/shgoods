@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ShAuthorityTest {
@@ -31,6 +33,17 @@ public class ShAuthorityTest {
         ResponseVo add = shAuthorityService.add(shAuthority);
 
         System.out.println(add);
+
+
+    }
+    @Test
+    public void test1(){
+
+
+        List<ShAuthority> info = shAuthorityService.info();
+
+
+        info.stream().forEach(System.out::println);
 
 
     }

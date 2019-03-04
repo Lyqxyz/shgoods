@@ -84,7 +84,6 @@
     <update id="forbidAuthority">
         UPDATE sh_authority
         SET
-
             authority_state =#{authorityState},
             authority_updateTime = NOW( )
         WHERE

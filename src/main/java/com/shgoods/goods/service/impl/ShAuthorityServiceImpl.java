@@ -8,10 +8,7 @@ import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author lyq
@@ -53,6 +50,68 @@ public class ShAuthorityServiceImpl implements ShAuthorityService {
 
         return responseVo;
     }
+
+    @Override
+    public List<ShAuthority> info() {
+
+        List<ShAuthority> allAuthority = shAuthorityMapper.findAllAuthority();
+
+        return allAuthority;
+    }
+
+    @Override
+    public ResponseVo forbid(ShAuthority shAuthority) {
+
+        ResponseVo responseVo = new ResponseVo();
+        if(shAuthority!=null&&shAuthority.getAuthorityId()!=null){
+
+            Integer integer = shAuthorityMapper.forbidAuthority(shAuthority);
+            if(integer==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("禁用成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是禁用状态");
+                responseVo.getErrors().put("errors", Arrays.asList("用户已经是禁用状态"));
+            }
+
+        }else{
+            responseVo.setCode("-1");
+            responseVo.setMessage("禁用失败");
+            responseVo.getErrors().put("errors", Arrays.asList("用户id为空"));
+        }
+        responseVo.setDate(new Date());
+
+
+        return responseVo;
+    }
+
+    @Override
+    public ResponseVo del(ShAuthority shAuthority) {
+
+        ResponseVo responseVo = new ResponseVo();
+        if(shAuthority!=null&&shAuthority.getAuthorityId()!=null){
+
+            Integer integer = shAuthorityMapper.forbidAuthority(shAuthority);
+            if(integer==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("删除成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是删除状态");
+                responseVo.getErrors().put("errors", Arrays.asList("用户已经是删除状态"));
+            }
+
+        }else{
+            responseVo.setCode("-1");
+            responseVo.setMessage("删除失败");
+            responseVo.getErrors().put("errors", Arrays.asList("用户id为空"));
+        }
+        responseVo.setDate(new Date());
+
+        return responseVo;
+    }
+
     public List<String> checkAttrs(ShAuthority shAuthority){
         List<String> errors = new ArrayList<>();
 

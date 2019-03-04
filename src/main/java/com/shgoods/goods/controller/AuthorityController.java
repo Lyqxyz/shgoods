@@ -1,6 +1,9 @@
 package com.shgoods.goods.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.shgoods.goods.pojo.ShAuthority;
+import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.service.ShAuthorityService;
 import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.vo.ResponseVo;
@@ -9,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,10 +35,78 @@ public class AuthorityController {
     @GetMapping(path = "/addView")
     public String addView(){
 
-
         return "authority/addAuthority";
     }
 
+    @ResponseBody
+    @GetMapping(path = "/forbid/{id}")
+    public Object forbid(@PathVariable(value = "id") String id,HttpServletRequest request){
+
+
+        ShAuthority shAuthority = new ShAuthority();
+
+        shAuthority.setAuthorityState(0);
+
+        shAuthority.setAuthorityId(id);
+
+        ResponseVo forbid = shAuthorityService.forbid(shAuthority);
+
+        forbid.setPath(request.getRequestURI());
+
+        forbid.setDate(new Date());
+
+        return forbid;
+    }
+    @ResponseBody
+    @GetMapping(path = "/del/{id}")
+    public Object del(@PathVariable(value = "id") String id,HttpServletRequest request){
+
+
+        ShAuthority shAuthority = new ShAuthority();
+
+        shAuthority.setAuthorityState(-1);
+
+        shAuthority.setAuthorityId(id);
+
+        ResponseVo forbid = shAuthorityService.del(shAuthority);
+
+        forbid.setPath(request.getRequestURI());
+
+        forbid.setDate(new Date());
+
+        return forbid;
+    }
+
+
+    @ResponseBody
+    @GetMapping(path = "/info/{pageNum}/{pageSize}")
+    public Object info(@PathVariable(value = "pageNum")Integer pageNum,
+                       @PathVariable(value = "pageSize")Integer pageSize,
+                       HttpServletRequest request){
+
+
+        PageHelper.startPage(pageNum,pageSize);
+
+        List<ShAuthority> all = shAuthorityService.info();
+
+        PageInfo<ShAuthority> ShAuthorityInfo = new PageInfo<>(all, 3);
+
+        ResponseVo responseVo = new ResponseVo();
+
+        responseVo.setCode("1");
+
+        responseVo.setPath(request.getRequestURI());
+
+        responseVo.setDate(new Date());
+
+        responseVo.setMessage("请求成功");
+
+        responseVo.getInfo().put("data",ShAuthorityInfo);
+
+        return responseVo;
+
+
+    }
 
 
     @ResponseBody
