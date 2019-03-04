@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+
+
+    <link rel="stylesheet" th:href="@{/css/dialog.css}">
+    <script th:src="@{/js/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/js/qs.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script th:src="@{/js/validator.min.js}"></script>
+    <!--<script th:src="@{/js/zepto.min.js}"></script>-->
+    <script th:src="@{/js/dialog.js}"></script>
+    <style>
+        body{
+            margin-top: 70px;
+            background-color: #b3d7ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" id="authinfo">
+        <div th:replace="~{common/common :: headNav}"></div>
+        <div class="row mt-2 mb-2">
+            <div th:replace="~{common/common :: leftNav}"></div>
+            <div class="col-lg-10">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <i class="fa fa-user"></i>权限管理
+                    </div>
+                    <div class="col-lg-4 offset-lg-6 col-md-6 offset-md-4 col-sm-6">
+                        <a href="#" class="btn btn-outline-info">查询</a>
+                        <a href="#" class="btn btn-outline-info">新增</a>
+                        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           <i class="fa fa-bars"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item text-info" href="#">导出</a>
+                            <a class="dropdown-item text-info" href="#">导入</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>编号</th>
+                                <th>权限名</th>
+                                <th>描述</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item,index) in r.list" :key="index">
+                                <td>{{item.authorityId}}</td>
+                                <td>{{item.authorityNum}}</td>
+                                <td>{{item.authorityName}}</td>
+                                <td>{{item.authorityDes}}</td>
+                                <td>{{item.authorityState}}</td>
+                                <td>
+                                    <a href="#" class="text-warning" title="修改用户"> <i class="fa fa-pencil"></i></a>
+                                    <a @click.prevent="deleteAuth(item.authorityId)" href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
+                                    <a @click.prevent="forbidAuth(item.authorityId)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-8 offset-lg-2">
+                        <!--分页-->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li v-if="r.hasPreviousPage"  class="page-item">
+                                    <a @click.prevent="previous" class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+
+                                <li @click="page(n)" v-for="n in r.navigatepageNums" class="page-item"><a class="page-link" href="#">{{n}}</a></li>
+
+                                <li v-if="r.hasNextPage" class="page-item">
+                                    <a @click.prevent="next" class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+
+    let vm =new Vue({
+        el:'#authinfo',
+        data:{
+            r:{}
+        },
+        created(){
+
+            axios.baseURL='http://localhost:8080';
+            axios.defaults.withCredentials=true;
+            axios.get('/auth/info/1/4').then(res=>{
+                this.r=res.data.info.data;
+
+            }).catch(err=>{
+
+                console.log(err)
+
+            })
+
+        },
+
+        methods:{
+
+            page(n){
+                if(n!==this.r.pageNum){
+                    let infoDialog = $.dialog({
+                        type : 'info',
+                        infoText : '加载中…',
+                        infoIcon : '../images/icon/loading.gif'
+                    });
+
+                    axios.get(`/auth/info/${n}/${this.r.pageSize}`).then(res=>{
+
+                        this.r=res.data.info.data;
+                        this.currentPage=n;
+                        infoDialog.dialog.update({
+                            autoClose : 1500,
+                            infoText : '请求成功',
+                            infoIcon : '/images/icon/success.png'
+                        });
+
+                    }).catch(err=>{
+                        infoDialog.dialog.update({
+                            autoClose : 1500,
+                            infoText : '请求失败',
+                            infoIcon : '/images/icon/fail.png'
+                        });
+                    })
+
+                }
+
+            },
+            previous(){
+                if( this.r.hasPreviousPage){
+                    this.page(this.r.prePage)
+                }
+            },
+            next(){
+                if( this.r.hasNextPage){
+                    this.page(this.r.nextPage)
+                }
+            },
+            checkState(authorityId,method){
+                let b=this.r.list.filter((item,index)=>item.authorityId===authorityId)[0];
+                let infoDialog = $.dialog({
+                    type : 'info',
+                    infoText : '加载中…',
+                    infoIcon : '/images/icon/loading.gif'
+                });
+                axios.get(`/auth/${method}/${b.authorityId}/`).then(res=>{
+
+                    let message=res.data.message;
+                    if(res.data.code==='1'){
+
+                        if(method==='forbid'){
+                            b.authorityState= 0;
+                        }else if (method==='delete') {
+                            b.authorityState=-1;
+                        }else{
+                            b.authorityState=1;
+                        }
+
+                        infoDialog.dialog.update({
+                            autoClose : 1500,
+                            infoText : message,
+                            infoIcon : '/images/icon/success.png'
+                        });
+
+                    }else{
+                        infoDialog.dialog.update({
+                            autoClose : 1500,
+                            infoText : message,
+                            infoIcon : '/images/icon/fail.png'
+                        });
+                    }
+                }).catch(err=>{
+                    infoDialog.dialog.update({
+                        autoClose : 1500,
+                        infoText : message,
+                        infoIcon : '/images/icon/fail.png'
+                    });
+                })
+
+            },
+            forbidAuth(authorityId){
+                this.checkState(authorityId,'forbid');
+            },
+            deleteAuth(authorityId){
+                this.checkState(authorityId,'delete');
+            }
+
+
+        }
+    })
+</script>
+</html>

@@ -58,7 +58,7 @@ public class AuthorityController {
         return forbid;
     }
     @ResponseBody
-    @GetMapping(path = "/del/{id}")
+    @GetMapping(path = "/delete/{id}")
     public Object del(@PathVariable(value = "id") String id,HttpServletRequest request){
 
 
@@ -75,6 +75,14 @@ public class AuthorityController {
         forbid.setDate(new Date());
 
         return forbid;
+    }
+
+
+    @GetMapping(value = "/infoView")
+    public String infoView(){
+
+        return "authority/AuthorityInfo";
+
     }
 
 
