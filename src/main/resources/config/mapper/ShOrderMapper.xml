@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shgoods.goods.mapper.ShOrderMapper">
+    <resultMap id="orderInfo" type="com.shgoods.goods.pojo.ShOrder">
+
+        <id property="orderId" column="orderId"/>
+        <result column="orderIsPay" property="orderIsPay"/>
+        <result column="orderAddress" property="orderAddress"/>
+        <result column="orderCreationTime" property="orderCreationTime"/>
+        <result column="orderNum" property="orderNum"/>
+        <result column="orderPrice" property="orderPrice"/>
+        <result column="orderReceipt" property="orderReceipt"/>
+        <result column="orderReceiptTime" property="orderReceiptTime"/>
+        <result column="orderState" property="orderState"/>
+        <result column="userName" property="orderUid.userName"/>
+        <result column="userId" property="orderUid.userId"/>
+        <result column="userNum" property="orderUid.userNum"/>
+        <result column="orderUpdateTime" property="orderUpdateTime"/>
+        <result column="orderCreationTime" property="orderCreationTime"/>
+    </resultMap>
+
+
+    <select id="allOrder" resultMap="orderInfo">
+          SELECT
+            order_id orderId,
+            order_num orderNum,
+            order_uid userId,
+            order_isPay orderIsPay,
+            order_price orderPrice,
+            order_state orderState,
+            order_address orderAddress,
+            order_receipt orderReceipt,
+            order_updateTIme orderUpdateTime,
+            order_receiptTime orderReceiptTime,
+            order_creationTime orderCreationTime,
+            user_num userNum,
+            user_name userName
+          FROM
+            sh_order so
+            LEFT JOIN sh_user su ON so.order_uid = su.user_id
+
+
+    </select>
+</mapper>
