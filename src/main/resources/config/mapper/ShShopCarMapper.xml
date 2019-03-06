@@ -8,20 +8,26 @@
 
     <resultMap id="ShopCarInfo" type="com.shgoods.goods.pojo.ShShopCar">
 
-        <id property="" column=""/>
-
-        <result column="" property=""/>
-        <result column="" property=""/>
-        <result column="" property=""/>
-        <result column="" property=""/>
-        <result column="" property=""/>
-        <result column="" property=""/>
-
+        <id property="shopCarCount" column="shopCarCount"/>
+        <result column="shopCarCreationTime" property="shopCarCreationTime"/>
+        <result column="shopCarGid" property="shopCarGid"/>
+        <result column="shopCarId" property="shopCarId"/>
+        <result column="shopCarUid" property="shopCarUid"/>
+        <result column="shopCarUpdateTime" property="shopCarUpdateTime"/>
+        <result property="shopCarState" column="shopCarState"/>
     </resultMap>
 
-    <select id="allShopCar">
-
-
+    <select id="allShopCar" resultMap="ShopCarInfo">
+          SELECT
+                shopCar_id shopCarId,
+                shopCar_uid shopCarUid,
+                shopCar_gid shopCarGid,
+                shopCar_count shopCarCount,
+                shopCar_updateTime shopCarUpdateTime,
+                shopCar_creationTime shopCarCreationTime,
+                shopCar_state shopCarState
+          FROM
+	            sh_shopcar
     </select>
 
 

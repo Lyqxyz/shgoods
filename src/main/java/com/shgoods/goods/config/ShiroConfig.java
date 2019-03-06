@@ -99,6 +99,7 @@ public class ShiroConfig {
 
         definition.put("/auth/**","anon");
 
+        definition.put("/order/**","anon");
 
 
 
