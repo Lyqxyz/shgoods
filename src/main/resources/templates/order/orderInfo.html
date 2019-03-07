@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+
+
+    <link rel="stylesheet" th:href="@{/css/dialog.css}">
+    <script th:src="@{/js/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/js/qs.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script th:src="@{/js/validator.min.js}"></script>
+    <!--<script th:src="@{/js/zepto.min.js}"></script>-->
+    <script th:src="@{/js/dialog.js}"></script>
+    <style>
+        body{
+            margin-top: 70px;
+            background-color: #b3d7ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" id="orderInfo">
+        <div th:replace="~{common/common :: headNav}"></div>
+        <div class="row mt-2 mb-2">
+            <div th:replace="~{common/common :: leftNav}"></div>
+            <div class="col-lg-10">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <i class="fa fa-user"></i>用户管理
+                    </div>
+                    <div class="col-lg-4 offset-lg-6 col-md-6 offset-md-4 col-sm-6">
+                        <a href="#" class="btn btn-outline-info">查询</a>
+                        <a href="#" class="btn btn-outline-info">新增</a>
+                        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           <i class="fa fa-bars"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item text-info" href="#">导出</a>
+                            <a class="dropdown-item text-info" href="#">导入</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th>订单id</th>
+                                <th>订单号</th>
+                                <th>订单人id</th>
+                                <th>订单人姓名</th>
+                                <th>订单是否收货</th>
+                                <th>订单转态</th>
+                                <th>详情</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item,index) in r.list" :key="item.orderId">
+                                <td>{{item.orderId}}</td>
+                                <td>{{item.orderNum}}</td>
+                                <td>{{item.orderUid.userId}}</td>
+                                <td>{{item.orderUid.userName}}</td>
+                                <td>{{item.orderReceipt}}</td>
+                                <td>{{item.orderState}}</td>
+                                <td><button @click="showInfo(item.orderId)" class="btn btn-info">详情</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-8 offset-lg-2">
+                        <!--分页-->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li v-if="r.hasPreviousPage"  class="page-item">
+                                    <a @click.prevent="previous" class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+
+                                <li @click="page(n)" v-for="n in r.navigatepageNums" class="page-item"><a class="page-link" href="#">{{n}}</a></li>
+
+                                <li v-if="r.hasNextPage" class="page-item">
+                                    <a @click.prevent="next" class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">用户提示</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="thumbnail">
+                            <h3>详情</h3>
+                            <div class="caption">
+
+                                <p class="text-info">订单交易价格:{{info.orderPrice}}</p>
+                                <p class="text-info">订单是否支付:{{info.orderIsPay}}</p>
+                                <p class="text-info">订单收货时间:{{info.orderReceiptTime}}</p>
+                                <p class="text-info">订单收货地址:{{info.orderAddress}}</p>
+                                <p class="text-info">订单更新时间:{{info.orderUpdateTime}}</p>
+                                <p class="text-info">订单创建时间:{{info.orderCreationTime}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+<script>
+
+    let a = {
+        code: "1",
+        date: "2019-03-06 19:35:54",
+        errors: { },
+        info: {
+            data: {
+                endRow: 2,
+                hasNextPage: true,
+                hasPreviousPage: false,
+                isFirstPage: true,
+                isLastPage: false,
+                list: [
+                    {
+                        orderAddress: "",
+                        orderCreationTime: null,
+                        orderId: "98092238432632832",
+                        orderNum: "98092238432632832",
+                        orderPrice: 12345,
+                        orderReceiptTime: null,
+                        orderUid: {
+                            shRoles: [ ],
+                            userEmail: "",
+                            userId: "97977401056690241",
+                            userLoginip: "",
+                            userName: "用户7",
+                            userNum: "12007",
+                            userPhone: "",
+                            userPhoto: "",
+                            userPwd: "",
+                            userRegip: ""
+                        },
+                        orderUpdateTime: null
+                    },
+                    {
+                        orderAddress: "",
+                        orderCreationTime: null,
+                        orderId: "98092238432632833",
+                        orderNum: "98092238432632833",
+                        orderPrice: 45622,
+                        orderReceiptTime: null,
+                        orderUid: {
+                            shRoles: [ ],
+                            userEmail: "",
+                            userId: "98006696911175684",
+                            userLoginip: "",
+                            userName: "12345464",
+                            userNum: "12018",
+                            userPhone: "",
+                            userPhoto: "",
+                            userPwd: "",
+                            userRegip: ""
+                        },
+                        orderUpdateTime: null
+                    }
+                ],
+                navigateFirstPage: 1,
+                navigateLastPage: 2,
+                navigatePages: 3,
+                navigatepageNums: [
+                    1,
+                    2
+                ],
+                nextPage: 2,
+                pageNum: 1,
+                pageSize: 2,
+                pages: 2,
+                prePage: 0,
+                size: 2,
+                startRow: 1,
+                total: 3
+            }
+        },
+        message: "请求成功",
+        path: "/order/info/1/2"
+    }
+
+    new Vue({
+        el:'#orderInfo',
+
+        data:{
+            r: {},
+
+            info:{}
+        },
+        created(){
+
+            axios.baseURL='http://localhost:8080';
+            axios.defaults.withCredentials=true;
+            axios.get('/order/info/1/2').then(res=>{
+                this.r=res.data.info.data;
+
+            }).catch(err=>{
+
+                console.log(err)
+
+            })
+
+        },
+
+        methods:{
+
+            page(n){
+                if(n!==this.r.pageNum){
+                    let infoDialog = $.dialog({
+                        type : 'info',
+                        infoText : '加载中…',
+                        infoIcon : '../images/icon/loading.gif'
+                    });
+
+                    axios.get(`/order/info/${n}/${this.r.pageSize}`).then(res=>{
+
+                        this.r=res.data.info.data;
+                        this.currentPage=n;
+                        infoDialog.dialog.update({
+                            autoClose : 1500,
+                            infoText : '请求成功',
+                            infoIcon : '/images/icon/success.png'
+                        });
+
+                    }).catch(err=>{
+                        infoDialog.dialog.update({
+                            autoClose : 1500,
+                            infoText : '请求失败',
+                            infoIcon : '/images/icon/fail.png'
+                        });
+                    })
+
+                }
+
+            },
+            previous(){
+                if( this.r.hasPreviousPage){
+                    this.page(this.r.prePage)
+                }
+            },
+            next(){
+                if( this.r.hasNextPage){
+                    this.page(this.r.nextPage)
+                }
+            },
+
+            showInfo(id){
+
+                let info = this.r.list.find((item)=>item.orderId===id)
+
+                this.info=info;
+
+                console.log(info)
+
+
+                $("#exampleModal").modal();
+
+
+            }
+
+
+        }
+
+    })
+
+
+</script>
+</html>

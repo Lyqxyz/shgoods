@@ -8,6 +8,7 @@ import com.shgoods.goods.service.ShOrderService;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,12 +17,27 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author lyq
+ * 订单详情
+ */
 @Controller
 @RequestMapping(path = "/order")
 public class OrderController {
 
     @Autowired
     ShOrderService shOrderService;
+
+
+
+    @GetMapping(path = "/infoView")
+    public String infoView(){
+
+
+        return "order/orderInfo";
+
+    }
+
 
     @ResponseBody
     @RequestMapping(path = "/info/{pageNum}/{pageSize}")
