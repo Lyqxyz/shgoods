@@ -101,6 +101,7 @@ public class ShiroConfig {
 
         definition.put("/order/**","anon");
 
+        definition.put("/shopcar/**","anon");
 
 
 

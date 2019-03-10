@@ -30,5 +30,12 @@
 	            sh_shopcar
     </select>
 
+    <update id="del">
+        UPDATE sh_shopcar
+        SET shopCar_state =- 1
+        WHERE
+	      shopCar_id=#{shopCarId}
+    </update>
+
 
 </mapper>

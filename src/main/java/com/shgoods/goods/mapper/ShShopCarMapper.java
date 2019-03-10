@@ -10,4 +10,8 @@ public interface ShShopCarMapper {
 
 
     public List<ShShopCar> allShopCar();
+
+    public Integer del(ShShopCar shShopCar);
+
+
 }
