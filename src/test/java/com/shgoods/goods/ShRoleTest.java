@@ -26,23 +26,20 @@ public class ShRoleTest {
 
         ShRole shRole = new ShRole();
 
-        shRole.setRoleNum("10");
-        shRole.setRoleState(-1);
-        shRole.setRoleDes("哈哈哈");
-        shRole.setRoleName("角色11");
-        Integer integer = shRoleMapper.insertRole(shRole);
+        shRole.setRoleId("97977401056690236");
 
-        System.out.println(integer);
+        ShRole shRole1 = shRoleMapper.selectRoleById(shRole);
+
+        System.out.println(shRole1);
 
     }
 
     @Test
     public void test2(){
+
         ShRole shRole = new ShRole();
         shRole.setRoleState(-1);
         shRole.setRoleId("97977401056690238");
-
-
         shRoleMapper.forbidRole(shRole);
 
     }

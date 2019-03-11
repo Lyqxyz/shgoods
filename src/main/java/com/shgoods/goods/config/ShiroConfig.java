@@ -103,6 +103,7 @@ public class ShiroConfig {
 
         definition.put("/shopcar/**","anon");
 
+        definition.put("/authRole/**","anon");
 
 
         definition.put("/logout","logout");

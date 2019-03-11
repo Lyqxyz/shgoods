@@ -161,7 +161,7 @@
         WHERE
             r.role_id = ar.ar_rid
             AND a.authority_id = ar.ar_aid
-            AND r.role_num=#{roleNum}
+            AND r.role_id=#{roleId}
             AND a.authority_state!=-1
     </select>
 
@@ -198,7 +198,7 @@
                 WHERE
                     r.role_id = ar.ar_rid
                     AND a.authority_id = ar.ar_aid
-                AND r.role_num =#{roleId}
+                AND r.role_id =#{roleId}
             )
             AND
               authority_id!=-1

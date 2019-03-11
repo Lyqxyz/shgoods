@@ -132,5 +132,8 @@
         SELECT role_id FROM sh_role WHERE role_name=#{roleName}
     </select>
 
+    <select id="selectRoleById" resultMap="ShRole">
+        SELECT role_id FROM sh_role WHERE role_id=#{roleId}
+    </select>
 
 </mapper>
