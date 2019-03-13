@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ShAuthorityRoleServiceImpl implements ShAuthorityRoleService {
-
 
     @Autowired
     ShAuthorityRoleMapper shAuthorityRoleMapper;
@@ -66,6 +66,66 @@ public class ShAuthorityRoleServiceImpl implements ShAuthorityRoleService {
         return responseVo;
 
 
+
+    }
+
+    @Override
+    public ResponseVo add(ShAuthorityRole shAuthorityRole) {
+
+        ResponseVo responseVo = new ResponseVo();
+
+        if(Objects.isNull(shAuthorityRole)||Objects.isNull(shAuthorityRole.getArRid())||
+            Objects.isNull(shAuthorityRole.getArAid())){
+
+            responseVo.setCode("-1");
+            responseVo.setMessage("请求失败");
+
+        }else{
+
+            ShAuthorityRole shAuthorityRole1 = shAuthorityRoleMapper.hasAuth(shAuthorityRole);
+
+            if(Objects.isNull(shAuthorityRole1)){
+
+                Integer integer = shAuthorityRoleMapper.insertAuthRole(shAuthorityRole);
+                responseVo.setCode("1");
+                responseVo.setMessage("请求成功");
+
+            }else {
+
+                responseVo.setCode("-1");
+                responseVo.setMessage("不可重复添加");
+            }
+
+        }
+
+        responseVo.setDate(new Date());
+
+        return responseVo;
+
+    }
+
+    @Override
+    public ResponseVo forbid(ShAuthorityRole shAuthorityRole) {
+
+        ResponseVo responseVo = new ResponseVo();
+        if(shAuthorityRole!=null&&shAuthorityRole.getArId()!=null){
+            Integer integer = shAuthorityRoleMapper.forbidAuthRole(shAuthorityRole);
+            if(integer==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("禁用成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是禁用状态");
+            }
+
+        }else{
+            responseVo.setCode("-1");
+            responseVo.setMessage("id为空");
+
+        }
+        responseVo.setDate(new Date());
+
+        return responseVo;
 
     }
 }

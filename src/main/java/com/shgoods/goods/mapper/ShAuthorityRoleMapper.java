@@ -30,8 +30,12 @@ public interface ShAuthorityRoleMapper {
     //查询角色没有的权限
     public List<ShAuthority> RoleNoAuth(ShRole shRole);
 
-
     //查询角色所有权限
     public List<ShAuthority> AllAuthByRoles(List<ShRole> shRoles);
+
+    //查询角色是否有次权限
+    public ShAuthorityRole hasAuth(ShAuthorityRole shAuthorityRole);
+
+
 
 }

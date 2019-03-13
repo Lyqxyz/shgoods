@@ -1,14 +1,14 @@
 package com.shgoods.goods.controller;
 
+import com.shgoods.goods.pojo.ShAuthority;
+import com.shgoods.goods.pojo.ShAuthorityRole;
 import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.service.ShAuthorityRoleService;
 import com.shgoods.goods.vo.ResponseVo;
+import com.shgoods.goods.vo.authrole.AuthRoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,6 +33,48 @@ public class AuthorityRoleController {
         authorization.setPath(request.getRequestURI());
         return authorization;
 
+    }
+
+
+    @GetMapping(path = "/forbid/{arId}")
+    @ResponseBody
+    public Object forbid(@PathVariable(value = "arId") String arId,HttpServletRequest request){
+
+        ShAuthorityRole shAuthorityRole = new ShAuthorityRole();
+
+        shAuthorityRole.setArState(1);
+        shAuthorityRole.setArId(arId);
+
+        ResponseVo forbid = shAuthorityRoleService.forbid(shAuthorityRole);
+
+        return forbid;
+
+    }
+
+
+    @ResponseBody
+    @PostMapping(path = "/add")
+    public Object add(AuthRoleVo authRoleVo,HttpServletRequest request){
+
+        ShAuthorityRole shAuthorityRole = new ShAuthorityRole();
+
+        ShRole shRole = new ShRole();
+
+        shRole.setRoleId(authRoleVo.getRid());
+
+        ShAuthority shAuthority = new ShAuthority();
+
+        shAuthority.setAuthorityId(authRoleVo.getAid());
+
+        shAuthorityRole.setArAid(shAuthority);
+
+        shAuthorityRole.setArRid(shRole);
+
+        ResponseVo add = shAuthorityRoleService.add(shAuthorityRole);
+
+        add.setPath(request.getRequestURI());
+
+        return add;
     }
 
 }

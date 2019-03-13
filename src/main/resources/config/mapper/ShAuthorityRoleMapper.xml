@@ -42,6 +42,21 @@
         <result property="authorityUpdateTime" column="authorityUpdateTime"/>
         <result property="authorityCreationTime" column="authorityCreationTime"/>
     </resultMap>
+
+
+    <select id="hasAuth" resultMap="AllAuthRole">
+        SELECT
+	        ar_id arId,
+            ar_state arState,
+            ar_updateTime arUpdateTime,
+            ar_creationTime arCreationTime
+        FROM
+	      sh_authority_role
+        WHERE
+	      ar_rid = #{arRid.roleId}
+	      AND ar_aid=#{arAid.authorityId}
+    </select>
+
     <select id="AllAuthByRoles" resultMap="Authority">
           SELECT
                 role_id roleId,
@@ -110,7 +125,7 @@
     <insert id="insertAuthRole">
         INSERT INTO sh_authority_role ( ar_id, ar_aid, ar_rid, ar_state, ar_updateTime, ar_creationTime )
         VALUES
-        ( UUID_SHORT( ),#{arAid.authorityId},#{arRid.roleId},#{arState},NOW(),NOW() )
+        ( UUID_SHORT( ),#{arAid.authorityId},#{arRid.roleId},1,NOW(),NOW() )
 
     </insert>
     <update id="updateAuthRole">
@@ -201,6 +216,6 @@
                 AND r.role_id =#{roleId}
             )
             AND
-              authority_id!=-1
+              authority_state!=-1
     </select>
 </mapper>
