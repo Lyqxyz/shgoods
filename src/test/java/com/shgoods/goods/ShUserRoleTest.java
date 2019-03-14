@@ -44,6 +44,10 @@ public class ShUserRoleTest {
         allRoleByShUser.stream().forEach(System.out::println);
     }
 
+
+
+
+
     @Test
     public void test3(){
 

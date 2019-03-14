@@ -34,7 +34,6 @@ public interface ShRoleMapper {
     //检查角色是否可用
     public ShRole usableRole(ShRole shRole);
 
-
     public ShRole selectRoleById(ShRole shRole);
 
 

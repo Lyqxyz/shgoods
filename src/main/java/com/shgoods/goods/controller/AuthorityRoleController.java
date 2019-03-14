@@ -35,6 +35,12 @@ public class AuthorityRoleController {
 
     }
 
+    @GetMapping(path = "/addView")
+    public String addView(){
+
+        return "authority/addAuthToRole";
+    }
+
 
     @GetMapping(path = "/forbid/{arId}")
     @ResponseBody
@@ -42,7 +48,8 @@ public class AuthorityRoleController {
 
         ShAuthorityRole shAuthorityRole = new ShAuthorityRole();
 
-        shAuthorityRole.setArState(1);
+        shAuthorityRole.setArState(0);
+
         shAuthorityRole.setArId(arId);
 
         ResponseVo forbid = shAuthorityRoleService.forbid(shAuthorityRole);

@@ -39,7 +39,6 @@ public interface ShUserRoleMapper {
     //插入用户角色
     public Integer insertUserRole(ShUserRole shUserRole);
 
-
     //查询用户拥有的角色
     public ShUser findAllRole(ShUser shUser);
 
