@@ -225,6 +225,26 @@
 
     </update>
 
+    <select id="hasUser" resultMap="login">
+        SELECT
+            user_id,
+            user_num,
+            user_pwd,
+            user_email,
+            user_phone user_photo,
+            user_regip,
+            user_state,
+            user_gender user_loginip,
+            user_regtime,
+            user_isactive
+        FROM sh_user
+        WHERE
+            user_num=#{userNum}
+            AND
+            user_state!=-1
+
+    </select>
+
     <insert id="addUser">
         <selectKey keyProperty="userId" keyColumn="uuid" order="BEFORE" resultType="string">
             SELECT UUID_SHORT() uuid

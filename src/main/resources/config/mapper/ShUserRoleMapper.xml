@@ -143,8 +143,9 @@
             sh_role r
         WHERE
             r.role_id NOT IN ( SELECT ur.ur_rid FROM sh_user u, sh_user_role ur WHERE u.user_id = ur.ur_uid AND  u.user_num=#{userNum}
-            AND r.role_id!=-1
+
 	  )
+	  AND r.role_state!=-1
     </select>
 
     <select id="isUserHasRole" resultMap="AllUserRole">

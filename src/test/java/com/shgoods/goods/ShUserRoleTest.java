@@ -46,6 +46,23 @@ public class ShUserRoleTest {
 
 
 
+    @Test
+    public void test6(){
+
+        ShUser shUser = new ShUser();
+        shUser.setUserNum("12002");
+
+        List<ShRole> noRoleByShUser = shUserRoleMapper.findNoRoleByShUser(shUser);
+
+        List<ShUserRole> allRoleByShUser = shUserRoleMapper.findAllRoleByShUser(shUser);
+
+        noRoleByShUser.stream().forEach(System.out::println);
+
+        allRoleByShUser.stream().forEach(System.out::println);
+
+
+
+    }
 
 
     @Test

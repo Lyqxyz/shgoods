@@ -50,5 +50,6 @@ public interface ShUserMapper {
     public Integer addUser(ShUser shUser);
 
 
+    public ShUser hasUser(ShUser shUser);
 
 }
