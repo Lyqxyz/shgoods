@@ -169,7 +169,7 @@
         WHERE
             r.role_id = ur.ur_rid
             AND u.user_id = ur.ur_uid
-            AND ur.ur_uid=#{urUid.userId}
+            AND u.user_id=#{urUid.userId}
             AND ur.ur_rid=#{urRid.roleId}
     </select>
 
@@ -193,7 +193,7 @@
 
         INSERT INTO sh_user_role ( ur_id, ur_rid, ur_uid, ur_state, ur_updateTime, ur_creationTime )
         VALUES
-        ( UUID_SHORT(),#{urRid.roleId},#{urUid.userId},#{urState},NOW(),NOW())
+        ( UUID_SHORT(),#{urRid.roleId},#{urUid.userId},1,NOW(),NOW())
 
     </insert>
 

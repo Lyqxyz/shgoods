@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ShUserRoleServiceImpl implements ShUserRoleService {
@@ -26,7 +27,6 @@ public class ShUserRoleServiceImpl implements ShUserRoleService {
 
         ResponseVo responseVo = new ResponseVo();
         if(shUser!=null&&shUser.getUserNum()!=null){
-
 
             ShUser shUser1 = shUserMapper.hasUser(shUser);
 
@@ -60,6 +60,42 @@ public class ShUserRoleServiceImpl implements ShUserRoleService {
         responseVo.setDate(new Date());
         return responseVo;
 
+
+    }
+
+    @Override
+    public ResponseVo add(ShUserRole shUserRole) {
+
+        ResponseVo responseVo = new ResponseVo();
+
+        if(Objects.isNull(shUserRole)||Objects.isNull(shUserRole.getUrRid().getRoleId())||
+                Objects.isNull(shUserRole.getUrUid().getUserId())){
+
+            responseVo.setCode("-1");
+            responseVo.setMessage("请求失败");
+
+        }else{
+
+            ShUserRole userHasRole = shUserRoleMapper.isUserHasRole(shUserRole);
+
+            if(Objects.isNull(userHasRole)){
+
+                Integer integer = shUserRoleMapper.insertUserRole(shUserRole);
+
+                responseVo.setCode("1");
+                responseVo.setMessage("请求成功");
+
+            }else {
+
+                responseVo.setCode("-1");
+                responseVo.setMessage("不可重复添加");
+            }
+
+        }
+
+        responseVo.setDate(new Date());
+
+        return responseVo;
 
     }
 }

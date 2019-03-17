@@ -1,15 +1,15 @@
 package com.shgoods.goods.controller;
 
 import com.shgoods.goods.mapper.ShUserRoleMapper;
+import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.pojo.ShUser;
+import com.shgoods.goods.pojo.ShUserRole;
 import com.shgoods.goods.service.ShUserRoleService;
 import com.shgoods.goods.vo.ResponseVo;
+import com.shgoods.goods.vo.userrole.UserRoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,6 +35,38 @@ public class UserRoleController {
         return info;
 
     }
+
+    @ResponseBody
+    @PostMapping(path = "/add")
+    public Object add(UserRoleVo userRoleVo,HttpServletRequest request){
+
+        ShUserRole shUserRole = new ShUserRole();
+
+        ShRole shRole = new ShRole();
+
+        shRole.setRoleId(userRoleVo.getRid());
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(userRoleVo.getUid());
+
+        shUserRole.setUrRid(shRole);
+
+        shUserRole.setUrUid(shUser);
+
+        ResponseVo add = shUserRoleService.add(shUserRole);
+
+        add.setPath(request.getRequestURI());
+
+        return add;
+
+    }
+
+
+
+
+
+
 
 
 }

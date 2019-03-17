@@ -9,6 +9,8 @@ import com.shgoods.goods.pojo.ShAuthority;
 import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.pojo.ShUserRole;
+import com.shgoods.goods.service.ShUserRoleService;
+import com.shgoods.goods.vo.ResponseVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class ShUserRoleTest {
 
     @Autowired
     ShAuthorityRoleMapper shAuthorityRoleMapper;
+
+    @Autowired
+    ShUserRoleService shUserRoleService;
 
     @Test
     public void test1(){
@@ -88,6 +93,53 @@ public class ShUserRoleTest {
         String s = JSON.toJSONString(userRoleAuth);
 
         System.out.println(s);
+
+    }
+    @Test
+    public void test5(){
+
+
+        ShUserRole shUserRole = new ShUserRole();
+
+
+        ShRole shRole = new ShRole();
+
+        shRole.setRoleId("97977401056690237");
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserNum("aaaaaa1");
+
+        shUserRole.setUrRid(shRole);
+
+        shUserRole.setUrUid(shUser);
+
+        ShUserRole userHasRole = shUserRoleMapper.isUserHasRole(shUserRole);
+
+        System.out.println(userHasRole);
+
+
+    }
+    @Test
+    public void test8(){
+
+        ShUserRole shUserRole = new ShUserRole();
+
+        ShRole shRole = new ShRole();
+
+        shRole.setRoleId("97977401056690237");
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserNum("aaaaaa1");
+
+        shUserRole.setUrRid(shRole);
+
+        shUserRole.setUrUid(shUser);
+
+        ResponseVo add = shUserRoleService.add(shUserRole);
+
+        System.out.println(add);
 
     }
 
