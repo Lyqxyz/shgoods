@@ -90,7 +90,7 @@
                 r.role_id = ur.ur_rid
                 AND u.user_id = ur.ur_uid
                 AND u.user_num= #{userNum}
-                AND r.role_state=1
+                AND r.role_state!=-1
     </select>
 
     <select id="findAllUSerRole" resultMap="AllUserRole">

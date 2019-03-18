@@ -49,7 +49,6 @@ public interface ShUserMapper {
     //增加用户
     public Integer addUser(ShUser shUser);
 
-
     public ShUser hasUser(ShUser shUser);
 
 }

@@ -40,6 +40,8 @@ public class ShUserRoleServiceImpl implements ShUserRoleService {
 
                 responseVo.getInfo().put("has",allRoleByShUser);
 
+                responseVo.getInfo().put("user",shUser1);
+
                 responseVo.setCode("1");
 
                 responseVo.setMessage("请求成功");
@@ -96,6 +98,32 @@ public class ShUserRoleServiceImpl implements ShUserRoleService {
         responseVo.setDate(new Date());
 
         return responseVo;
+
+    }
+
+    @Override
+    public ResponseVo forbid(ShUserRole shUserRole) {
+
+        ResponseVo responseVo = new ResponseVo();
+        if(shUserRole!=null&&shUserRole.getUrId()!=null){
+            Integer integer = shUserRoleMapper.forbidUserRole(shUserRole);
+            if(integer==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("禁用成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是禁用状态");
+            }
+
+        }else{
+            responseVo.setCode("-1");
+            responseVo.setMessage("id为空");
+
+        }
+        responseVo.setDate(new Date());
+
+        return responseVo;
+
 
     }
 }

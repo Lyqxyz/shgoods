@@ -9,4 +9,6 @@ public interface ShUserRoleService {
     ResponseVo info(ShUser shUser);
 
     ResponseVo add(ShUserRole shUserRole);
+
+    ResponseVo forbid(ShUserRole shUserRole);
 }

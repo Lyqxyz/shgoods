@@ -26,14 +26,15 @@
 </head>
 <body>
 
-<div class="container-fluid" id="authrole">
+<div class="container-fluid" id="RoleToUser">
     <div th:replace="~{common/common :: headNav}"></div>
     <div class="row mt-2 mb-2">
         <div th:replace="~{common/common :: leftNav}"></div>
         <div class="col-lg-10">
+
             <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-2">
-                    <i class="fa fa-search"></i>给角色添加权限
+                    <i class="fa fa-search"></i>给用户添加角色
                 </div>
                 <div class="col-lg-4 offset-lg-6 col-md-6 offset-md-4 col-sm-6">
                     <button class="btn btn-info" data-toggle="collapse" data-target="#colA" aria-expanded="true">隐藏</button>
@@ -44,75 +45,87 @@
                     <form>
                         <div class="form-row ml-2">
                             <div class="form-group row mr-1">
-                                <label for="roleId" class="col-sm-3 col-lg-4 col-form-label">角色id</label>
+                                <label for="userId" class="col-sm-3 col-lg-4 col-form-label">用户id</label>
                                 <div class="col-sm-9 col-lg-8">
-                                    <input v-model="role.id" id="roleId" type="text" class="form-control"  placeholder="角色id">
+                                    <input v-model="user.id" id="userId" type="text" class="form-control"  placeholder="请输入id">
                                 </div>
                             </div>
                             <div class="form-group row mr-1">
-                                <label for="roleNum" class="col-sm-4 col-form-label">角色编号</label>
-                                <div class="col-sm-8">
-                                    <input id="roleNum" disabled type="text" class="form-control"  placeholder="还没开通">
+                                <label for="userNum" class="col-sm-3 col-form-label">学号</label>
+                                <div class="col-sm-9">
+                                    <input v-model="user.num" id="userNum" type="text" class="form-control"  placeholder="请输入学号">
                                 </div>
                             </div>
                             <div class="form-group row mr-1">
-                                <label for="roleName" class="col-sm-3 col-lg-4 col-form-label">角色名</label>
+                                <label for="userName" class="col-sm-3 col-lg-4 col-form-label">用户名</label>
                                 <div class="col-sm-9 col-lg-8">
-                                    <input id="roleName" disabled type="text" class="form-control"  placeholder="还没开通">
+                                    <input disabled id="userName" type="text" class="form-control"  placeholder="还未开通">
                                 </div>
                             </div>
+                            <div class="form-group row mr-1">
+                                <label for="userPhone" class="col-sm-3 col-lg-4 col-form-label">电话</label>
+                                <div class="col-sm-9 col-lg-8">
+                                    <input disabled id="userPhone" type="text" class="form-control"  placeholder="还未开通">
+                                </div>
+                            </div>
+                            <div class="form-group row mr-1">
+                                <label for="userEmail" class="col-sm-3 col-lg-4 col-form-label">邮箱</label>
+                                <div class="col-sm-9 col-lg-8">
+                                    <input disabled id="userEmail" type="email" class="form-control"  placeholder="还未开通">
+                                </div>
+                            </div>
+
                         </div>
                     </form>
                     <button @click="select" class="btn btn-info btn-sm mr-2" type="button">查询</button>
                     <button class="btn btn-info btn-sm" type="button">重置</button>
+
                 </div>
             </div>
             <div class="row">
-                <h6 class="text-info mt-1">此角色拥有的权限</h6>
+                <h6 class="text-info mt-1">此用户拥有的角色</h6>
                 <table class="table table-hover table-responsive-sm">
                     <thead>
-                    <tr>
-                        <th>权限编号</th>
-                        <th>权限名字</th>
-                        <th>权限状态</th>
-                        <th>权限角色状态</th>
-                        <th>操作</th>
-                    </tr>
+                        <tr>
+                            <th>角色编号</th>
+                            <th>角色名字</th>
+                            <th>用户角色状态</th>
+                            <th>操作</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in info.has">
-                        <td>{{item.arAid.authorityNum}}</td>
-                        <td>{{item.arAid.authorityName}}</td>
-                        <td>{{item.arAid.authorityState}}</td>
-                        <td>{{item.arState}}</td>
-                        <td>
-                            <a href="#" class="text-danger" title="删除权限"><i class="fa fa-trash"></i></a>
-                            <a @click="forbid(item)" href="#" class="text-danger" title="禁用权限"><i class="fa fa-times-circle"></i></a>
-                        </td>
-                    </tr>
+                        <tr v-for="item in info.has">
+                            <td>{{item.urRid.roleNum}}</td>
+                            <td>{{item.urRid.roleName}}</td>
+                            <td>{{item.urState}}</td>
+                            <td>
+                                <a href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
+                                <a @click="forbid(item)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <div class="row">
                 <h6 class="text-info">
-                    此用户没有的权限
+                    此用户没有的角色
                 </h6>
                 <table class="table table-hover table-responsive-sm">
                     <thead>
-                    <tr>
-                        <th>权限编号</th>
-                        <th>权限名字</th>
-                        <th>权限状态</th>
+                    <tr >
+                        <th>角色编号</th>
+                        <th>角色名字</th>
+                        <th>角色状态</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="(item,index) in info.no">
-                        <td>{{item.authorityNum}}</td>
-                        <td>{{item.authorityName}}</td>
-                        <td>{{item.authorityState}}</td>
+                        <td>{{item.roleNum}}</td>
+                        <td>{{item.roleName}}</td>
+                        <td>{{item.roleState}}</td>
                         <td>
-                            <a @click="add(item,index)" href="#" class="text-warning" title="添加权限"> <i class="fa fa-user-plus"></i></a>
+                            <a href="#" @click="add(item,index)" class="text-warning" title="添加角色"> <i class="fa fa-user-plus"></i></a>
                         </td>
                     </tr>
                     </tbody>
@@ -122,49 +135,45 @@
     </div>
 </div>
 
-
 </body>
 <script>
     let vm = new Vue({
 
-        el:'#authrole',
+        el:'#RoleToUser',
         data:{
-            role:{
-
+            user:{
                 id:'',
                 num:'',
-                name:''
+                name:'',
             },
 
-            info:{
-            },
+            info:{},
 
         },
         methods:{
             select(){
-
-                let id =validator.isEmpty(this.role.id);
-                if(id){
+                let num =validator.isEmpty(this.user.num);
+                if(num){
                     $.dialog({
                         type:'alert',
                         titleText:'警告',
-                        contentHtml: "id不能为空",
+                        contentHtml: "学号不能为空",
                     })
                 }else{
                     axios.baseURL='http://localhost:8080';
 
                     axios.defaults.withCredentials=true;
 
-                    axios.get('/authRole/info/'+this.role.id).then(res=>{
+                    axios.get('/userRole/info/'+this.user.num).then(res=>{
 
                         let msg=res.data.message
                         if(res.data.code==='-1'){
-
                             alert(msg)
-
                         }else{
 
                             this.info=res.data.info
+
+                            this.user.id= res.data.info.user.userId
                         }
 
                     }).catch(err=>{
@@ -181,7 +190,7 @@
 
                 axios.defaults.withCredentials=true;
 
-                axios.post("/authRole/add",`rid=${this.role.id}&aid=${item.authorityId}`)
+                axios.post("/userRole/add",`uid=${this.user.id}&rid=${item.roleId}`)
                     .then(res=>{
 
                         let {code,message}=res.data
@@ -193,12 +202,13 @@
                         }else{
 
                             let c = {
-                                arAid:{}
+                                urRid:{}
                             }
-                            c.arAid.authorityId=item.authorityId
-                            c.arAid.authorityName=item.authorityName
-                            c.arAid.authorityState=item.authorityState
-                            c.arAid.authorityNum=item.authorityNum
+                            c.urRid.roleId=item.roleId
+                            c.urRid.roleName=item.roleName
+                            c.urRid.roleState=item.roleState
+                            c.urRid.roleNum=item.roleNum
+                            c.urState=1;
                             this.info.no.splice(index,1)
                             this.info.has.push(c)
                             alert(message)
@@ -206,26 +216,24 @@
 
                     }).catch(err=>{
 
-                        alert("添加失败")
-                    })
+                    alert("添加失败")
+                })
 
             },
             forbid(item){
-
-
 
                 axios.baseURL='http://localhost:8080';
 
                 axios.defaults.withCredentials=true;
 
-                axios.get('/authRole/forbid/'+item.arId).then(res=>{
+                axios.get('/userRole/forbid/'+item.urId).then(res=>{
 
                     let {code,message}=res.data
 
                     if(code==='-1'){
                         alert(message)
                     }else{
-                        item.arState=0;
+                        item.urState=0;
                         alert(message)
                     }
 
@@ -246,8 +254,5 @@
     })
 
 
-
-
 </script>
-
 </html>

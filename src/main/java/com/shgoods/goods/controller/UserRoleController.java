@@ -1,6 +1,7 @@
 package com.shgoods.goods.controller;
 
 import com.shgoods.goods.mapper.ShUserRoleMapper;
+import com.shgoods.goods.pojo.ShAuthorityRole;
 import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.pojo.ShUserRole;
@@ -35,6 +36,27 @@ public class UserRoleController {
         return info;
 
     }
+
+    @GetMapping(path = "addView")
+    public String addView(){
+
+        return "role/addRoleToUser";
+    }
+
+    @GetMapping(path = "/forbid/{urId}")
+    @ResponseBody
+    public Object forbid(@PathVariable(value = "urId") String urId,HttpServletRequest request){
+
+        ShUserRole shUserRole = new ShUserRole();
+
+        shUserRole.setUrId(urId);
+
+        ResponseVo forbid = shUserRoleService.forbid(shUserRole);
+
+        return forbid;
+
+    }
+
 
     @ResponseBody
     @PostMapping(path = "/add")
