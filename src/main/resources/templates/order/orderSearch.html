@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/dialog.css}">
+    <script th:src="@{/js/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/js/qs.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script th:src="@{/js/validator.min.js}"></script>
+    <!--<script th:src="@{/js/zepto.min.js}"></script>-->
+    <script th:src="@{/js/dialog.js}"></script>
+    <style>
+        body{
+            margin-top: 70px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid" id="orderGoodsInfo">
+    <div th:replace="~{common/common :: headNav}"></div>
+    <div class="row mt-2 mb-2">
+        <div th:replace="~{common/common :: leftNav}"></div>
+        <div class="col-lg-10">
+
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <i class="fa fa-search"></i>搜索订单
+                </div>
+                <div class="col-lg-4 offset-lg-6 col-md-6 offset-md-4 col-sm-6">
+                    <button class="btn btn-info" data-toggle="collapse" data-target="#colA" aria-expanded="true">隐藏</button>
+                </div>
+            </div>
+            <div class="row">
+                <div id="colA" class="collapse show"  data-parent="#accordion">
+                    <form>
+                        <div class="form-row ml-2">
+                            <div class="form-group row mr-1">
+                                <label for="orderGoodsId" class="col-sm-3 col-lg-4 col-form-label">商品订单id</label>
+                                <div class="col-sm-9 col-lg-8">
+                                    <input v-model="orderGoods.id" id="orderGoodsId" disabled  type="text"  class="form-control"  placeholder="尚未开通">
+                                </div>
+                            </div>
+                            <div class="form-group row mr-1">
+                                <label for="orderId" class="col-sm-3 col-form-label">订单id</label>
+                                <div class="col-sm-9">
+                                    <input v-model="orderGoods.orderid" id="orderId" type="text" class="form-control"  placeholder="请输入订单id">
+                                </div>
+                            </div>
+                            <div class="form-group row mr-1">
+                                <label for="GoodsId" class="col-sm-3 col-lg-4 col-form-label">商品id</label>
+                                <div class="col-sm-9 col-lg-8">
+                                    <input v-model="orderGoods.goodsid" id="GoodsId" disabled type="text" class="form-control"  placeholder="尚未开通">
+                                </div>
+                            </div>
+
+                            <button @click="search" class="btn btn-info btn-sm mr-2" type="button">查询</button>
+                            <button class="btn btn-info btn-sm" type="button">重置</button>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-hover table-responsive-sm">
+                    <thead>
+                    <tr>
+                        <!--<th>id</th>-->
+                        <th>商品订单id</th>
+                        <th>订单id</th>
+                        <th>商品id</th>
+                        <th>数量</th>
+                        <th>状态</th>
+                        <th>是否是书</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr v-for="item in info">
+                        <td>{{item.goId}}</td>
+                        <td>{{item.goOid.orderId}}</td>
+                        <td>{{item.goIdAll}}</td>
+                        <td>{{item.goCount}}</td>
+                        <td>{{item.goState | state}}</td>
+                        <td>{{item.goIsBook}}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script>
+
+
+
+
+    Vue.filter('state', function (value) {
+
+        try {
+            if(value===null||value==='undefined'){
+
+                return '未知';
+            }
+            let state= parseInt(value)
+            switch (state) {
+                case 0:
+                    return '禁用';
+                case 1:
+                    return '正常';
+                case -1:
+                    return '删除';
+                default:
+                    return '未知';
+
+            }
+        }catch (e) {
+
+            return '未知';
+        }
+
+    })
+
+    Vue.filter('gender',function (value) {
+
+        try {
+            let gender= parseInt(value)
+
+            switch (gender) {
+                case 0:
+                    return '女';
+                case 1:
+                    return '男';
+                default:
+                    return '未知';
+            }
+        }
+        catch (e) {
+            return '未知';
+        }
+    })
+
+
+    let vm = new Vue({
+        el:'#orderGoodsInfo',
+
+        data:{
+
+            orderGoods:{
+                id:'',
+                goodsid:'',
+                orderid:''
+
+            },
+            info:[]
+        },
+        methods:{
+            search(){
+
+                if(this.orderGoods.orderid===''){
+
+                    alert('订单id不能为空')
+
+                }else{
+
+
+                    let url = 'http://localhost:8080/GoodsOrder/info/'+this.orderGoods.orderid
+                    console.log(url);
+                    axios.get(url).then(res=>{
+
+                        let {code,msg} = res.data;
+
+                        if(code==='-1'){
+
+                            alert(msg)
+                        }else{
+
+                            this.info=res.data.info.info;
+                        }
+
+                    }).catch(err=>{
+
+                        alert('服务器错误')
+                    })
+                    
+                }
+
+            },
+        },
+        computed:{
+
+
+        },
+
+
+    })
+
+
+</script>
+
+</html>

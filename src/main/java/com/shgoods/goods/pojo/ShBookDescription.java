@@ -11,12 +11,17 @@ public class ShBookDescription {
 
     private ShGoods desGid;
 
-    private String desType;
+    private String desinfo;
 
-    private Integer desInfo;
+    private String desXsPath;
+    private String desSmPath;
+    private String desMdPath;
+
+    private String desOriginalFilename;
 
     private Integer desState;
 
     private Date desCreationTime;
+
     private Date desUpdateTime;
 }

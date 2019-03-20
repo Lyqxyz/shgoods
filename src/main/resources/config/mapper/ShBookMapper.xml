@@ -38,7 +38,7 @@
         VALUES
         (#{bookId},#{bookIsbn},#{bookName},#{bookDes},#{bookCid},#{bookCount},
         #{bookState},#{bookPublish},#{bookAuthor},#{bookOriginalPrice},#{bookSellingPrice},
-        #{bookNao},NOW(),NOW())
+        NOW(),NOW(),#{bookNao})
 
 
     </insert>

@@ -26,6 +26,8 @@ public class ShGoodsOrder {
 
     private Date goUpdateTime;
 
+    private String goIdAll;
+
     /**
      * isBook 封装goBId;
      */

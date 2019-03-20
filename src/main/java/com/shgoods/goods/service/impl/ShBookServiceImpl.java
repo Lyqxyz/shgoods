@@ -24,7 +24,6 @@ public class ShBookServiceImpl implements ShBookService {
     @Override
     public ResponseVo addBook(ShBook shBook) {
 
-
         List<String> errors = checkAttrs(shBook);
 
         ResponseVo responseVo = new ResponseVo();
@@ -36,6 +35,7 @@ public class ShBookServiceImpl implements ShBookService {
             responseVo.setCode("-1");
 
             responseVo.setMessage("添加失败");
+
         }else{
 
             Integer integer = shBookMapper.addBook(shBook);
@@ -43,6 +43,8 @@ public class ShBookServiceImpl implements ShBookService {
             if(integer==1){
                 responseVo.setCode("1");
                 responseVo.setMessage("添加成功");
+
+                responseVo.getInfo().put("book",shBook);
             }else{
                 responseVo.setCode("-1");
                 responseVo.setMessage("添加失败");
@@ -60,7 +62,6 @@ public class ShBookServiceImpl implements ShBookService {
         List<String> errors = new ArrayList<>();
 
         ShBook shBook1 = shBookMapper.checkISBN(shBook);
-
 
         if(!Objects.isNull(shBook1)){
 

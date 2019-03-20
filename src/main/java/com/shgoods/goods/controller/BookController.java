@@ -34,14 +34,13 @@ public class BookController {
 
     @ResponseBody
     @PostMapping(value = "/add")
-    public Object add(@RequestParam(value = "files") MultipartFile[] files ,@Validated AddBookVo addBookVo, BindingResult result, HttpServletRequest request) throws IOException{
+    public Object add( @Validated AddBookVo addBookVo, BindingResult result, HttpServletRequest request) throws IOException{
 
-
-        FileUploadUtil fileUploadUtil = new FileUploadUtil();
+        //FileUploadUtil fileUploadUtil = new FileUploadUtil();
 
         ResponseVo responseVo = new ResponseVo();
 
-        List<List<String>> bookImages = fileUploadUtil.upload(files, "bookImage");
+        //List<List<String>> bookImages = fileUploadUtil.upload(files, "bookImage");
 
         ShBook shBook  = new ShBook();
 
@@ -57,11 +56,27 @@ public class BookController {
 
             responseVo = shBookService.addBook(shBook);
 
-            responseVo.getInfo().put("imagePaths",bookImages);
+            //responseVo.getInfo().put("imagePaths",bookImages);
 
         }
 
         return responseVo;
     }
+
+
+    @ResponseBody
+    @PostMapping(path = "/addPic/{BookId}")
+    public Object addPicToBook(@PathVariable(value = "BookId") String BookId,MultipartFile[] files){
+
+
+
+
+
+
+
+
+        return null;
+    }
+
 
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shgoods.goods.mapper.ShOrderGoodsMapper">
+    <resultMap id="info" type="com.shgoods.goods.pojo.ShGoodsOrder">
+        <id column="goId" property="goId"/>
+        <result column="goCount" property="goCount"/>
+        <result column="goIdAll" property="goIdAll"/>
+        <result column="goIsBook" property="goIsBook"/>
+        <result column="goCreationTime" property="goCreationTime"/>
+        <result column="goUpdateTime" property="goUpdateTime"/>
+        <result column="orderId" property="goOid.orderId"/>
+        <result column="goState" property="goState"/>
+    </resultMap>
+    <select id="selectByGoodsOrder" resultMap="info">
+        SELECT
+            go_id goId,
+            go_gid goIdAll,
+            go_oid orderId,
+            go_count goCount,
+            go_state goState,
+            go_isBook goIsBook
+        FROM
+	        sh_goods_order
+
+	    WHERE
+	        go_oid=#{goOid.orderId}
+    </select>
+
+
+</mapper>
