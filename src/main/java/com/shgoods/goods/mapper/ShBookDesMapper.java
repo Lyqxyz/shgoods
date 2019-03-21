@@ -8,5 +8,4 @@ public interface ShBookDesMapper {
 
     Integer add(ShBookDescription shBookDescription);
 
-
 }

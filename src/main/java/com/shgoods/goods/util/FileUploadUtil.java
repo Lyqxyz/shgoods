@@ -46,7 +46,7 @@ public final class FileUploadUtil {
 
     private String accessPath="/upload/";
 
-    private long maxSize=500*1024; //500kb
+    private long maxSize=1024*1024; //500kb
 
     private long minSize=50*1024;  //50kb
 

@@ -9,15 +9,15 @@ public class ShBookDescription {
 
     private String desId;
 
-    private ShGoods desGid;
+    private ShBook goodsId;
 
-    private String desinfo;
+    private String desInfo;
 
     private String desXsPath;
-    private String desSmPath;
-    private String desMdPath;
 
-    private String desOriginalFilename;
+    private String desSmPath;
+    
+    private String desMdPath;
 
     private Integer desState;
 

@@ -5,7 +5,15 @@
 <mapper namespace="com.shgoods.goods.mapper.ShBookDesMapper">
     <insert id="add">
 
-        INSERT INTO
+      <selectKey keyColumn="des_id" keyProperty="desId" order="BEFORE" resultType="string">
+          SELECT UUID_SHORT() as des_id
+      </selectKey>
+      INSERT INTO sh_bookimagedescription ( des_id, des_gid, des_info, des_mdPath,
+      des_xsPath, des_smPath, des_state, des_updateTime, des_creationTime )
+      VALUES
+	  (#{desId},#{goodsId.bookId},#{desInfo},#{desMdPath},#{desXsPath}, #{desSmPath},
+
+	  #{desState},NOW(),NOW())
 
 
     </insert>

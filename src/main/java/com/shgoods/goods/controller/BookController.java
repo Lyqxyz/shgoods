@@ -2,6 +2,7 @@ package com.shgoods.goods.controller;
 
 import com.shgoods.goods.mapper.ShBookMapper;
 import com.shgoods.goods.pojo.ShBook;
+import com.shgoods.goods.service.ShBookDesService;
 import com.shgoods.goods.service.ShBookService;
 import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.util.FileUploadUtil;
@@ -32,15 +33,14 @@ public class BookController {
     @Autowired
     ShBookService shBookService;
 
+    @Autowired
+    ShBookDesService shBookDesService;
+
     @ResponseBody
     @PostMapping(value = "/add")
     public Object add( @Validated AddBookVo addBookVo, BindingResult result, HttpServletRequest request) throws IOException{
 
-        //FileUploadUtil fileUploadUtil = new FileUploadUtil();
-
         ResponseVo responseVo = new ResponseVo();
-
-        //List<List<String>> bookImages = fileUploadUtil.upload(files, "bookImage");
 
         ShBook shBook  = new ShBook();
 
@@ -56,7 +56,6 @@ public class BookController {
 
             responseVo = shBookService.addBook(shBook);
 
-            //responseVo.getInfo().put("imagePaths",bookImages);
 
         }
 
@@ -66,16 +65,13 @@ public class BookController {
 
     @ResponseBody
     @PostMapping(path = "/addPic/{BookId}")
-    public Object addPicToBook(@PathVariable(value = "BookId") String BookId,MultipartFile[] files){
+    public Object addPicToBook(@PathVariable(value = "BookId") String BookId,MultipartFile[] files) throws IOException {
 
 
 
+        ResponseVo responseVo = shBookDesService.addPic(files, BookId);
 
-
-
-
-
-        return null;
+        return responseVo;
     }
 
 
