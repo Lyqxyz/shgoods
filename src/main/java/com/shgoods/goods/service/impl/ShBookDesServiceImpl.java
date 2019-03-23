@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -33,9 +34,10 @@ public class ShBookDesServiceImpl implements ShBookDesService {
 
         for (List<String> bookImage :bookImages){
 
+            ShBookDescription shBookDescription = new ShBookDescription();
+
             for(String image : bookImage){
 
-                ShBookDescription shBookDescription = new ShBookDescription();
                 if(image.contains("5050")){
                     shBookDescription.setDesSmPath(image);
                 }else if(image.contains("100200")){
@@ -48,21 +50,39 @@ public class ShBookDesServiceImpl implements ShBookDesService {
                     shBookDescription.setDesInfo(image);
                 }
 
-                ShBook shBook = new ShBook();
-
-                shBook.setBookId(bid);
-
-                shBookDescription.setGoodsId(shBook);
-
-                shBookDescription.setDesState(1);
-
-                Integer add = shBookDesMapper.add(shBookDescription);
             }
 
+            ShBook shBook = new ShBook();
+
+            shBook.setBookId(bid);
+
+            shBookDescription.setGoodsId(shBook);
+
+            shBookDescription.setDesState(1);
+
+            Integer add = shBookDesMapper.add(shBookDescription);
 
         }
 
+        responseVo.setDate(new Date());
+
+        responseVo.setCode("1");
+
+        responseVo.setMessage("上传成功");
+
+        responseVo.getInfo().put("imagesPath",bookImages);
+
         return responseVo;
+
+    }
+
+    @Override
+    public ResponseVo search(ShBook shBook) {
+
+        shBookDesMapper.search(shBook);
+
+
+
 
     }
 }

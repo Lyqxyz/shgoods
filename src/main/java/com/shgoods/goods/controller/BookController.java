@@ -1,11 +1,9 @@
 package com.shgoods.goods.controller;
 
-import com.shgoods.goods.mapper.ShBookMapper;
 import com.shgoods.goods.pojo.ShBook;
 import com.shgoods.goods.service.ShBookDesService;
 import com.shgoods.goods.service.ShBookService;
 import com.shgoods.goods.util.BindingErrorUtil;
-import com.shgoods.goods.util.FileUploadUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import com.shgoods.goods.vo.book.AddBookVo;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
@@ -56,7 +53,6 @@ public class BookController {
 
             responseVo = shBookService.addBook(shBook);
 
-
         }
 
         return responseVo;
@@ -65,13 +61,21 @@ public class BookController {
 
     @ResponseBody
     @PostMapping(path = "/addPic/{BookId}")
-    public Object addPicToBook(@PathVariable(value = "BookId") String BookId,MultipartFile[] files) throws IOException {
-
+    public Object addPicToBook(@PathVariable(value = "BookId") String BookId,MultipartFile[] files,HttpServletRequest request) throws IOException {
 
 
         ResponseVo responseVo = shBookDesService.addPic(files, BookId);
 
+        responseVo.setPath(request.getRequestURI());
+
         return responseVo;
+    }
+
+    @GetMapping(path = "/addView")
+    public String addView(){
+
+
+        return "book/addBook";
     }
 
 

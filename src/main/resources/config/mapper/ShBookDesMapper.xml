@@ -3,6 +3,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.shgoods.goods.mapper.ShBookDesMapper">
+    <resultMap id="info" type="com.shgoods.goods.pojo.ShBookDescription">
+        <id property="desId" column="desId"/>
+        <result property="desInfo" column="desInfo"/>
+        <result property="desMdPath" column="desMdPath"/>
+        <result property="desSmPath" column="desSmPath"/>
+        <result property="desXsPath" column="desXsPath"/>
+        <result property="desState" column="desState"/>
+        <result property="goodsId.bookId" column="bookId"/>
+        <result property="desUpdateTime" column="desUpdateTime"/>
+        <result property="desCreationTime" column="desCreationTime"/>
+    </resultMap>
     <insert id="add">
 
       <selectKey keyColumn="des_id" keyProperty="desId" order="BEFORE" resultType="string">
@@ -15,6 +26,23 @@
 
 	  #{desState},NOW(),NOW())
 
-
     </insert>
+
+    <select id="search" resultMap="info">
+        SELECT
+            des_id desId,
+            des_gid desGid,
+            des_info desInfo,
+            des_mdPath desMdpath,
+            des_smPath desSmPath,
+            des_xsPath desXsPath,
+            des_state desState,
+            des_updateTime desUpdateTime,
+            des_creationTime desCreationTime
+        FROM
+	        sh_bookimagedescription
+
+	    WHERE
+	        des_gid =#{bookId}
+    </select>
 </mapper>
