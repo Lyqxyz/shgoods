@@ -43,6 +43,16 @@
 
     </insert>
 
+
+    <select id="hasBook" resultMap="checkAttrs">
+
+        SELECT book_id,book_isbn,book_name
+        FROM sh_book
+        <where>
+            book_id=#{bookId}
+        </where>
+
+    </select>
     <select id="checkISBN" resultMap="checkAttrs">
         SELECT book_id,book_isbn,book_name
         FROM sh_book

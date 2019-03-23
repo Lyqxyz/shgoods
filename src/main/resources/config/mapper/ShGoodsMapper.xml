@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shgoods.goods.mapper.ShGoodsMapper">
+
+    <insert id="add">
+        <selectKey order="BEFORE" keyProperty="goodsId" keyColumn="goods_id" resultType="string">
+            SELECT UUID_SHORT() as goods_id
+        </selectKey>
+        INSERT INTO sh_goods ( goods_id, goods_des, goods_count, goods_state,
+                            goods_title, goods_cid, goods_sellingPrice,
+                            goods_originalPrice, goods_updateTime, goods_releaseTime )
+
+        VALUES(#{goodsId},#{goodsDes},#{goodsCount},#{goodsState},#{goodsTitle},
+        #{goodsCid},#{goodsSellingPrice},#{goodsOriginalPrice},NOW(),NOW())
+
+
+    </insert>
+</mapper>

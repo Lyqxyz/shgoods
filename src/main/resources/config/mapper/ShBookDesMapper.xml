@@ -10,7 +10,7 @@
         <result property="desSmPath" column="desSmPath"/>
         <result property="desXsPath" column="desXsPath"/>
         <result property="desState" column="desState"/>
-        <result property="goodsId.bookId" column="bookId"/>
+        <result property="goodsId.bookId" column="desGid"/>
         <result property="desUpdateTime" column="desUpdateTime"/>
         <result property="desCreationTime" column="desCreationTime"/>
     </resultMap>

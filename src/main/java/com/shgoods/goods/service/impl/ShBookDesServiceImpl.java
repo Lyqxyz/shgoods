@@ -1,6 +1,7 @@
 package com.shgoods.goods.service.impl;
 
 import com.shgoods.goods.mapper.ShBookDesMapper;
+import com.shgoods.goods.mapper.ShBookMapper;
 import com.shgoods.goods.pojo.ShBook;
 import com.shgoods.goods.pojo.ShBookDescription;
 import com.shgoods.goods.pojo.ShGoods;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -24,6 +26,10 @@ public class ShBookDesServiceImpl implements ShBookDesService {
 
     @Autowired
     FileUploadUtil fileUploadUtil;
+
+
+    @Autowired
+    ShBookMapper shBookMapper;
 
     @Override
     public ResponseVo addPic( MultipartFile[] files,String bid) throws IOException {
@@ -79,10 +85,37 @@ public class ShBookDesServiceImpl implements ShBookDesService {
     @Override
     public ResponseVo search(ShBook shBook) {
 
-        shBookDesMapper.search(shBook);
+        ShBook shBook1 = shBookMapper.hasBook(shBook);
+
+        ResponseVo responseVo = new ResponseVo();
+
+        responseVo.setDate(new Date());
+
+        if(shBook1==null){
+
+            responseVo.setCode("-1");
+
+            responseVo.setMessage("书籍不存在");
+
+        }else{
+            if(Objects.isNull(shBook)||Objects.isNull(shBook.getBookId())){
+
+                responseVo.setCode("-1");
+
+                responseVo.setMessage("id不能为空");
+
+            }else {
+
+                List<ShBookDescription> search = shBookDesMapper.search(shBook);
+
+                responseVo.setMessage("请求成功");
+
+                responseVo.getInfo().put("BookDesInfo",search);
+            }
 
 
+        }
 
-
+        return responseVo;
     }
 }

@@ -14,4 +14,7 @@ public interface ShBookMapper {
 
 
     public ShBook checkISBN(ShBook shBook);
+
+
+    ShBook hasBook(ShBook shBook);
 }
