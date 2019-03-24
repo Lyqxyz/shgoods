@@ -8,4 +8,6 @@ public interface ShGoodsMapper {
 
     Integer add(ShGoods shGoods);
 
+    ShGoods has(ShGoods shGoods);
+
 }

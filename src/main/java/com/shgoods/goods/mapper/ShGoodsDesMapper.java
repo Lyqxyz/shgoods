@@ -12,4 +12,6 @@ public interface ShGoodsDesMapper {
 
   List<ShGoodsDescription> search(ShGoods shGoods);
 
+  Integer add(ShGoodsDescription shGoodsDescription);
+
 }

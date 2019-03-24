@@ -113,6 +113,19 @@ public class ShiroConfig {
 
         definition.put("/goods/**","anon");
 
+        definition.put("/goodsDes/**","anon");
+
+
+
+
+
+
+
+
+
+
+
+
 
         definition.put("/logout","logout");
 

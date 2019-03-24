@@ -4,6 +4,21 @@
 
 <mapper namespace="com.shgoods.goods.mapper.ShGoodsMapper">
 
+    <resultMap id="info" type="com.shgoods.goods.pojo.ShGoods">
+        <id property="goodsId" column="goodsId"/>
+        <result property="goodsTitle" column="goodsTitle"/>
+        <result property="goodsDes" column="goodsDes"/>
+        <result property="goodsCount" column="goodsCount"/>
+        <result property="goodsNao" column="goodsNao"/>
+        <result property="goodsOriginalPrice" column="goodsOriginalPrice"/>
+        <result property="goodsReleaseTime" column="goodsReleaseTime"/>
+        <result property="goodsSellingPrice" column="goodsSellingPrice"/>
+        <result property="goodsUpdateTime" column="goodsUpdateTime"/>
+        <result property="goodsState" column=""/>
+    </resultMap>
+
+
+
     <insert id="add">
         <selectKey order="BEFORE" keyProperty="goodsId" keyColumn="goods_id" resultType="string">
             SELECT UUID_SHORT() as goods_id
@@ -17,4 +32,14 @@
 
 
     </insert>
+    <select id="has" resultMap="info">
+            SELECT
+              goods_id goodsId,
+              goods_title goodsTitle
+            FROM
+              sh_goods
+            WHERE
+              goods_id=#{goodsId}
+
+    </select>
 </mapper>
