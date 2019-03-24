@@ -9,11 +9,15 @@ public class ShGoodsDescription {
 
     private String desId;
 
-    private ShGoods desGid;
+    private ShGoods goodsId;
 
-    private String desType;
+    private String desInfo;
 
-    private Integer desInfo;
+    private String desXsPath;
+
+    private String desSmPath;
+
+    private String desMdPath;
 
     private Integer desState;
 

@@ -6,6 +6,8 @@ import lombok.Data;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 
 @Data
@@ -13,6 +15,8 @@ public class GoodsVo {
 
     private String goodsId;
 
+    @NotNull(message = "标题解析异常")
+    @NotBlank(message = "标题不能为空")
     private String goodsTitle;
 
 
@@ -34,6 +38,6 @@ public class GoodsVo {
     @Min(value = 1,message = "不能为负数")
     private Integer goodsCount;
 
-    private ShCollege goodsCid;
+    private String goodsCid1;
 
 }

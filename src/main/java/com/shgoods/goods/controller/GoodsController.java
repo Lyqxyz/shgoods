@@ -1,6 +1,7 @@
 package com.shgoods.goods.controller;
 
 import com.shgoods.goods.pojo.ShBook;
+import com.shgoods.goods.pojo.ShClass;
 import com.shgoods.goods.pojo.ShGoods;
 import com.shgoods.goods.service.ShGoodsService;
 import com.shgoods.goods.util.BindingErrorUtil;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -26,10 +29,18 @@ public class GoodsController {
     ShGoodsService shGoodsService;
 
 
+    @GetMapping(path = "/addView")
+    public String addView(){
 
+
+        return "goods/addGoods";
+    }
+
+    @ResponseBody
+    @PostMapping(path = "/add")
     public Object add(@Validated GoodsVo goodsVo, BindingResult result, HttpServletRequest request){
 
-        ResponseVo responseVo = new ResponseVo();
+        ResponseVo responseVo = null;
 
         ShGoods shGoods = new ShGoods();
 
@@ -41,7 +52,6 @@ public class GoodsController {
 
             responseVo = BindingErrorUtil.common("添加失败", request.getRequestURI(), result);
 
-            responseVo.getErrors().put("errors",errors);
         }else{
 
             responseVo=shGoodsService.add(shGoods);

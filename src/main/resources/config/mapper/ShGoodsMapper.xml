@@ -12,8 +12,8 @@
                             goods_title, goods_cid, goods_sellingPrice,
                             goods_originalPrice, goods_updateTime, goods_releaseTime )
 
-        VALUES(#{goodsId},#{goodsDes},#{goodsCount},#{goodsState},#{goodsTitle},
-        #{goodsCid},#{goodsSellingPrice},#{goodsOriginalPrice},NOW(),NOW())
+        VALUES(#{goodsId},#{goodsDes},#{goodsCount},1,#{goodsTitle},
+        #{goodsCid1},#{goodsSellingPrice},#{goodsOriginalPrice},NOW(),NOW())
 
 
     </insert>

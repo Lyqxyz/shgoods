@@ -21,5 +21,5 @@ public class ShGoods {
     private String goodsDes;
     private Integer goodsCount;
     private ShCollege goodsCid;
-
+    private String goodsCid1;
 }
