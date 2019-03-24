@@ -52,7 +52,7 @@ public class GoodsDesController {
     @GetMapping(path = "/AddPic")
     public String addPic(){
 
-        return "book/bookAddPic";
+        return "goods/GoodsAddPic";
 
     }
 

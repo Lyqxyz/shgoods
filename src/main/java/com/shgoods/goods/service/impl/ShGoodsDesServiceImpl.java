@@ -105,7 +105,7 @@ public class ShGoodsDesServiceImpl implements ShGoodsDesService {
 
             shGoodsDescription.setDesState(1);
 
-            Integer add = shGoodsDesMapper.add(shGoodsDescription);
+            shGoodsDesMapper.add(shGoodsDescription);
         }
 
         responseVo.setDate(new Date());

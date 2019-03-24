@@ -45,9 +45,9 @@
                     <form>
                         <div class="form-row ml-2">
                             <div class="form-group row mr-1">
-                                <label for="bookID" class="col-sm-3 col-lg-4 col-form-label">书籍id</label>
+                                <label for="bookID" class="col-sm-3 col-lg-4 col-form-label">物品id</label>
                                 <div class="col-sm-9 col-lg-8">
-                                    <input v-model="bookid" id="bookID" type="text" class="form-control"  placeholder="书籍id">
+                                    <input v-model="goodid" id="bookID" type="text" class="form-control"  placeholder="物品id">
                                 </div>
                             </div>
 
@@ -69,19 +69,21 @@
                 </div>
             </div>
             <div class="row" v-for="item in imagePaths">
-                <div class="col-2">
-                    <img width="200" height="200" :src="item.desInfo" alt="">
+                <div class="col-3">
+                    <img width="100" height="100" :src="item.desInfo" alt="">
+                </div>
+                <div class="col-3">
+                    <img width="100" height="100" :src="item.desMdPath" alt="">
                 </div>
                 <div class="col-2">
-                    <img width="200" height="200" :src="item.desMdPath" alt="">
+                    <img width="100" height="100" :src="item.desSmPath" alt="">
                 </div>
                 <div class="col-2">
-                    <img width="200" height="200" :src="item.desSmPath" alt="">
+                    <img width="100" height="100" :src="item.desSmPath" alt="">
                 </div>
                 <div class="col-2">
-                    <img width="200" height="200" :src="item.desSmPath" alt="">
+                    <button @click="del(item)" class="btn btn-warning">删除</button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -95,19 +97,13 @@
 
         el: '#bookDes',
         data: {
-            bookid: '',
+            goodid: '',
             files: '',
             imagePaths: [],
         },
         methods: {
             search() {
-
-                if(this.bookid===''){
-                    alert("书籍id不能为空")
-                    return
-                }
-
-                axios.get('http://localhost:8080/bookDes/search/' + this.bookid)
+                axios.get('http://localhost:8080/goodsDes/search/' + this.goodid)
                     .then(res => {
 
                         let {code,message,info} = res.data;
@@ -129,9 +125,7 @@
             },
             fileChange(e) {
 
-                this.files=[]
-
-                if(e.target.files.length+this.imagePaths.length>5){
+                if(e.target.files.length+this.imagePaths.length>4){
 
                     alert('最多上传4张图片')
 
@@ -143,7 +137,7 @@
             },
             upload() {
 
-                if (this.bookid===''){
+                if (this.goodid===''){
                     alert('id不能为空')
                     return
                 }
@@ -151,23 +145,19 @@
                     alert('请选择一张图片')
                     return
                 }
-
-
-                if(this.files.length+this.imagePaths.length>5){
-                    alert('最多上传4张图片')
-                }
                 let fd= new FormData();
 
                 for(let i = 0 ; i<this.files.length;i++){
 
                     fd.append('files',this.files[i])
                 }
-                axios.post("http://localhost:8080/book/addPic/"+this.bookid,fd,{
+                axios.post('http://localhost:8080/goodsDes/addPic/'+this.goodid,fd,{
                     headers:{
                         'Content-Type':'multipart/form-data'
                     }
 
                 }).then(res=>{
+
 
                     let {code,message,info} = res.data;
 
@@ -183,9 +173,21 @@
 
                 });
 
+
+
+
+            },
+            del(item){
+
+
+
+
             }
 
+
+
         }
+
 
     });
 

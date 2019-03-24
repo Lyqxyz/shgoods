@@ -29,7 +29,7 @@
             des_updateTime desUpdateTime,
             des_creationTime desCreationTime
         FROM
-	        sh_bookimagedescription
+	        sh_goodsimagedescription
 
 	    WHERE
 	        des_gid =#{goodsId}
