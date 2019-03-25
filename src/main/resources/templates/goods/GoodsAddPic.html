@@ -179,7 +179,24 @@
             },
             del(item){
 
+                axios.get('http://localhost:8080/goodsDes/del/'+ item.desId)
+                    .then(res=>{
 
+                        if(res.data.code==='1'){
+
+                            this.search();
+                        }else{
+
+                            alert('请求失败')
+                        }
+
+
+                    }).catch(err=>{
+
+                        alert('服务器错误')
+                })
+
+                console.log(item)
 
 
             }

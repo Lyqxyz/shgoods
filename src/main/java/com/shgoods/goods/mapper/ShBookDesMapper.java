@@ -13,5 +13,6 @@ public interface ShBookDesMapper {
 
     List<ShBookDescription> search(ShBook shBook);
 
+    Integer del(ShBookDescription shBookDescription);
 
 }

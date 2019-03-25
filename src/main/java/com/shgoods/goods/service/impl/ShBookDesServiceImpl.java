@@ -118,4 +118,33 @@ public class ShBookDesServiceImpl implements ShBookDesService {
 
         return responseVo;
     }
+
+    @Override
+    public ResponseVo del(ShBookDescription shBookDescription) {
+
+
+
+        ResponseVo responseVo = new ResponseVo();
+        if(shBookDescription!=null&&shBookDescription.getDesId()!=null){
+
+            Integer del = shBookDesMapper.del(shBookDescription);
+
+            if(del==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("删除成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是删除状态");
+            }
+
+        }else{
+            responseVo.setCode("-1");
+            responseVo.setMessage("禁用失败");
+        }
+        responseVo.setDate(new Date());
+
+        return responseVo;
+
+
+    }
 }

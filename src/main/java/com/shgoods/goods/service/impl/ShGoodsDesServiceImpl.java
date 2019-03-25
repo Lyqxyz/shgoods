@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -117,6 +118,37 @@ public class ShGoodsDesServiceImpl implements ShGoodsDesService {
         responseVo.getInfo().put("imagesPath",bookImages);
 
         return responseVo;
+
+
+
+    }
+
+    @Override
+    public ResponseVo del(ShGoodsDescription shGoodsDescription) {
+
+
+        ResponseVo responseVo = new ResponseVo();
+        if(shGoodsDescription!=null&&shGoodsDescription.getDesId()!=null){
+
+            Integer del = shGoodsDesMapper.del(shGoodsDescription);
+
+            if(del==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("删除成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是删除状态");
+            }
+
+        }else{
+            responseVo.setCode("-1");
+            responseVo.setMessage("禁用失败");
+        }
+        responseVo.setDate(new Date());
+
+        return responseVo;
+
+
 
 
 

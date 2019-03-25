@@ -81,7 +81,9 @@
                 <div class="col-2">
                     <img width="200" height="200" :src="item.desSmPath" alt="">
                 </div>
-
+                <div class="col-2">
+                    <button class="btn btn-warning" @click="del(item)">删除</button>
+                </div>
             </div>
         </div>
     </div>
@@ -182,6 +184,28 @@
                     alert("服务器错误");
 
                 });
+
+            },
+            del(item){
+
+                axios.get('http://localhost:8080/bookDes/del/'+ item.desId)
+                    .then(res=>{
+
+                        if(res.data.code==='1'){
+
+                            this.search();
+                        }else{
+
+                            alert('请求失败')
+                        }
+
+                    }).catch(err=>{
+
+                    alert('服务器错误')
+                })
+
+                console.log(item)
+
 
             }
 

@@ -14,4 +14,6 @@ public interface ShGoodsDesMapper {
 
   Integer add(ShGoodsDescription shGoodsDescription);
 
+  Integer del(ShGoodsDescription shGoodsDescription);
+
 }

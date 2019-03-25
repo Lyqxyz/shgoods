@@ -10,11 +10,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ShBookMapper {
 
-    public Integer addBook(ShBook shBook);
+     Integer addBook(ShBook shBook);
 
 
-    public ShBook checkISBN(ShBook shBook);
-
+     ShBook checkISBN(ShBook shBook);
 
     ShBook hasBook(ShBook shBook);
+
+
 }

@@ -2,6 +2,8 @@ package com.shgoods.goods.controller;
 
 
 import com.shgoods.goods.pojo.ShBook;
+import com.shgoods.goods.pojo.ShBookDescription;
+import com.shgoods.goods.pojo.ShGoodsDescription;
 import com.shgoods.goods.service.ShBookDesService;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,21 @@ public class BookDesController {
         return search;
 
     }
+
+    @ResponseBody
+    @GetMapping(path = "/del/{bookDesId}")
+    public Object del(@PathVariable(value = "bookDesId") String bookDesId,HttpServletRequest request){
+
+        ShBookDescription shBookDescription = new ShBookDescription();
+
+        shBookDescription.setDesId(bookDesId);
+
+        ResponseVo del = shBookDesService.del(shBookDescription);
+
+        return del;
+
+    }
+
 
     @GetMapping(path = "/AddPic")
     public String addPic(){

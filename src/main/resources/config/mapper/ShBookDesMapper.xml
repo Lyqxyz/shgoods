@@ -45,4 +45,12 @@
 	    WHERE
 	        des_gid =#{bookId}
     </select>
+
+    <delete id="del">
+        DELETE FROM sh_bookimagedescription
+        <where>
+            des_id=#{desId}
+        </where>
+    </delete>
+
 </mapper>
