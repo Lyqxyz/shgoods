@@ -1,5 +1,8 @@
 package com.shgoods.goods.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.shgoods.goods.dto.UserInfoDto;
 import com.shgoods.goods.pojo.ShBook;
 import com.shgoods.goods.service.ShBookDesService;
 import com.shgoods.goods.service.ShBookService;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +82,33 @@ public class BookController {
         return "book/addBook";
     }
 
+
+    @ResponseBody
+    @GetMapping(value = "/{pageNum}/{pageSize}")
+    public Object allUser(@PathVariable(value = "pageNum") Integer pageNum, @PathVariable(name = "pageSize") Integer pageSize, HttpServletRequest request){
+
+
+        PageHelper.startPage(pageNum, pageSize);
+
+        List<ShBook> all = shBookService.all();
+
+        PageInfo page = new PageInfo(all,10);
+
+        ResponseVo responseVo = new ResponseVo();
+
+        responseVo.setDate(new Date());
+
+        responseVo.setMessage("请求成功");
+
+        responseVo.setPath(request.getRequestURI());
+
+        responseVo.setCode("1");
+
+        responseVo.getInfo().put("data",page);
+
+        return responseVo;
+
+    }
 
 
 

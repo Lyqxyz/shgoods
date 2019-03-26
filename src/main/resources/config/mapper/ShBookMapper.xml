@@ -43,6 +43,10 @@
 
     </insert>
 
+    <select id="all" resultMap="bookInfo">
+        SELECT * FROM sh_book
+
+    </select>
 
     <select id="hasBook" resultMap="checkAttrs">
 

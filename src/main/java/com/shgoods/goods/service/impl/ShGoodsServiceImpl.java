@@ -18,6 +18,14 @@ public class ShGoodsServiceImpl implements ShGoodsService {
 
 
     @Override
+    public List<ShGoods> all() {
+
+        List<ShGoods> allGoods = shGoodsMapper.all();
+
+        return  allGoods;
+    }
+
+    @Override
     public ResponseVo add(ShGoods shGoods) {
 
         ResponseVo responseVo = new ResponseVo();

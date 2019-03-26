@@ -42,4 +42,19 @@
               goods_id=#{goodsId}
 
     </select>
+    <select id="all" resultMap="info">
+        SELECT
+              goods_id goodsId,
+              goods_title goodsTitle,
+              goods_count goodsCount,
+              goods_state goodsState,
+              goods_des gooodsDes,
+              goods_sellingPrice goodsSellingPrice,
+              goods_originalPrice goodsOriginalPrice
+
+        FROM
+              sh_goods
+
+
+    </select>
 </mapper>

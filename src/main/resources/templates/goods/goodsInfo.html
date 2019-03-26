@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/dialog.css}">
+    <script th:src="@{/js/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/js/qs.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script th:src="@{/js/validator.min.js}"></script>
+    <script th:src="@{/js/holder.js}"></script>
+    <script th:src="@{/js/dialog.js}"></script>
+    <style>
+        body{
+            margin-top: 70px;
+            background-color: #b3d7ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" id="goodsInfo">
+        <div th:replace="~{common/common :: headNav}"></div>
+        <div class="row mt-2 mb-2">
+            <div th:replace="~{common/common :: leftNav}"></div>
+            <div class="col-lg-10">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <i class="fa fa-user"></i>用户管理
+                    </div>
+                    <div class="col-lg-4 offset-lg-6 col-md-6 offset-md-4 col-sm-6">
+                        <a href="#" class="btn btn-outline-info">查询</a>
+                        <a href="#" class="btn btn-outline-info">新增</a>
+                        <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           <i class="fa fa-bars"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item text-info" href="#">导出</a>
+                            <a class="dropdown-item text-info" href="#">导入</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th>商品标题</th>
+                                <th>原价</th>
+                                <th>售价</th>
+                                <th>数量</th>
+                                <th>描述</th>
+                                <th>新旧</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item,index) in a.list" :key="index">
+                                <td>{{item.goodsTitle}}</td>
+                                <td>{{item.goodsOriginalPrice}}</td>
+                                <td>{{item.goodsSellingPrice}}</td>
+                                <td>{{item.goodsCount}}</td>
+                                <td>{{item.goodsDes}}</td>
+                                <td>{{item.goodsNao}}</td>
+                                <td>
+                                    <a href="#" class="text-warning" title="修改用户"> <i class="fa fa-pencil"></i></a>
+                                    <a href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
+                                    <a href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
+
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-8 offset-lg-2">
+                        <!--分页-->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li v-if="a.hasPreviousPage" class="page-item">
+                                    <a @click.prevent="previous" class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">上一页</span>
+                                    </a>
+                                </li>
+                                <li @click="page(n)" v-for="n in a.navigatepageNums" class="page-item"><a class="page-link" href="#">{{n}}</a></li>
+
+                                <li v-if="a.hasNextPage" class="page-item">
+                                    <a @click.prevent="next" class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">下一页</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    let vm =new Vue({
+
+        el:'#goodsInfo',
+
+        created(){
+            axios.baseURL='http://localhost:8080';
+            axios.defaults.withCredentials=true;
+            axios.get('/goods/1/1').then(res=>{
+
+                this.a=res.data.info.data;
+
+            }).catch(err=>{
+
+                console.log(err)
+
+            })
+        },
+        data:{
+            a:{}
+
+        },
+        methods:{
+            page(n){
+                console.log(n)
+                if(n!==this.a.pageNum){
+                    let infoDialog = $.dialog({
+                        type : 'info',
+                        infoText : '加载中…',
+                        infoIcon : '/images/icon/loading.gif'
+                    });
+
+                    axios.get(`/goods/${n}/${this.a.pageSize}`).then(res=>{
+
+                        this.a=res.data.info.data;
+                        this.currentPage=n;
+                        infoDialog.dialog.update({
+                            autoClose : 1500,
+                            infoText : '请求成功',
+                            infoIcon : '/images/icon/success.png'
+                        });
+
+                    }).catch(err=>{
+                        infoDialog.dialog.update({
+                            autoClose : 1500,
+                            infoText : '请求失败',
+                            infoIcon : '/images/icon/fail.png'
+                        });
+                        console.log(err)
+                    })
+
+                }
+
+
+            },
+            previous(){
+                if( this.a.hasPreviousPage){
+                    this.page(this.a.prePage)
+                }
+            },
+            next(){
+                if( this.a.hasNextPage){
+                    this.page(this.a.nextPage)
+                }
+            },
+
+        }
+
+
+
+
+    })
+
+
+</script>
+</html>

@@ -1,5 +1,6 @@
 package com.shgoods.goods.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.shgoods.goods.mapper.ShBookMapper;
 import com.shgoods.goods.pojo.ShBook;
 import com.shgoods.goods.service.ShBookService;
@@ -54,6 +55,14 @@ public class ShBookServiceImpl implements ShBookService {
 
 
         return responseVo;
+    }
+
+    @Override
+    public List<ShBook> all() {
+
+        List<ShBook> allBook = shBookMapper.all();
+
+        return  allBook;
     }
 
 
