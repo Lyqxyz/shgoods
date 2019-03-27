@@ -13,5 +13,5 @@ public interface ShBookService {
 
      ResponseVo addBook(ShBook shBook);
 
-    List<ShBook> all();
+     List<ShBook> all();
 }

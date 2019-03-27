@@ -16,4 +16,7 @@ public interface ShGoodsDesMapper {
 
   Integer del(ShGoodsDescription shGoodsDescription);
 
+  List<ShGoodsDescription> all();
+
+
 }

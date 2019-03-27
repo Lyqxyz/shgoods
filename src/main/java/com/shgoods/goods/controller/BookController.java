@@ -82,6 +82,12 @@ public class BookController {
         return "book/addBook";
     }
 
+    @GetMapping(path = "info")
+    public String info(){
+
+
+        return "book/bookInfo";
+    }
 
     @ResponseBody
     @GetMapping(value = "/{pageNum}/{pageSize}")

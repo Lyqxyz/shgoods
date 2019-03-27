@@ -16,6 +16,11 @@
         <result property="goodsId.goodsId" column="desGid"/>
         <result property="desUpdateTime" column="desUpdateTime"/>
         <result property="desCreationTime" column="desCreationTime"/>
+
+        <result property="goodsId.goodsSellingPrice" column="goodsSellingPrice"/>
+        <result property="goodsId.goodsTitle" column="goodsTitle"/>
+        <result property="goodsId.goodsId" column="goodsId"/>
+
     </resultMap>
     <select id="search" resultMap="info">
         SELECT
@@ -49,6 +54,26 @@
 
     </insert>
 
+    <select id="all" resultMap="info">
+        SELECT
+            des_id desId,
+            des_gid desGid,
+            des_info desInfo,
+            des_mdPath desMdpath,
+            des_smPath desSmPath,
+            des_xsPath desXsPath,
+            des_state desState,
+            sg.goods_id goodsId,
+            sg.goods_title goodsTitle,
+            sg.goods_sellingPrice goodsSellingPrice
+
+        FROM
+            sh_goodsimagedescription AS des,
+            sh_goods AS sg
+        WHERE
+            des.des_gid = sg.goods_id AND sg.goods_state=1
+
+    </select>
 
     <delete id="del">
         DELETE FROM sh_goodsimagedescription

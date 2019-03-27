@@ -13,6 +13,12 @@
         <result property="goodsId.bookId" column="desGid"/>
         <result property="desUpdateTime" column="desUpdateTime"/>
         <result property="desCreationTime" column="desCreationTime"/>
+
+        <result property="goodsId.bookId" column="bookId"/>
+        <result property="goodsId.bookName" column="bookName"/>
+        <result property="goodsId.bookSellingPrice" column="bookSellingPrice"/>
+        <result property="goodsId.bookIsbn" column="bookIsbn"/>
+
     </resultMap>
     <insert id="add">
 
@@ -53,4 +59,24 @@
         </where>
     </delete>
 
+    <select id="all" resultMap="info">
+
+        SELECT
+            des_id desId,
+            des_gid desGid,
+            des_info desInfo,
+            des_mdPath desMdpath,
+            des_smPath desSmPath,
+            des_xsPath desXsPath,
+            des_state desState,
+            sb.book_id bookId,
+            sb.book_name bookName,
+            sb.book_sellingPrice bookSellingPrice,
+            sb.book_isbn bookIsbn
+        FROM
+            sh_bookimagedescription AS des,
+            sh_book AS sb
+        WHERE
+            des.des_gid = sb.book_id AND sb.book_state=1
+    </select>
 </mapper>

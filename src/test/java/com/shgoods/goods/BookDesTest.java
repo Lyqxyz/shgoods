@@ -49,4 +49,12 @@ public class BookDesTest {
 
         System.out.println(shBook1);
     }
+    @Test
+    public void test3(){
+
+        List<ShBookDescription> all = shBookDesMapper.all();
+        all.stream().forEach(System.out::println);
+    }
+
+
 }

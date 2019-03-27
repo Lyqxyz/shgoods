@@ -15,4 +15,6 @@ public interface ShBookDesMapper {
 
     Integer del(ShBookDescription shBookDescription);
 
+    List<ShBookDescription> all();
+
 }
