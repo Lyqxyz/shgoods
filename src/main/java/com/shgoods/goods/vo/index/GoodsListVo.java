@@ -12,9 +12,12 @@ import lombok.Data;
 @Data
 public class GoodsListVo {
 
+
+    private String id;
+
     private String name;
 
-    private String Price;
+    private Double Price;
 
     private  String image;
 

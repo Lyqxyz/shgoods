@@ -59,6 +59,8 @@ public class ShUserServiceImpl implements ShUserService {
                 principal.setUserLoginip(request.getRemoteAddr());
                 Integer integer = this.afterLogin(principal);
                 session.setAttribute("user",principal);
+                responseVo.getInfo().put("user",principal);
+
             } catch (UnknownAccountException uae) {
 
                 log.info(usernamePasswordToken.getPrincipal() + "账户不存在");

@@ -115,7 +115,7 @@ public class ShiroConfig {
 
         definition.put("/goodsDes/**","anon");
 
-
+        definition.put("/index/**","anon");
 
 
 

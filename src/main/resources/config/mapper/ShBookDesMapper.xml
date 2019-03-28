@@ -60,23 +60,25 @@
     </delete>
 
     <select id="all" resultMap="info">
+            SELECT
+                des_id desId,
+                des_gid desGid,
+                des_info desInfo,
+                des_mdPath desMdpath,
+                des_smPath desSmPath,
+                des_xsPath desXsPath,
+                des_state desState,
+                sb.book_id bookId,
+                sb.book_name bookName,
+                sb.book_sellingPrice bookSellingPrice,
+                sb.book_isbn bookIsbn
+            FROM
+                sh_bookimagedescription AS des
+                RIGHT JOIN sh_book AS sb ON des.des_gid = sb.book_id
+            WHERE
+                sb.book_state = 1
+            GROUP BY
+                sb.book_id
 
-        SELECT
-            des_id desId,
-            des_gid desGid,
-            des_info desInfo,
-            des_mdPath desMdpath,
-            des_smPath desSmPath,
-            des_xsPath desXsPath,
-            des_state desState,
-            sb.book_id bookId,
-            sb.book_name bookName,
-            sb.book_sellingPrice bookSellingPrice,
-            sb.book_isbn bookIsbn
-        FROM
-            sh_bookimagedescription AS des,
-            sh_book AS sb
-        WHERE
-            des.des_gid = sb.book_id AND sb.book_state=1
     </select>
 </mapper>

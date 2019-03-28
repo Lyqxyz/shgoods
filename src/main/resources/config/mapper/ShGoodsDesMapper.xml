@@ -66,13 +66,13 @@
             sg.goods_id goodsId,
             sg.goods_title goodsTitle,
             sg.goods_sellingPrice goodsSellingPrice
-
         FROM
-            sh_goodsimagedescription AS des,
-            sh_goods AS sg
+	      sh_goods AS sg
+	      LEFT JOIN sh_goodsimagedescription AS des ON des.des_gid = sg.goods_id
         WHERE
-            des.des_gid = sg.goods_id AND sg.goods_state=1
-
+            sg.goods_state = 1
+        GROUP BY
+	        sg.goods_id
     </select>
 
     <delete id="del">
