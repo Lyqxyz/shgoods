@@ -3,15 +3,14 @@ package com.shgoods.goods.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.shgoods.goods.mapper.ShBookMapper;
 import com.shgoods.goods.pojo.ShBook;
+import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShBookService;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import javax.xml.ws.Response;
+import java.util.*;
 
 /**
  * @author lyq
@@ -63,6 +62,25 @@ public class ShBookServiceImpl implements ShBookService {
         List<ShBook> allBook = shBookMapper.all();
 
         return  allBook;
+    }
+
+    @Override
+    public ResponseVo selectByUser(ShUser shUser) {
+
+        ResponseVo responseVo = new ResponseVo();
+
+        responseVo.setDate(new Date());
+
+        responseVo.setCode("1");
+
+        responseVo.setMessage("请求成功");
+
+        List<ShBook> shBooks = shBookMapper.selectByUser(shUser);
+
+        responseVo.getInfo().put("data",shBooks);
+
+        return responseVo;
+
     }
 
 

@@ -1,13 +1,16 @@
 package com.shgoods.goods.service.impl;
 
 import com.shgoods.goods.mapper.ShGoodsMapper;
+import com.shgoods.goods.pojo.ShBook;
 import com.shgoods.goods.pojo.ShGoods;
+import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShGoodsService;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -45,5 +48,23 @@ public class ShGoodsServiceImpl implements ShGoodsService {
 
         return responseVo;
 
+    }
+
+    @Override
+    public ResponseVo selectByUser(ShUser shUser) {
+
+        ResponseVo responseVo = new ResponseVo();
+
+        responseVo.setDate(new Date());
+
+        responseVo.setCode("1");
+
+        responseVo.setMessage("请求成功");
+
+        List<ShGoods> shGoods = shGoodsMapper.selectByUser(shUser);
+
+        responseVo.getInfo().put("data",shGoods);
+
+        return responseVo;
     }
 }

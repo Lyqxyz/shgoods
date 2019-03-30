@@ -3,6 +3,7 @@ package com.shgoods.goods;
 
 import com.shgoods.goods.mapper.ShGoodsMapper;
 import com.shgoods.goods.pojo.ShGoods;
+import com.shgoods.goods.pojo.ShUser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,20 @@ public class GoodsTest {
 
         List<ShGoods> all = shGoodsMapper.all();
 
+
+        all.stream().forEach(System.out::println);
+
+    }
+
+    @Test
+    public void test2(){
+
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId("97995090751913987");
+
+        List<ShGoods> all = shGoodsMapper.selectByUser(shUser);
 
         all.stream().forEach(System.out::println);
 

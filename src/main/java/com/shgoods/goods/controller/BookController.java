@@ -2,8 +2,8 @@ package com.shgoods.goods.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.shgoods.goods.dto.UserInfoDto;
 import com.shgoods.goods.pojo.ShBook;
+import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShBookDesService;
 import com.shgoods.goods.service.ShBookService;
 import com.shgoods.goods.util.BindingErrorUtil;
@@ -116,6 +116,20 @@ public class BookController {
 
     }
 
+    @ResponseBody
+    @GetMapping(path = "/user/{id}")
+    public Object selectByUser(@PathVariable(value = "id")String id,HttpServletRequest request){
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(id);
+
+        ResponseVo responseVo = shBookService.selectByUser(shUser);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return  responseVo;
+    }
 
 
 }

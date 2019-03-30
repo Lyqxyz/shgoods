@@ -1,6 +1,7 @@
 package com.shgoods.goods.mapper;
 
 import com.shgoods.goods.pojo.ShGoods;
+import com.shgoods.goods.pojo.ShUser;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,5 +15,7 @@ public interface ShGoodsMapper {
     ShGoods has(ShGoods shGoods);
 
     List<ShGoods> all();
+
+    List<ShGoods> selectByUser(ShUser shUser);
 
 }

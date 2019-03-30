@@ -15,6 +15,14 @@
         <result property="goodsSellingPrice" column="goodsSellingPrice"/>
         <result property="goodsUpdateTime" column="goodsUpdateTime"/>
         <result property="goodsState" column=""/>
+
+
+        <result property="shUser.userId" column="userId"/>
+        <result property="shUser.userName" column="userName"/>
+        <result property="shUser.userNum" column="userNum"/>
+        <result property="shUser.userPhone" column="userPhone"/>
+
+
     </resultMap>
 
 
@@ -55,6 +63,25 @@
         FROM
               sh_goods
 
+
+    </select>
+
+    <select id="selectByUser" resultMap="info">
+        SELECT
+            goods_id goodsId,
+            goods_title goodsTitle,
+            goods_des goodsDes,
+            su.user_id userId,
+            su.user_num userNum,
+            su.user_name userName,
+            su.user_phone userPhone
+        FROM
+            sh_goods sg,
+            sh_user su
+        WHERE
+            sg.goods_uid = su.user_id
+            AND sg.goods_state =1
+            AND su.user_id = #{userId}
 
     </select>
 </mapper>

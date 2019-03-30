@@ -2,9 +2,8 @@ package com.shgoods.goods.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.shgoods.goods.pojo.ShBook;
-import com.shgoods.goods.pojo.ShClass;
 import com.shgoods.goods.pojo.ShGoods;
+import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShGoodsService;
 import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.vo.ResponseVo;
@@ -94,6 +93,21 @@ public class GoodsController {
 
         return responseVo;
 
+    }
+
+    @ResponseBody
+    @GetMapping(path = "/user/{id}")
+    public Object selectByUser(@PathVariable(value = "id")String id,HttpServletRequest request){
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(id);
+
+        ResponseVo responseVo = shGoodsService.selectByUser(shUser);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return  responseVo;
     }
 
 }

@@ -19,6 +19,13 @@
         <result property="bookUpdateTime" column="book_updateTime"/>
         <result property="bookCreationTime" column="book_creationTime"/>
         <result property="bookNao" column="book_nao"/>
+
+        <result property="shUser.userId" column="userId"/>
+        <result property="shUser.userName" column="userName"/>
+        <result property="shUser.userNum" column="userNum"/>
+        <result property="shUser.userPhone" column="userPhone"/>
+
+
     </resultMap>
     <resultMap id="checkAttrs" type="com.shgoods.goods.pojo.ShBook">
         <id property="bookId" column="book_id"/>
@@ -64,5 +71,24 @@
             book_isbn=#{bookIsbn}
         </where>
 
+    </select>
+
+    <select id="selectByUser" resultMap="bookInfo">
+      SELECT
+        book_id,
+        book_name,
+        book_isbn,
+        book_creationTime,
+        su.user_id userId,
+        su.user_num userNum,
+        su.user_name userName,
+        su.user_phone userPhone
+    FROM
+        sh_book AS sb,
+        sh_user AS su
+    WHERE
+        sb.book_uid = su.user_id
+        AND sb.book_state =1
+        AND su.user_id = #{userId}
     </select>
 </mapper>

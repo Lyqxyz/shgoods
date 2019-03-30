@@ -4,6 +4,10 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * @author lyq
+ * 购物车
+ */
 @Data
 public class ShShopCar {
 
@@ -15,4 +19,6 @@ public class ShShopCar {
     private Integer shopCarState;
     private Date shopCarCreationTime;
     private Date shopCarUpdateTime;
+
+    private ShUser shUser;
 }

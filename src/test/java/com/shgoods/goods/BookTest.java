@@ -3,6 +3,7 @@ package com.shgoods.goods;
 
 import com.shgoods.goods.mapper.ShBookMapper;
 import com.shgoods.goods.pojo.ShBook;
+import com.shgoods.goods.pojo.ShUser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,19 @@ public class BookTest {
     public void test(){
 
         List<ShBook> all = shBookMapper.all();
+
+        all.stream().forEach(System.out::println);
+
+    }
+
+    @Test
+    public void test1(){
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId("97977401056690242");
+
+        List<ShBook> all = shBookMapper.selectByUser(shUser);
 
         all.stream().forEach(System.out::println);
 

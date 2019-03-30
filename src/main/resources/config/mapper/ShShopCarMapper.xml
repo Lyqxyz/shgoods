@@ -15,6 +15,11 @@
         <result column="shopCarUid" property="shopCarUid"/>
         <result column="shopCarUpdateTime" property="shopCarUpdateTime"/>
         <result property="shopCarState" column="shopCarState"/>
+
+        <result property="shUser.userId" column="userId"/>
+        <result property="shUser.userName" column="userName"/>
+        <result property="shUser.userNum" column="userNum"/>
+        <result property="shUser.userPhone" column="userPhone"/>
     </resultMap>
 
     <select id="allShopCar" resultMap="ShopCarInfo">
@@ -37,5 +42,8 @@
 	      shopCar_id=#{shopCarId}
     </update>
 
+    <select id="selectByUser" resultMap="ShopCarInfo">
+
+    </select>
 
 </mapper>
