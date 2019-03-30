@@ -18,4 +18,5 @@ public interface ShGoodsMapper {
 
     List<ShGoods> selectByUser(ShUser shUser);
 
+    Integer del(ShGoods shGoods);
 }

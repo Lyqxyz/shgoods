@@ -91,4 +91,8 @@
         AND sb.book_state =1
         AND su.user_id = #{userId}
     </select>
+
+    <delete id="del">
+        DELETE FROM sh_book WHERE book_id=#{bookId}
+    </delete>
 </mapper>

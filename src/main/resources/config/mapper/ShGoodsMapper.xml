@@ -84,4 +84,9 @@
             AND su.user_id = #{userId}
 
     </select>
+    <delete id="del">
+         DELETE FROM sh_goods WHERE goods_id=#{goodsId}
+
+
+    </delete>
 </mapper>

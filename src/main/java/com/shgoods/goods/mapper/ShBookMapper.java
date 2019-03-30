@@ -23,4 +23,6 @@ public interface ShBookMapper {
 
      List<ShBook> selectByUser(ShUser shUser);
 
+     Integer del(ShBook shBook);
+
 }

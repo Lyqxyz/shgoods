@@ -83,6 +83,34 @@ public class ShBookServiceImpl implements ShBookService {
 
     }
 
+    @Override
+    public ResponseVo delByBookId(ShBook shBook) {
+
+        ResponseVo responseVo = new ResponseVo();
+
+        if(shBook!=null&&shBook.getBookId()!=null){
+
+            Integer del = shBookMapper.del(shBook);
+
+            if(del==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("删除成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是删除状态");
+            }
+
+        }else{
+            responseVo.setCode("-1");
+            responseVo.setMessage("删除失败");
+        }
+        responseVo.setDate(new Date());
+
+
+        return responseVo;
+
+    }
+
 
     public List<String> checkAttrs(ShBook shBook){
 
