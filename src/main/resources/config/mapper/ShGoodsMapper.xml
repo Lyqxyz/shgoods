@@ -86,7 +86,29 @@
     </select>
     <delete id="del">
          DELETE FROM sh_goods WHERE goods_id=#{goodsId}
-
-
     </delete>
+    <select id="selectByClass" resultMap="info">
+        SELECT
+            goods_id goodsId,
+            goods_title goodsTitle,
+            goods_des goodsDes
+        FROM
+            sh_goods sg,
+            sh_class sc
+        WHERE
+            sg.goods_cid = sc.class_id
+            AND sg.goods_state = 1
+            AND sc.class_id = #{classId}
+    </select>
+
+    <select id="selectById" resultMap="info">
+         SELECT
+            goods_id goodsId,
+            goods_title goodsTitle,
+            goods_des goodsDes
+        FROM
+            sh_goods sg
+        WHERE
+             goods_id=#{ goodsId}
+    </select>
 </mapper>

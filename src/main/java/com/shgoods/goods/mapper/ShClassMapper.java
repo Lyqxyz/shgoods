@@ -12,14 +12,16 @@ import java.util.List;
 @Mapper
 public interface ShClassMapper {
 
-    public Integer addClass(ShClass shClass);
+     Integer addClass(ShClass shClass);
 
-    public List<ShClass> withoutParentClass();
+     List<ShClass> withoutParentClass();
 
-    public ShClass checkClassNum(ShClass shClass);
+     ShClass checkClassNum(ShClass shClass);
 
-    public ShClass checkClassName(ShClass shClass);
+     ShClass checkClassName(ShClass shClass);
 
-    public List<ShClass> selectClassByPid(ShClass shClass);
+     List<ShClass> selectClassByPid(ShClass shClass);
+
+     List<ShClass> withParentClass();
 
 }

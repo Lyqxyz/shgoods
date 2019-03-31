@@ -19,4 +19,6 @@ public interface ShBookService {
      ResponseVo selectByUser(ShUser shUser);
 
      ResponseVo delByBookId(ShBook shBook);
+
+     ResponseVo selectByClass(ShClass shClass);
 }

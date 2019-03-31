@@ -2,9 +2,11 @@ package com.shgoods.goods.service.impl;
 
 import com.shgoods.goods.mapper.ShGoodsMapper;
 import com.shgoods.goods.pojo.ShBook;
+import com.shgoods.goods.pojo.ShClass;
 import com.shgoods.goods.pojo.ShGoods;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShGoodsService;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,5 +68,18 @@ public class ShGoodsServiceImpl implements ShGoodsService {
         responseVo.getInfo().put("data",shGoods);
 
         return responseVo;
+    }
+
+    @Override
+    public ResponseVo selectByClass(ShClass shClass) {
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        List<ShGoods> shGoods = shGoodsMapper.selectByClass(shClass);
+
+        ok.getInfo().put("data",shGoods);
+
+        return ok;
+
     }
 }

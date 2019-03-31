@@ -20,6 +20,7 @@
         <result property="bookCreationTime" column="book_creationTime"/>
         <result property="bookNao" column="book_nao"/>
 
+        <result property="bookCid" column="book_cid"/>
         <result property="shUser.userId" column="userId"/>
         <result property="shUser.userName" column="userName"/>
         <result property="shUser.userNum" column="userNum"/>
@@ -95,4 +96,33 @@
     <delete id="del">
         DELETE FROM sh_book WHERE book_id=#{bookId}
     </delete>
+
+    <select id="selectByClass" resultMap="bookInfo">
+        SELECT
+            book_id,
+            book_name,
+            book_isbn,
+            book_creationTime
+        FROM
+            sh_book sb,
+            sh_class sc
+        WHERE
+            sb.book_cid = sc.class_id
+            AND sb.book_state = 1
+            AND sc.class_id = #{classId}
+    </select>
+
+    <select id="selectById" resultMap="bookInfo">
+        SELECT
+            book_id,
+            book_name,
+            book_isbn,
+            book_creationTime
+        FROM
+            sh_book sb,
+        WHERE
+            book_id=#{bookId}
+
+    </select>
+
 </mapper>

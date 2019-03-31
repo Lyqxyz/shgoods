@@ -15,12 +15,44 @@
         <result column="shopCarUid" property="shopCarUid"/>
         <result column="shopCarUpdateTime" property="shopCarUpdateTime"/>
         <result property="shopCarState" column="shopCarState"/>
+        <result property="shopCarOkBook" column="shopCar_okBook"/>
 
         <result property="shUser.userId" column="userId"/>
         <result property="shUser.userName" column="userName"/>
         <result property="shUser.userNum" column="userNum"/>
         <result property="shUser.userPhone" column="userPhone"/>
     </resultMap>
+
+    <!--<resultMap id="byUser" type="com.shgoods.goods.pojo.ShShopCar">-->
+
+
+        <!--<id property="shopCarId" column="shopCarId"/>-->
+        <!--<result column="shopCarCreationTime" property="shopCarCreationTime"/>-->
+        <!--<result column="shopCarGid" property="shopCarGid"/>-->
+        <!--<result column="shopCarCount" property="shopCarCount"/>-->
+        <!--<result column="shopCarUid" property="shopCarUid"/>-->
+        <!--<result column="shopCarUpdateTime" property="shopCarUpdateTime"/>-->
+        <!--<result property="shopCarState" column="shopCarState"/>-->
+        <!--<result property="shopCarOkBook" column="shopCar_okBook"/>-->
+
+        <!--<result property="shUser.userId" column="userId"/>-->
+        <!--<result property="shUser.userName" column="userName"/>-->
+        <!--<result property="shUser.userNum" column="userNum"/>-->
+        <!--<result property="shUser.userPhone" column="userPhone"/>-->
+
+        <!--&lt;!&ndash;<discriminator javaType="shopCarOkBook">&ndash;&gt;-->
+            <!--&lt;!&ndash;<case value="1">&ndash;&gt;-->
+                <!--&lt;!&ndash;<id property="shBook.bookId" column="bookId"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<result property="shBook.bookIsbn" column="bookIsbn"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<result property="shBook.bookName" column="bookName"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;</case>&ndash;&gt;-->
+            <!--&lt;!&ndash;<case value="0">&ndash;&gt;-->
+                <!--&lt;!&ndash;<id property="shGoods.goodsId" column="goodsId"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<result property="shGoods.goodsTitle" column="goodsTitle"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<result property="shGoods.goodsDes" column="goodsDes"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;</case>&ndash;&gt;-->
+        <!--&lt;!&ndash;</discriminator>&ndash;&gt;-->
+    <!--</resultMap>-->
 
     <select id="allShopCar" resultMap="ShopCarInfo">
           SELECT
@@ -44,6 +76,34 @@
 
     <select id="selectByUser" resultMap="ShopCarInfo">
 
+        SELECT
+            shopCar_id shopCarId,
+            shopCar_gid shopCarGid,
+            shopCar_uid shopCarUid,
+            shopCar_count shopCarCount,
+            shopCar_state shopCarState ,
+            shopCar_okBook shopCarOkBook
+            su.user_id
+        FROM
+            sh_shopcar ss,
+            sh_user su
+        WHERE
+            ss.shopCar_uid = su.user_id
+            AND ss.shopCar_state=1
+            AND su.user_id=#{userId}
     </select>
+
+    <insert id="add">
+        <selectKey keyProperty="shopCarId" keyColumn="uuid" order="BEFORE" resultType="string">
+            SELECT UUID_SHORT() uuid
+        </selectKey>
+        INSERT INTO sh_shopcar (shopCar_id, shopCar_gid, shopCar_uid,
+                                shopCar_count, shopCar_state,
+                                shopCar_updateTime, shopCar_creationTime,shopCar_okBook )
+        VALUES
+        (#{shopCar_id},#{shopCar_gid},#{shopCar_uid},
+        #{shopCar_count},1,NOW(),NOW(),#{shopCar_okBook} )
+
+    </insert>
 
 </mapper>

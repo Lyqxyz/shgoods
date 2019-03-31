@@ -16,4 +16,6 @@ public interface ShShopCarMapper {
 
      List<ShShopCar> selectByUser(ShUser shUser);
 
+     Integer add(ShShopCar shShopCar);
+
 }

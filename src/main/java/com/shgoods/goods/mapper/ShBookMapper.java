@@ -1,6 +1,7 @@
 package com.shgoods.goods.mapper;
 
 import com.shgoods.goods.pojo.ShBook;
+import com.shgoods.goods.pojo.ShClass;
 import com.shgoods.goods.pojo.ShUser;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -24,5 +25,10 @@ public interface ShBookMapper {
      List<ShBook> selectByUser(ShUser shUser);
 
      Integer del(ShBook shBook);
+
+     List<ShBook> selectByClass(ShClass shClass);
+
+     ShBook selectById(ShBook shBook);
+
 
 }

@@ -20,5 +20,14 @@ public class ShShopCar {
     private Date shopCarCreationTime;
     private Date shopCarUpdateTime;
 
+    private Integer shopCarOkBook;
+
+    private ShGoods shGoods;
+
+    private ShBook shBook;
+
     private ShUser shUser;
+
+
+
 }

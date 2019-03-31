@@ -3,8 +3,10 @@ package com.shgoods.goods.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.shgoods.goods.mapper.ShBookMapper;
 import com.shgoods.goods.pojo.ShBook;
+import com.shgoods.goods.pojo.ShClass;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShBookService;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,6 +111,21 @@ public class ShBookServiceImpl implements ShBookService {
 
         return responseVo;
 
+    }
+
+    @Override
+    public ResponseVo selectByClass(ShClass shClass) {
+
+
+
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        List<ShBook> shBooks = shBookMapper.selectByClass(shClass);
+
+        ok.getInfo().put("data",shBooks);
+
+        return ok;
     }
 
 

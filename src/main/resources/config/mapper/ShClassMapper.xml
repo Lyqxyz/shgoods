@@ -31,6 +31,19 @@
 	        class_pid IS NULL
     </select>
 
+    <select id="withParentClass" resultMap="shClassInfo">
+        SELECT
+            class_id AS classId,
+            class_num AS classNum,
+            class_pid AS classPid,
+            class_name AS className
+        FROM
+        	sh_class
+        WHERE
+	        class_pid IS NOT NULL
+    </select>
+
+
     <select id="checkClassNum" resultMap="shClassInfo">
         SELECT
             class_id AS classId,
