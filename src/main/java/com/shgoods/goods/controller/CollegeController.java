@@ -28,8 +28,6 @@ public class CollegeController {
     @Autowired
     ShCollegeService shCollegeService;
 
-
-
     @GetMapping(value = "/info")
     @ResponseBody
     public Object allCollege(HttpServletRequest request){

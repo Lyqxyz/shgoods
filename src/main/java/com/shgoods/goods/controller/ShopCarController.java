@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.pojo.ShShopCar;
+import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShShopCarService;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,4 +82,20 @@ public class ShopCarController {
 
         return responseVo;
     }
+
+
+    @ResponseBody
+    @GetMapping(path = "/user/{userId}")
+    public Object selectByUser(@PathVariable(value = "userId") String userId){
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(userId);
+
+        ResponseVo responseVo = shShopCarService.selectByUser(shUser);
+
+        return responseVo;
+
+    }
+
 }

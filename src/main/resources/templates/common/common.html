@@ -73,7 +73,7 @@
                     <span class="fa fa-bars text-info">权限角色管理</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown4">
-                    <a class="fa fa-plus dropdown-item text-info" href="#">添加</a>
+                    <a class="fa fa-plus dropdown-item text-info" th:href="@{/authRole/addView}">添加</a>
                     <div class="dropdown-divider"></div>
                     <a class="fa fa-pencil dropdown-item text-warning" href="#">修改</a>
                     <div class="dropdown-divider"></div>
@@ -88,7 +88,7 @@
                     <span class="fa fa-bars text-info">用户角色管理</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-                    <a class="fa fa-plus dropdown-item text-info" href="#">添加</a>
+                    <a class="fa fa-plus dropdown-item text-info" th:href="@{/userRole/addView}">添加</a>
                     <div class="dropdown-divider"></div>
                     <a class="fa fa-pencil dropdown-item text-warning" href="#">修改</a>
                     <div class="dropdown-divider"></div>
@@ -192,9 +192,9 @@
 
                 <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
                     <div class="list-group">
-                        <a href="#" class="fa fa-plus list-group-item list-group-item-添加 list-group-item-primary">添加</a>
+                        <a th:href="@{/auth/addView}" class="fa fa-plus list-group-item list-group-item-添加 list-group-item-primary">添加</a>
                         <a href="#" class="fa fa-pencil list-group-item list-group-item-添加 list-group-item-secondary">修改 </a>
-                        <a href="#" class="fa fa-search list-group-item list-group-item-添加 list-group-item-success">查询</a>
+                        <a th:href="@{/auth/infoView}" class="fa fa-search list-group-item list-group-item-添加 list-group-item-success">查询</a>
                         <a href="#" class="fa fa-trash list-group-item list-group-item-添加 list-group-item-danger">删除</a>
                     </div>
                 </div>
@@ -228,8 +228,8 @@
 
                 <div id="collapseSix" class="collapse show" aria-labelledby="headingSix" data-parent="#accordion">
                     <div class="list-group">
-                        <a href="#" class="fa fa-plus list-group-item list-group-item-添加 list-group-item-primary">添加</a>
-                        <a href="#" class="fa fa-pencil list-group-item list-group-item-添加 list-group-item-secondary">修改 </a>
+                        <a th:href="@{/book/addView}" class="fa fa-plus list-group-item list-group-item-添加 list-group-item-primary">添加</a>
+                        <a th:href="@{/book/info}" class="fa fa-pencil list-group-item list-group-item-添加 list-group-item-secondary">修改 </a>
                         <a href="#" class="fa fa-search list-group-item list-group-item-添加 list-group-item-success">查询</a>
                         <a href="#" class="fa fa-trash list-group-item list-group-item-添加 list-group-item-danger">删除</a>
                     </div>
@@ -246,9 +246,9 @@
 
                 <div id="collapseSeven" class="collapse show" aria-labelledby="headingSeven" data-parent="#accordion">
                     <div class="list-group">
-                        <a href="#" class="fa fa-plus list-group-item list-group-item-添加 list-group-item-primary">添加</a>
+                        <a th:href="@{/goods/addView}" class="fa fa-plus list-group-item list-group-item-添加 list-group-item-primary">添加</a>
                         <a href="#" class="fa fa-pencil list-group-item list-group-item-添加 list-group-item-secondary">修改 </a>
-                        <a href="#" class="fa fa-search list-group-item list-group-item-添加 list-group-item-success">查询</a>
+                        <a th:href="@{/goods/info}" class="fa fa-search list-group-item list-group-item-添加 list-group-item-success">查询</a>
                         <a href="#" class="fa fa-trash list-group-item list-group-item-添加 list-group-item-danger">删除</a>
                     </div>
                 </div>
@@ -266,7 +266,7 @@
                     <div class="list-group">
                         <a href="#" class="fa fa-plus list-group-item list-group-item-添加 list-group-item-primary">添加</a>
                         <a href="#" class="fa fa-pencil list-group-item list-group-item-添加 list-group-item-secondary">修改 </a>
-                        <a href="#" class="fa fa-search list-group-item list-group-item-添加 list-group-item-success">查询</a>
+                        <a th:href="@{/order/infoView}" class="fa fa-search list-group-item list-group-item-添加 list-group-item-success">查询</a>
                         <a href="#" class="fa fa-trash list-group-item list-group-item-添加 list-group-item-danger">删除</a>
                     </div>
                 </div>
@@ -284,7 +284,7 @@
                     <div class="list-group">
                         <a href="#" class="fa fa-plus fa fa-plus list-group-item list-group-item-添加 list-group-item-primary">添加</a>
                         <a href="#" class="fa fa-pencil fa fa-pencil list-group-item list-group-item-添加 list-group-item-secondary">修改 </a>
-                        <a href="#" class="fa fa-search fa fa-search list-group-item list-group-item-添加 list-group-item-success">查询</a>
+                        <a th:href="@{/GoodsOrder/search}" class="fa fa-search fa fa-search list-group-item list-group-item-添加 list-group-item-success">查询</a>
                         <a href="#" class="fa fa-trash list-group-item list-group-item-添加 list-group-item-danger">删除</a>
                     </div>
                 </div>

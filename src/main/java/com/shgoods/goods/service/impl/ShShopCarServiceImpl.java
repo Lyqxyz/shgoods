@@ -44,6 +44,7 @@ public class ShShopCarServiceImpl implements ShShopCarService {
     public ResponseVo del(ShShopCar shShopCar) {
 
         ResponseVo responseVo = new ResponseVo();
+
         if(shShopCar!=null&&shShopCar.getShopCarId()!=null){
 
             Integer integer = shShopCarMapper.del(shShopCar);
@@ -83,7 +84,6 @@ public class ShShopCarServiceImpl implements ShShopCarService {
 
                     ss.setShBook(shBook1);
 
-
                 }else{
 
                     ShGoods shGoods = new ShGoods();
@@ -96,7 +96,6 @@ public class ShShopCarServiceImpl implements ShShopCarService {
 
                 }
             }
-
         }
 
         ResponseVo ok = ResponseUtil.isOk();

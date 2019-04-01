@@ -15,7 +15,7 @@
         <result column="shopCarUid" property="shopCarUid"/>
         <result column="shopCarUpdateTime" property="shopCarUpdateTime"/>
         <result property="shopCarState" column="shopCarState"/>
-        <result property="shopCarOkBook" column="shopCar_okBook"/>
+        <result property="shopCarOkBook" column="shopCarOkBook"/>
 
         <result property="shUser.userId" column="userId"/>
         <result property="shUser.userName" column="userName"/>
@@ -82,7 +82,7 @@
             shopCar_uid shopCarUid,
             shopCar_count shopCarCount,
             shopCar_state shopCarState ,
-            shopCar_okBook shopCarOkBook
+            shopCar_okBook shopCarOkBook,
             su.user_id
         FROM
             sh_shopcar ss,

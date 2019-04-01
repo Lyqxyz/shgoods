@@ -31,7 +31,6 @@ import java.util.Map;
 public class RegController {
 
 
-
     @Autowired
     ShUserService shUserService;
 

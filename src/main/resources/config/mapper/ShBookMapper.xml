@@ -119,7 +119,7 @@
             book_isbn,
             book_creationTime
         FROM
-            sh_book sb,
+            sh_book sb
         WHERE
             book_id=#{bookId}
 
