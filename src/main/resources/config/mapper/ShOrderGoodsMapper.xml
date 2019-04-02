@@ -27,6 +27,14 @@
 	    WHERE
 	        go_oid=#{goOid.orderId}
     </select>
+    <insert id="shopCarToOrder">
+        <selectKey  order="BEFORE" keyProperty="orderId" keyColumn="orderId" resultType="string">
+            SELECT UUID_SHORT( ) as orderId
+        </selectKey>
+
+
+
+    </insert>
 
 
 </mapper>

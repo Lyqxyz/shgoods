@@ -1,11 +1,15 @@
 package com.shgoods.goods.service;
 
 import com.shgoods.goods.pojo.ShOrder;
+import com.shgoods.goods.vo.ResponseVo;
 
 import java.util.List;
 
 public interface ShOrderService {
 
 
-    public List<ShOrder> info();
+     List<ShOrder> info();
+
+     ResponseVo add(ShOrder shOrder);
+
 }

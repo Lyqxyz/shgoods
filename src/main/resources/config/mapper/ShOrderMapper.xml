@@ -43,6 +43,21 @@
             sh_order so
             LEFT JOIN sh_user su ON so.order_uid = su.user_id
 
-
     </select>
+    <insert id="add">
+        <selectKey  order="BEFORE" keyProperty="orderId" keyColumn="orderId" resultType="string">
+            SELECT UUID_SHORT( ) as orderId
+        </selectKey>
+
+        INSERT INTO sh_order (  order_id, order_uid, order_isPay, order_num,
+                                order_price, order_state, order_receipt,
+                                order_address, order_updateTIme,
+                                order_creationTime, order_receiptTime )
+        VALUES
+            (#{orderId},#{orderUid.userId},1,
+            #{orderNum},#{orderPrice},1,0,#{orderAddress},NOW(),NOW(),NULL )
+
+
+    </insert>
+
 </mapper>

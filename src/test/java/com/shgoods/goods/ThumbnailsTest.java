@@ -37,4 +37,9 @@ public class ThumbnailsTest {
 
 
     }
+    @Test
+    public void test2(){
+
+
+    }
 }
