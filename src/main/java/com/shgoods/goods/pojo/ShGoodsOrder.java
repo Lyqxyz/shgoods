@@ -14,6 +14,8 @@ public class ShGoodsOrder {
 
     private ShOrder goOid;
 
+    private String gid;
+
     private ShGoods goGid;
 
     private ShBook goBid;

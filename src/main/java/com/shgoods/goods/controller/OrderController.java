@@ -1,11 +1,9 @@
 package com.shgoods.goods.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.shgoods.goods.pojo.ShAuthority;
-import com.shgoods.goods.pojo.ShBook;
-import com.shgoods.goods.pojo.ShOrder;
-import com.shgoods.goods.pojo.ShUser;
+import com.shgoods.goods.pojo.*;
 import com.shgoods.goods.service.ShOrderService;
 import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.vo.ResponseVo;
@@ -21,9 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author lyq
@@ -35,8 +31,6 @@ public class OrderController {
 
     @Autowired
     ShOrderService shOrderService;
-
-
 
     @GetMapping(path = "/infoView")
     public String infoView(){
@@ -77,27 +71,7 @@ public class OrderController {
     @PostMapping(value = "/add")
     public Object add(@Validated AddOrderVo addOrderVo, BindingResult result, HttpServletRequest request){
 
-        String s = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddHH"));
-
-        ShOrder shOrder = new ShOrder();
-
-        ShUser shUser = new ShUser();
-
-        String uid = addOrderVo.getOrderUid();
-
-        String substring = uid.substring(5,uid.length());
-
-        shUser.setUserId(uid);
-
-        BeanUtils.copyProperties(addOrderVo,shOrder);
-
-        shOrder.setOrderUid(shUser);
-
-        shOrder.setOrderNum(substring+s);
-
         ResponseVo responseVo;
-
-        Map<String, List<String>> errors = BindingErrorUtil.handlerErrors(result);
 
         if(result.hasErrors()){
 
@@ -105,7 +79,29 @@ public class OrderController {
 
         }else{
 
-            responseVo = shOrderService.add(shOrder);
+            String s = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddHH"));
+
+            ShOrder shOrder = new ShOrder();
+
+            ShUser shUser = new ShUser();
+
+            String uid = addOrderVo.getOrderUid();
+
+            String substring = uid.substring(5,uid.length());
+
+            shUser.setUserId(uid);
+
+            BeanUtils.copyProperties(addOrderVo,shOrder);
+
+            shOrder.setOrderUid(shUser);
+
+            shOrder.setOrderNum(substring+s);
+
+            String shopcars = addOrderVo.getShopcars();
+
+            List<ShShopCar> shShopCars = JSONArray.parseArray(shopcars, ShShopCar.class);
+
+            responseVo = shOrderService.add(shOrder,shShopCars);
 
             responseVo.getInfo().put("data",shOrder);
 

@@ -22,4 +22,8 @@ public class AddOrderVo {
     @NotNull(message = "地址解析错误")
     private String orderAddress;
 
+    @NotBlank(message = "购物车不能为空")
+    @NotNull(message = "购物车解析错误")
+    private String shopcars;
+
 }

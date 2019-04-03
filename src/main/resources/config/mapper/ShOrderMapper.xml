@@ -16,11 +16,15 @@
         <result column="orderReceipt" property="orderReceipt"/>
         <result column="orderReceiptTime" property="orderReceiptTime"/>
         <result column="orderState" property="orderState"/>
+        <result column="orderUpdateTime" property="orderUpdateTime"/>
+        <result column="orderCreationTime" property="orderCreationTime"/>
+
+
         <result column="userName" property="orderUid.userName"/>
         <result column="userId" property="orderUid.userId"/>
         <result column="userNum" property="orderUid.userNum"/>
-        <result column="orderUpdateTime" property="orderUpdateTime"/>
-        <result column="orderCreationTime" property="orderCreationTime"/>
+
+
     </resultMap>
 
 
@@ -59,5 +63,10 @@
 
 
     </insert>
+
+    <select id="searchByUser">
+
+
+    </select>
 
 </mapper>

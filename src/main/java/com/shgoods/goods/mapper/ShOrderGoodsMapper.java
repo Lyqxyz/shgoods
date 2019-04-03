@@ -13,4 +13,6 @@ public interface ShOrderGoodsMapper {
 
      Integer shopCarToOrder(ShGoodsOrder shGoodsOrder);
 
+
+
 }

@@ -1,7 +1,10 @@
 package com.shgoods.goods.service.impl;
 
 import com.shgoods.goods.mapper.ShOrderMapper;
+import com.shgoods.goods.pojo.ShGoodsOrder;
 import com.shgoods.goods.pojo.ShOrder;
+import com.shgoods.goods.pojo.ShShopCar;
+import com.shgoods.goods.service.ShOrderGoodsService;
 import com.shgoods.goods.service.ShOrderService;
 import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
@@ -17,6 +20,9 @@ public class ShOrderServiceImpl implements ShOrderService {
     @Autowired
     ShOrderMapper shOrderMapper;
 
+    @Autowired
+    ShOrderGoodsService shOrderGoodsService;
+
     @Override
     public List<ShOrder> info() {
 
@@ -28,8 +34,7 @@ public class ShOrderServiceImpl implements ShOrderService {
     }
 
     @Override
-    public ResponseVo add(ShOrder shOrder) {
-
+    public ResponseVo add(ShOrder shOrder,List<ShShopCar> shShopCars) {
 
         Integer add = shOrderMapper.add(shOrder);
 
@@ -39,11 +44,14 @@ public class ShOrderServiceImpl implements ShOrderService {
 
             ok.getInfo().put("data",shOrder);
 
+            shOrderGoodsService.addOrderGoods(shOrder,shShopCars);
+
             return  ok;
 
         }else{
 
             ResponseVo error = ResponseUtil.isError();
+
             return  error;
         }
 

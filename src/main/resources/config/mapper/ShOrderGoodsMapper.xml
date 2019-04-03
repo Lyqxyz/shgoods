@@ -26,12 +26,19 @@
 
 	    WHERE
 	        go_oid=#{goOid.orderId}
+	        AND go_state=1
     </select>
     <insert id="shopCarToOrder">
-        <selectKey  order="BEFORE" keyProperty="orderId" keyColumn="orderId" resultType="string">
+        <selectKey  order="BEFORE" keyProperty="goId" keyColumn="goId" resultType="string">
             SELECT UUID_SHORT( ) as orderId
         </selectKey>
 
+        INSERT INTO sh_goods_order ( go_id, go_gid,
+                                    go_oid, go_count,
+                                    go_state, go_isBook,
+                                    go_updateTime, go_creationTime )
+        VALUES
+        (#{goId},#{goIdAll},#{goOid.orderId},#{goCount},1,#{goIsBook},NOW(),NOW())
 
 
     </insert>

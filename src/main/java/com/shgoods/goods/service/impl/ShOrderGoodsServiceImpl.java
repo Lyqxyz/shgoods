@@ -3,6 +3,7 @@ package com.shgoods.goods.service.impl;
 import com.shgoods.goods.mapper.ShOrderGoodsMapper;
 import com.shgoods.goods.pojo.*;
 import com.shgoods.goods.service.ShOrderGoodsService;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,5 +58,40 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
         return responseVo;
 
 
+    }
+
+    @Override
+    public ResponseVo addOrderGoods(ShGoodsOrder shGoodsOrder) {
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+
+        return ok;
+    }
+
+    @Override
+    public ResponseVo addOrderGoods(ShOrder shOrder,List<ShShopCar> shShopCars) {
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ShGoodsOrder shGoodsOrder = new ShGoodsOrder();
+
+        shGoodsOrder.setGoOid(shOrder);
+
+        for (ShShopCar shShopCar :shShopCars){
+
+            shGoodsOrder.setGoIsBook(shShopCar.getShopCarOkBook());
+
+            shGoodsOrder.setGoState(1);
+
+            shGoodsOrder.setGoIdAll(shShopCar.getShopCarGid());
+
+            shGoodsOrder.setGoCount(shShopCar.getShopCarCount());
+
+            Integer integer = shOrderGoodsMapper.shopCarToOrder(shGoodsOrder);
+
+        }
+
+        return ok;
     }
 }
