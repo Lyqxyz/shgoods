@@ -54,6 +54,31 @@
 
     </insert>
 
+    <select id="selectByClass" resultMap="info">
+
+        SELECT
+            goods_id goodsId,
+            goods_title goodsTitle,
+            goods_des goodsDes,
+            sc.class_id ,
+            si.des_id desId,
+            si.des_info desInfo,
+            si.des_xsPath desXsPath
+        FROM
+            sh_goods sg,
+            sh_class sc,
+            sh_goodsimagedescription si
+        WHERE
+            sg.goods_cid = sc.class_id
+            AND sg.goods_state = 1
+            AND sc.class_id = #{classId}
+            AND sg.goods_id = si.des_gid
+        GROUP BY
+            sg.goods_id
+
+
+    </select>
+
     <select id="all" resultMap="info">
         SELECT
             des_id desId,

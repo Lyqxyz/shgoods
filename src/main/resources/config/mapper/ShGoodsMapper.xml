@@ -14,7 +14,7 @@
         <result property="goodsReleaseTime" column="goodsReleaseTime"/>
         <result property="goodsSellingPrice" column="goodsSellingPrice"/>
         <result property="goodsUpdateTime" column="goodsUpdateTime"/>
-        <result property="goodsState" column=""/>
+        <result property="goodsState" column="goodsState"/>
 
 
         <result property="shUser.userId" column="userId"/>
@@ -22,6 +22,17 @@
         <result property="shUser.userNum" column="userNum"/>
         <result property="shUser.userPhone" column="userPhone"/>
 
+
+    </resultMap>
+    <resultMap id="goodsinfo" type="com.shgoods.goods.pojo.ShGoodsDescription">
+        <id property="desId" column="desId"/>
+        <result property="goodsId.goodsId" column="goodsId"/>
+        <result property="goodsId.goodsTitle" column="goodsTitle"/>
+        <result property="goodsId.goodsDes" column="goodsDes"/>
+
+
+        <result property="desInfo" column="desInfo"/>
+        <result property="desXsPath" column="desXsPath"/>
 
     </resultMap>
 
@@ -87,18 +98,26 @@
     <delete id="del">
          DELETE FROM sh_goods WHERE goods_id=#{goodsId}
     </delete>
-    <select id="selectByClass" resultMap="info">
+    <select id="selectByClass" resultMap="goodsinfo">
         SELECT
             goods_id goodsId,
             goods_title goodsTitle,
-            goods_des goodsDes
+            goods_des goodsDes,
+            sc.class_id ,
+            si.des_id desId,
+            si.des_info desInfo,
+            si.des_xsPath desXsPath
         FROM
             sh_goods sg,
-            sh_class sc
+            sh_class sc,
+            sh_goodsimagedescription si
         WHERE
             sg.goods_cid = sc.class_id
             AND sg.goods_state = 1
             AND sc.class_id = #{classId}
+            AND sg.goods_id = si.des_gid
+        GROUP BY
+            sg.goods_id
     </select>
 
     <select id="selectById" resultMap="info">
@@ -110,5 +129,27 @@
             sh_goods sg
         WHERE
              goods_id=#{ goodsId}
+    </select>
+    <select id="selectWithUser" resultMap="info">
+      SELECT
+        goods_id goodsId,
+        goods_title goodsTitle,
+        goods_des goodsDes,
+        goods_count goodsCount,
+        goods_sellingPrice goodsSellingPrice,
+        goods_originalPrice goodsOriginalPrice,
+        goods_nao goods_nao,
+        su.user_id userId,
+        su.user_num userNum,
+        su.user_name userName,
+        su.user_phone userPhone
+    FROM
+        sh_goods sg,
+        sh_user su
+    WHERE
+        sg.goods_uid = su.user_id
+        AND sg.goods_state = 1
+        AND sg.goods_id=#{goodsId}
+
     </select>
 </mapper>

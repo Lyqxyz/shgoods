@@ -131,5 +131,21 @@ public class BookController {
         return  responseVo;
     }
 
+    @ResponseBody
+    @GetMapping(path = "/{id}")
+    public Object selectWithUser(@PathVariable(value = "id")String id,HttpServletRequest request){
+
+
+        ShBook shBook = new ShBook();
+
+        shBook.setBookId(id);
+
+        ResponseVo responseVo = shBookService.selectWithUser(shBook);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return responseVo;
+
+    }
 
 }

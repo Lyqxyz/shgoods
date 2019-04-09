@@ -2,8 +2,10 @@ package com.shgoods.goods.service.impl;
 
 import com.shgoods.goods.exception.FileUploadException;
 import com.shgoods.goods.mapper.ShClassMapper;
+import com.shgoods.goods.mapper.ShGoodsMapper;
 import com.shgoods.goods.pojo.ShClass;
 import com.shgoods.goods.service.ShClassService;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.util.ByteSource;
@@ -92,5 +94,19 @@ public class ShClassServiceImpl implements ShClassService {
         List<ShClass> shClasses = shClassMapper.selectClassByPid(shClass);
 
         return shClasses;
+    }
+
+    @Override
+    public ResponseVo withParentClass() {
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+
+        List<ShClass> shClasses = shClassMapper.withParentClass();
+
+
+        ok.getInfo().put("data",shClasses);
+
+        return ok;
     }
 }

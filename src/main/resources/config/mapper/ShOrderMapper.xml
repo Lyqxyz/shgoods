@@ -24,7 +24,6 @@
         <result column="userId" property="orderUid.userId"/>
         <result column="userNum" property="orderUid.userNum"/>
 
-
     </resultMap>
 
 

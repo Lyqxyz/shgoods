@@ -137,6 +137,7 @@
 
                             if(res.data.code==='1'){
 
+                                sessionStorage.setItem('user',JSON.stringify(res.data.info.user))
                                 this.saveUsername();
                                 window.location="http://localhost:8080/index";
                             }else {

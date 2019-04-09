@@ -3,14 +3,13 @@ package com.shgoods.goods.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shgoods.goods.dto.UserInfoDto;
+import com.shgoods.goods.pojo.ShClass;
 import com.shgoods.goods.service.IndexGoodsListService;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import com.shgoods.goods.vo.index.GoodsListVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -47,5 +46,25 @@ public class IndexGoodsListController {
 
     }
 
+    @ResponseBody
+    @GetMapping(value = "/class/{id}")
+    public Object selectByClass(@PathVariable(value = "id")String id,HttpServletRequest request){
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ShClass shClass = new ShClass();
+
+        shClass.setClassId(id);
+
+        List<GoodsListVo> goodsListVos = indexGoodsListService.selectByClass(shClass);
+
+        ok.setPath(request.getRequestURI());
+
+        ok.getInfo().put("data",goodsListVos);
+
+        return ok;
+
+
+    }
 
 }

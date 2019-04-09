@@ -60,4 +60,34 @@ public class BookTest {
 
 
     }
+
+    @Test
+    public void test3(){
+
+
+        ShBook shBook = new ShBook();
+
+        shBook.setBookId("98113987475931137");
+
+        ShBook shBook1 = shBookMapper.selectWithUser(shBook);
+
+        System.out.println(shBook1);
+
+
+    }
+
+    @Test
+    public void test4(){
+
+//
+//        ShClass shClass = new ShClass();
+//
+//        shClass.setClassId("98019743847415813");
+//
+//        List<ShBook> shBooks = shBookMapper.selectByClass(shClass);
+//
+//        System.out.println(shBooks);
+
+
+    }
 }

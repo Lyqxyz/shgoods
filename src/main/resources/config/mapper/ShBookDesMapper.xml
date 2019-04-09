@@ -59,6 +59,30 @@
         </where>
     </delete>
 
+    <select id="selectByClass" resultMap="info">
+
+        SELECT
+            book_id,
+            book_name,
+            book_isbn,
+            book_creationTime,
+            sc.class_id,
+            si.des_xsPath desXsPath,
+            si.des_info desInfo,
+            si.des_id desId
+        FROM
+            sh_book sb,
+            sh_class sc,
+            sh_bookimagedescription si
+        WHERE
+            sb.book_cid = sc.class_id
+            AND sb.book_id = si.des_gid
+            AND sb.book_state = 1
+            AND sc.class_id = #{classId}
+            GROUP BY
+	          sb.book_id
+    </select>
+
     <select id="all" resultMap="info">
             SELECT
                 des_id desId,

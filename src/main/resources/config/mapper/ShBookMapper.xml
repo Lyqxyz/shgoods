@@ -34,6 +34,20 @@
         <result property="bookName" column="book_name"/>
     </resultMap>
 
+    <resultMap id="goodsVo" type="com.shgoods.goods.pojo.ShBookDescription">
+
+        <result property="goodsId.bookId" column="book_id"/>
+        <result property="goodsId.bookIsbn" column="book_isbn"/>
+        <result property="goodsId.bookName" column="book_name"/>
+        <result property="goodsId.bookDes" column="book_des"/>
+
+        <result property="desInfo" column="desInfo"/>
+        <result property="desXsPath" column="desXsPath"/>
+
+
+    </resultMap>
+
+
     <insert id="addBook">
         <selectKey order="BEFORE" keyProperty="bookId" keyColumn="bookId" resultType="string">
             SELECT UUID_SHORT( ) as bookId
@@ -102,14 +116,22 @@
             book_id,
             book_name,
             book_isbn,
-            book_creationTime
+            book_creationTime,
+            sc.class_id,
+            si.des_xsPath,
+            si.des_info,
+            si.des_id
         FROM
             sh_book sb,
-            sh_class sc
+            sh_class sc,
+            sh_bookimagedescription si
         WHERE
             sb.book_cid = sc.class_id
+            AND sb.book_id = si.des_gid
             AND sb.book_state = 1
             AND sc.class_id = #{classId}
+            GROUP BY
+	          sb.book_id
     </select>
 
     <select id="selectById" resultMap="bookInfo">
@@ -123,6 +145,30 @@
         WHERE
             book_id=#{bookId}
 
+    </select>
+    <select id="selectWithUser" resultMap="bookInfo">
+        SELECT
+            book_id,
+            book_name,
+            book_isbn,
+            book_creationTime,
+            book_count,
+            book_author,
+            book_publish,
+            book_des,
+            book_sellingPrice,
+            book_originalPrice,
+            su.user_id userId,
+            su.user_num userNum,
+            su.user_name userName,
+            su.user_phone userPhone
+        FROM
+            sh_book AS sb,
+            sh_user AS su
+        WHERE
+            sb.book_uid = su.user_id
+            AND sb.book_state = 1
+            AND sb.book_id = #{bookId}
     </select>
 
 </mapper>

@@ -23,6 +23,9 @@ public class GoodsListVo {
 
     private String xsImage;
 
+    private String detatils;
+
+
     /**
      * 是否是书
      */

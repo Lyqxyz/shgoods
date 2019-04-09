@@ -1,6 +1,7 @@
 package com.shgoods.goods;
 
 
+import com.shgoods.goods.mapper.ShBookDesMapper;
 import com.shgoods.goods.mapper.ShGoodsDesMapper;
 import com.shgoods.goods.pojo.ShGoods;
 import com.shgoods.goods.pojo.ShGoodsDescription;
@@ -24,6 +25,8 @@ public class GoodsDesTest {
     @Autowired
     ShGoodsDesMapper shGoodsDesMapper;
 
+    @Autowired
+    ShBookDesMapper shBookDesMapper;
 
     @Test
     public void test(){

@@ -110,4 +110,19 @@ public class GoodsController {
         return  responseVo;
     }
 
+    @ResponseBody
+    @GetMapping(value = "/{id}")
+    public Object selectWithUser(@PathVariable(value = "id") String id,HttpServletRequest request){
+
+
+        ShGoods shGoods = new ShGoods();
+
+        shGoods.setGoodsId(id);
+
+        ResponseVo responseVo = shGoodsService.selectWithUser(shGoods);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return responseVo;
+    }
 }

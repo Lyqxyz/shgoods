@@ -18,4 +18,6 @@ public interface ShGoodsService {
 
     ResponseVo selectByClass(ShClass shClass);
 
+    ResponseVo selectWithUser(ShGoods shGoods);
+
 }

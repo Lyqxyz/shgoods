@@ -115,7 +115,6 @@ public class UserController {
 
     }
 
-
     @GetMapping(value = "/addview")
     public String addPage(){
 

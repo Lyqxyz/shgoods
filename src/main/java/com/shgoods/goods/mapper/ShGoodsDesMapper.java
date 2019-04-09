@@ -1,5 +1,6 @@
 package com.shgoods.goods.mapper;
 
+import com.shgoods.goods.pojo.ShClass;
 import com.shgoods.goods.pojo.ShGoods;
 import com.shgoods.goods.pojo.ShGoodsDescription;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,6 +18,9 @@ public interface ShGoodsDesMapper {
   Integer del(ShGoodsDescription shGoodsDescription);
 
   List<ShGoodsDescription> all();
+
+  List<ShGoodsDescription> selectByClass(ShClass shClass);
+
 
 
 }

@@ -163,7 +163,18 @@ public class ClassController {
 
     }
 
+    @ResponseBody
+    @GetMapping(path = "/withParentClass")
+    public Object withParentClass(HttpServletRequest request){
 
+        ResponseVo responseVo = shClassService.withParentClass();
+
+
+        responseVo.setPath(request.getRequestURI());
+
+
+        return responseVo;
+    }
 
 
 }

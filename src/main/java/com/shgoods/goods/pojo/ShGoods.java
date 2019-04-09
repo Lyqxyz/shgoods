@@ -22,6 +22,5 @@ public class ShGoods {
     private Integer goodsCount;
     private ShCollege goodsCid;
     private String goodsCid1;
-
     private ShUser shUser;
 }

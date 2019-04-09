@@ -117,15 +117,28 @@ public class ShBookServiceImpl implements ShBookService {
     public ResponseVo selectByClass(ShClass shClass) {
 
 
+        ResponseVo ok = ResponseUtil.isOk();
+
+//        List<ShBook> shBooks = shBookMapper.selectByClass(shClass);
+//
+//        ok.getInfo().put("data",shBooks);
+
+        return ok;
+    }
+
+    @Override
+    public ResponseVo selectWithUser(ShBook shBook) {
 
 
         ResponseVo ok = ResponseUtil.isOk();
 
-        List<ShBook> shBooks = shBookMapper.selectByClass(shClass);
+        ShBook shBook1 = shBookMapper.selectWithUser(shBook);
 
-        ok.getInfo().put("data",shBooks);
+
+        ok.getInfo().put("data",shBook1);
 
         return ok;
+
     }
 
 

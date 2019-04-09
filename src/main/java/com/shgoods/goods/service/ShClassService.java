@@ -11,12 +11,14 @@ import java.util.List;
  */
 public interface ShClassService {
 
-    public ResponseVo addClass(ShClass shClass);
+     ResponseVo addClass(ShClass shClass);
 
-    public List<String> checkAttrs(ShClass shClass);
+     List<String> checkAttrs(ShClass shClass);
 
-    public List<ShClass> getNoPidClass();
+     List<ShClass> getNoPidClass();
 
-    public List<ShClass> getClassByPid(ShClass shClass);
+     List<ShClass> getClassByPid(ShClass shClass);
+
+    ResponseVo withParentClass();
 
 }

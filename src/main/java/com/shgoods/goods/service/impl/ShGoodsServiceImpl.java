@@ -1,5 +1,6 @@
 package com.shgoods.goods.service.impl;
 
+import com.shgoods.goods.mapper.ShBookMapper;
 import com.shgoods.goods.mapper.ShGoodsMapper;
 import com.shgoods.goods.pojo.ShBook;
 import com.shgoods.goods.pojo.ShClass;
@@ -74,12 +75,27 @@ public class ShGoodsServiceImpl implements ShGoodsService {
     public ResponseVo selectByClass(ShClass shClass) {
 
         ResponseVo ok = ResponseUtil.isOk();
-
-        List<ShGoods> shGoods = shGoodsMapper.selectByClass(shClass);
-
-        ok.getInfo().put("data",shGoods);
+//
+//        List<ShGoods> shGoods = shGoodsMapper.selectByClass(shClass);
+//
+//        ok.getInfo().put("data",shGoods);
 
         return ok;
 
+    }
+
+    @Override
+    public ResponseVo selectWithUser(ShGoods shGoods) {
+
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+
+        ShGoods shGoods1 = shGoodsMapper.selectWithUser(shGoods);
+
+
+        ok.getInfo().put("data",shGoods1);
+
+        return ok;
     }
 }
