@@ -47,6 +47,12 @@ public class BookController {
 
         BeanUtils.copyProperties(addBookVo,shBook);
 
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(addBookVo.getUid());
+
+        shBook.setShUser(shUser);
+
         Map<String, List<String>> errors = BindingErrorUtil.handlerErrors(result);
 
         if(result.hasErrors()){

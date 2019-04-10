@@ -19,6 +19,7 @@
         <result property="goodsId.bookSellingPrice" column="bookSellingPrice"/>
         <result property="goodsId.bookIsbn" column="bookIsbn"/>
 
+
     </resultMap>
     <insert id="add">
 
@@ -66,7 +67,7 @@
             book_name bookName,
             book_isbn bookIsbn,
             book_creationTime bookCreationTime,
-            book_price bookPrice,
+            book_sellingPrice bookSellingPrice,
             sc.class_id,
             si.des_xsPath desXsPath,
             si.des_info desInfo,

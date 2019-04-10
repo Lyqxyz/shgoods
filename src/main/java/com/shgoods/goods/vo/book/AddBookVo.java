@@ -43,6 +43,8 @@ public class AddBookVo {
 
     private Integer bookState;
 
-    private String cid;
+    private String bookCid;
+
+    private String uid;
 
 }
