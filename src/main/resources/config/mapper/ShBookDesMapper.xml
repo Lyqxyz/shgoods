@@ -62,10 +62,11 @@
     <select id="selectByClass" resultMap="info">
 
         SELECT
-            book_id,
-            book_name,
-            book_isbn,
-            book_creationTime,
+            book_id bookId,
+            book_name bookName,
+            book_isbn bookIsbn,
+            book_creationTime bookCreationTime,
+            book_price bookPrice,
             sc.class_id,
             si.des_xsPath desXsPath,
             si.des_info desInfo,

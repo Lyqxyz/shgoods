@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class IndexGoodsListServiceImpl implements IndexGoodsListService {
@@ -74,7 +75,7 @@ public class IndexGoodsListServiceImpl implements IndexGoodsListService {
 
             goodsListVo.setName(shGoodsDescription.getGoodsId().getGoodsTitle());
 
-            goodsListVo.setImage(shGoodsDescription.getDesSmPath());
+            goodsListVo.setImage(shGoodsDescription.getDesInfo());
 
             goodsListVo.setPrice(shGoodsDescription.getGoodsId().getGoodsSellingPrice());
 
@@ -99,42 +100,57 @@ public class IndexGoodsListServiceImpl implements IndexGoodsListService {
 
         List<GoodsListVo> all = new ArrayList<>();
 
-        for (ShBookDescription shBookDescription:shBookDescriptions){
+        if(Objects.isNull(shBookDescriptions)||shBookDescriptions.size()<=0 ){
 
-            GoodsListVo goodsListVo = new GoodsListVo();
+            System.out.println("没有书籍");
+        }else {
 
-            goodsListVo.setId(shBookDescription.getGoodsId().getBookId());
+            for (ShBookDescription shBookDescription:shBookDescriptions){
 
-            goodsListVo.setName(shBookDescription.getGoodsId().getBookName());
+                GoodsListVo goodsListVo = new GoodsListVo();
 
-            goodsListVo.setImage(shBookDescription.getDesSmPath());
+                goodsListVo.setId(shBookDescription.getGoodsId().getBookId());
 
-            goodsListVo.setPrice(shBookDescription.getGoodsId().getBookSellingPrice());
+                goodsListVo.setName(shBookDescription.getGoodsId().getBookName());
 
-            goodsListVo.setOkBook(1);
+                goodsListVo.setImage(shBookDescription.getDesInfo());
 
-            goodsListVo.setXsImage(shBookDescription.getDesXsPath());
+                goodsListVo.setPrice(shBookDescription.getGoodsId().getBookSellingPrice());
 
-            all.add(goodsListVo);
+                goodsListVo.setOkBook(1);
+
+                goodsListVo.setXsImage(shBookDescription.getDesXsPath());
+
+                all.add(goodsListVo);
+            }
         }
 
-        for (ShGoodsDescription shGoodsDescription :shGoodsDescriptions){
 
-            GoodsListVo goodsListVo = new GoodsListVo();
 
-            goodsListVo.setId(shGoodsDescription.getGoodsId().getGoodsId());
 
-            goodsListVo.setName(shGoodsDescription.getGoodsId().getGoodsTitle());
+        if(Objects.isNull(shGoodsDescriptions)||shGoodsDescriptions.size()<=0 ){
+            System.out.println("没有用品");
 
-            goodsListVo.setImage(shGoodsDescription.getDesInfo());
+        }else{
+            for (ShGoodsDescription shGoodsDescription :shGoodsDescriptions){
 
-            goodsListVo.setPrice(shGoodsDescription.getGoodsId().getGoodsSellingPrice());
+                GoodsListVo goodsListVo = new GoodsListVo();
 
-            goodsListVo.setOkBook(0);
+                goodsListVo.setId(shGoodsDescription.getGoodsId().getGoodsId());
 
-            goodsListVo.setXsImage(shGoodsDescription.getDesXsPath());
+                goodsListVo.setName(shGoodsDescription.getGoodsId().getGoodsTitle());
 
-            all.add(goodsListVo);
+                goodsListVo.setImage(shGoodsDescription.getDesInfo());
+
+                goodsListVo.setPrice(shGoodsDescription.getGoodsId().getGoodsSellingPrice());
+
+                goodsListVo.setOkBook(0);
+
+                goodsListVo.setXsImage(shGoodsDescription.getDesXsPath());
+
+                all.add(goodsListVo);
+            }
+
         }
 
 

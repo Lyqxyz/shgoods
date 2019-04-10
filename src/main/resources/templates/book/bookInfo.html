@@ -120,7 +120,7 @@
         created(){
             axios.baseURL='http://localhost:8080';
             axios.defaults.withCredentials=true;
-            axios.get('/book/1/1').then(res=>{
+            axios.get('/book/1/5').then(res=>{
 
                 this.a=res.data.info.data;
 
