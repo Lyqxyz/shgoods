@@ -102,7 +102,7 @@
                                 shopCar_updateTime, shopCar_creationTime,shopCar_okBook )
         VALUES
         (#{shopCar_id},#{shopCar_gid},#{shopCar_uid},
-        #{shopCar_count},1,NOW(),NOW(),#{shopCar_okBook} )
+        1,1,NOW(),NOW(),#{shopCar_okBook} )
 
     </insert>
 

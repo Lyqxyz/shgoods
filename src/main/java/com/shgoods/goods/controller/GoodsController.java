@@ -41,9 +41,15 @@ public class GoodsController {
 
         ResponseVo responseVo = null;
 
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(goodsVo.getUid());
+
         ShGoods shGoods = new ShGoods();
 
         BeanUtils.copyProperties(goodsVo,shGoods);
+
+        shGoods.setShUser(shUser);
 
         Map<String, List<String>> errors = BindingErrorUtil.handlerErrors(result);
 

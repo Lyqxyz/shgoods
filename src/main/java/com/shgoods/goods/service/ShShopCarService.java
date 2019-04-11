@@ -14,4 +14,8 @@ public interface ShShopCarService {
 
      ResponseVo selectByUser(ShUser shUser);
 
+     ResponseVo addShopCar(ShShopCar shShopCar);
+
+
+
 }

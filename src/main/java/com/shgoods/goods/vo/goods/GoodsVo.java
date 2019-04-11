@@ -40,4 +40,6 @@ public class GoodsVo {
 
     private String goodsCid1;
 
+    private String uid;
+
 }

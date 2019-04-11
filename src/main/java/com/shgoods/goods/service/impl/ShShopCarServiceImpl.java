@@ -104,4 +104,14 @@ public class ShShopCarServiceImpl implements ShShopCarService {
 
         return ok;
     }
+
+    @Override
+    public ResponseVo addShopCar(ShShopCar shShopCar) {
+
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        return ok;
+
+    }
 }

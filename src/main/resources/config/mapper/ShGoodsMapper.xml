@@ -44,10 +44,12 @@
         </selectKey>
         INSERT INTO sh_goods ( goods_id, goods_des, goods_count, goods_state,
                             goods_title, goods_cid, goods_sellingPrice,
-                            goods_originalPrice, goods_updateTime, goods_releaseTime )
+                            goods_originalPrice, goods_updateTime,
+                             goods_releaseTime,goods_uid,goods_nao )
 
         VALUES(#{goodsId},#{goodsDes},#{goodsCount},1,#{goodsTitle},
-        #{goodsCid1},#{goodsSellingPrice},#{goodsOriginalPrice},NOW(),NOW())
+        #{goodsCid1},#{goodsSellingPrice},#{goodsOriginalPrice},NOW(),
+        NOW(),#{shUser.userId},#{goodsNao})
 
 
     </insert>
