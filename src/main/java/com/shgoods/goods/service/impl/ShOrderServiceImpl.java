@@ -4,6 +4,7 @@ import com.shgoods.goods.mapper.ShOrderMapper;
 import com.shgoods.goods.pojo.ShGoodsOrder;
 import com.shgoods.goods.pojo.ShOrder;
 import com.shgoods.goods.pojo.ShShopCar;
+import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShOrderGoodsService;
 import com.shgoods.goods.service.ShOrderService;
 import com.shgoods.goods.util.ResponseUtil;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ShOrderServiceImpl implements ShOrderService {
@@ -55,5 +57,22 @@ public class ShOrderServiceImpl implements ShOrderService {
             return  error;
         }
 
+    }
+
+    @Override
+    public ResponseVo selectByUser(ShUser shUser) {
+
+        if(Objects.isNull(shUser)||Objects.isNull(shUser.getUserId())){
+
+            return ResponseUtil.isError();
+        }
+
+        List<ShOrder> shOrders = shOrderMapper.searchByUser(shUser);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.getInfo().put("data",shOrders);
+
+        return ok;
     }
 }

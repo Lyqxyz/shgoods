@@ -112,10 +112,26 @@ public class OrderController {
         return responseVo;
 
 
+    }
+
+    @ResponseBody
+    @GetMapping(path = "/user/{id}")
+    public Object selectByUser(@PathVariable(value = "id")String id,HttpServletRequest request){
+
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(id);
+
+        ResponseVo responseVo = shOrderService.selectByUser(shUser);
+
+
+        responseVo.setPath(request.getRequestURI());
+
+        return responseVo;
 
 
     }
-
 
 
 }

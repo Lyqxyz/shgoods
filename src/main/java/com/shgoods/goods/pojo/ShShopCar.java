@@ -12,7 +12,6 @@ import java.util.Date;
 @Data
 public class ShShopCar  {
 
-
     private String shopCarId;
 
     private String shopCarUid;

@@ -46,6 +46,23 @@ public class ShShopCarTest {
 
     }
 
+    @Test
+    public void test3(){
+
+        ShShopCar shShopCar = new ShShopCar();
+
+        shShopCar.setShopCarGid("98113987475931138");
+
+        shShopCar.setShopCarUid("97977401056690244");
+
+
+        ResponseVo responseVo = shShopCarService.addShopCar(shShopCar);
+
+
+        System.out.println(responseVo);
+
+
+    }
 
 
 }

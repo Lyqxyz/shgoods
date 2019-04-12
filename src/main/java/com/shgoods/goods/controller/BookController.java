@@ -154,4 +154,19 @@ public class BookController {
 
     }
 
+    @ResponseBody
+    @GetMapping(value = "/del/{id}")
+    public Object del(@PathVariable(value = "id")String id,HttpServletRequest request){
+
+        ShBook shBook =new ShBook();
+
+        shBook.setBookId(id);
+
+        ResponseVo responseVo = shBookService.delByBookId(shBook);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return responseVo;
+    }
+
 }

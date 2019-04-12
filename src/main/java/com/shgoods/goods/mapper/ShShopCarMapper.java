@@ -12,10 +12,17 @@ public interface ShShopCarMapper {
 
      List<ShShopCar> allShopCar();
 
-     Integer del(ShShopCar shShopCar);
+     Integer del(ShShopCar shShopCar); //逻辑删除
 
      List<ShShopCar> selectByUser(ShUser shUser);
 
      Integer add(ShShopCar shShopCar);
+
+     ShShopCar has(ShShopCar shShopCar);
+
+     Integer updateShopCar(ShShopCar shShopCar);
+
+     Integer delShopCar(ShShopCar shShopCar); //真实删除
+
 
 }

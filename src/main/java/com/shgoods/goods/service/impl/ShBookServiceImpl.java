@@ -106,8 +106,8 @@ public class ShBookServiceImpl implements ShBookService {
             responseVo.setCode("-1");
             responseVo.setMessage("删除失败");
         }
-        responseVo.setDate(new Date());
 
+        responseVo.setDate(new Date());
 
         return responseVo;
 

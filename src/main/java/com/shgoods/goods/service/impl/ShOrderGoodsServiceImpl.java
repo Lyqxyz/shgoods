@@ -1,6 +1,7 @@
 package com.shgoods.goods.service.impl;
 
 import com.shgoods.goods.mapper.ShOrderGoodsMapper;
+import com.shgoods.goods.mapper.ShShopCarMapper;
 import com.shgoods.goods.pojo.*;
 import com.shgoods.goods.service.ShOrderGoodsService;
 import com.shgoods.goods.util.ResponseUtil;
@@ -18,6 +19,8 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
     @Autowired
     ShOrderGoodsMapper shOrderGoodsMapper;
 
+    @Autowired
+    ShShopCarMapper shShopCarMapper;
 
     @Override
     public ResponseVo allByorder(ShOrder shOrder) {
@@ -65,7 +68,6 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
 
         ResponseVo ok = ResponseUtil.isOk();
 
-
         return ok;
     }
 
@@ -89,6 +91,9 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
             shGoodsOrder.setGoCount(shShopCar.getShopCarCount());
 
             Integer integer = shOrderGoodsMapper.shopCarToOrder(shGoodsOrder);
+
+            shShopCarMapper.delShopCar(shShopCar);
+
 
         }
 

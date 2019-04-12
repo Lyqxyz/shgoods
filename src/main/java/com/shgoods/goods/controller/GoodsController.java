@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shgoods.goods.pojo.ShGoods;
 import com.shgoods.goods.pojo.ShUser;
+import com.shgoods.goods.service.ShBookService;
 import com.shgoods.goods.service.ShGoodsService;
 import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.vo.ResponseVo;
@@ -131,4 +132,20 @@ public class GoodsController {
 
         return responseVo;
     }
+
+    @ResponseBody
+    @GetMapping(value = "/del/{id}")
+    public Object del(@PathVariable(value = "id")String id,HttpServletRequest request){
+
+        ShGoods shGoods = new ShGoods();
+
+        shGoods.setGoodsId(id);
+
+        ResponseVo responseVo = shGoodsService.delById(shGoods);
+
+        return responseVo;
+
+
+    }
+
 }

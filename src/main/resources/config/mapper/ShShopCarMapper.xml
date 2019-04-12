@@ -83,6 +83,7 @@
             shopCar_count shopCarCount,
             shopCar_state shopCarState ,
             shopCar_okBook shopCarOkBook,
+            shopCar_creationTime shopCarCreationTime,
             su.user_id
         FROM
             sh_shopcar ss,
@@ -94,16 +95,39 @@
     </select>
 
     <insert id="add">
-        <selectKey keyProperty="shopCarId" keyColumn="uuid" order="BEFORE" resultType="string">
-            SELECT UUID_SHORT() uuid
+        <selectKey keyProperty="shopCarId" keyColumn="shopCar_id" order="BEFORE" resultType="string">
+            SELECT UUID_SHORT() shopCar_id
         </selectKey>
         INSERT INTO sh_shopcar (shopCar_id, shopCar_gid, shopCar_uid,
                                 shopCar_count, shopCar_state,
                                 shopCar_updateTime, shopCar_creationTime,shopCar_okBook )
         VALUES
-        (#{shopCar_id},#{shopCar_gid},#{shopCar_uid},
-        1,1,NOW(),NOW(),#{shopCar_okBook} )
+        (#{shopCarId},#{shopCarGid},#{shopCarUid},
+        1,1,NOW(),NOW(),#{shopCarOkBook} )
 
     </insert>
+    <select id="has" resultMap="ShopCarInfo">
+        SELECT
+            shopCar_id  shopCarId,
+            shopCar_creationTime shopCarCreationTime
+        FROM
+            sh_shopcar
+        WHERE
+            shopCar_gid =#{shopCarGid} AND shopCar_uid =#{shopCarUid}
+
+    </select>
+    <update id="updateShopCar">
+        UPDATE sh_shopcar
+        SET shopCar_count = shopCar_count + 1
+        WHERE
+	        shopCar_id = #{shopCarId}
+    </update>
+
+    <delete id="delShopCar">
+
+        DELETE FROM sh_shopcar WHERE shopCar_id=#{shopCarId}
+
+    </delete>
+
 
 </mapper>

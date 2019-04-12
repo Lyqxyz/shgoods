@@ -63,8 +63,29 @@
 
     </insert>
 
-    <select id="searchByUser">
-
+    <select id="searchByUser" resultMap="orderInfo">
+        SELECT
+            order_id orderId,
+            order_num orderNum,
+            order_uid userId,
+            order_isPay orderIsPay,
+            order_price orderPrice,
+            order_state orderState,
+            order_address orderAddress,
+            order_receipt orderReceipt,
+            order_updateTIme orderUpdateTime,
+            order_receiptTime orderReceiptTime,
+            order_creationTime orderCreationTime,
+            order_address orderAddress,
+            user_num userNum,
+            user_name userName
+        FROM
+            sh_order so,
+            sh_user su
+        WHERE
+            so.order_uid = su.user_id
+            AND so.order_state = 1
+            AND su.user_id = #{userId}
 
     </select>
 

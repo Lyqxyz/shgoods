@@ -84,6 +84,7 @@
             goods_id goodsId,
             goods_title goodsTitle,
             goods_des goodsDes,
+            goods_ReleaseTime goodsReleaseTime,
             su.user_id userId,
             su.user_num userNum,
             su.user_name userName,
@@ -126,7 +127,8 @@
          SELECT
             goods_id goodsId,
             goods_title goodsTitle,
-            goods_des goodsDes
+            goods_des goodsDes,
+            goods_sellingPrice goodsSellingPrice
         FROM
             sh_goods sg
         WHERE

@@ -139,7 +139,8 @@
             book_id,
             book_name,
             book_isbn,
-            book_creationTime
+            book_creationTime,
+            book_sellingPrice
         FROM
             sh_book sb
         WHERE

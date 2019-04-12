@@ -20,4 +20,7 @@ public interface ShGoodsService {
 
     ResponseVo selectWithUser(ShGoods shGoods);
 
+    ResponseVo delById(ShGoods shGoods);
+
+
 }

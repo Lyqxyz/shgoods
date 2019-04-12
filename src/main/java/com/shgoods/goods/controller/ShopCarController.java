@@ -6,13 +6,11 @@ import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.pojo.ShShopCar;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShShopCarService;
+import com.shgoods.goods.vo.AddShopCarVo.AddShopCarVo;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.soap.Addressing;
@@ -37,7 +35,6 @@ public class ShopCarController {
     }
 
 
-
     @ResponseBody
     @GetMapping(value = "/delete/{shopCarId}")
     public Object delUser(@PathVariable(value = "shopCarId") String shopCarId,HttpServletRequest request){
@@ -53,8 +50,6 @@ public class ShopCarController {
         return  del;
 
     }
-
-
 
     @ResponseBody
     @RequestMapping(value = "/info/{pageNum}/{pageSize}")
@@ -98,5 +93,23 @@ public class ShopCarController {
 
     }
 
+    @ResponseBody
+    @PostMapping(path = "/add")
+    public Object add(AddShopCarVo addShopCarVo,HttpServletRequest request){
+
+        ShShopCar shShopCar = new ShShopCar();
+
+        shShopCar.setShopCarUid(addShopCarVo.getUid());
+
+        shShopCar.setShopCarGid(addShopCarVo.getGid());
+
+        shShopCar.setShopCarOkBook(addShopCarVo.getOkBook());
+
+        ResponseVo responseVo = shShopCarService.addShopCar(shShopCar);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return responseVo;
+    }
 
 }

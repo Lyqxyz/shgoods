@@ -98,4 +98,33 @@ public class ShGoodsServiceImpl implements ShGoodsService {
 
         return ok;
     }
+
+    @Override
+    public ResponseVo delById(ShGoods shGoods) {
+
+        ResponseVo responseVo = new ResponseVo();
+
+        if(shGoods!=null&&shGoods.getGoodsId()!=null){
+
+            Integer del = shGoodsMapper.del(shGoods);
+
+            if(del==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("删除成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是删除状态");
+            }
+
+        }else{
+            responseVo.setCode("-1");
+            responseVo.setMessage("删除失败");
+        }
+
+        responseVo.setDate(new Date());
+
+        return responseVo;
+
+
+    }
 }

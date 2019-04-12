@@ -47,7 +47,7 @@ public class ShShopCarServiceImpl implements ShShopCarService {
 
         if(shShopCar!=null&&shShopCar.getShopCarId()!=null){
 
-            Integer integer = shShopCarMapper.del(shShopCar);
+            Integer integer = shShopCarMapper.delShopCar(shShopCar);
             if(integer==1){
                 responseVo.setCode("1");
                 responseVo.setMessage("删除成功");
@@ -109,7 +109,29 @@ public class ShShopCarServiceImpl implements ShShopCarService {
     public ResponseVo addShopCar(ShShopCar shShopCar) {
 
 
+        if(Objects.isNull(shShopCar)||
+                Objects.isNull(shShopCar.getShopCarGid())||
+                Objects.isNull(shShopCar.getShopCarUid()) ){
+
+            return ResponseUtil.isError();
+
+        }
+
         ResponseVo ok = ResponseUtil.isOk();
+
+        ShShopCar has = shShopCarMapper.has(shShopCar);
+
+        if(Objects.isNull(has)){
+
+            Integer add = shShopCarMapper.add(shShopCar);
+
+            System.out.println(shShopCar);
+
+        }else{
+
+            Integer integer = shShopCarMapper.updateShopCar(has);
+
+        }
 
         return ok;
 
