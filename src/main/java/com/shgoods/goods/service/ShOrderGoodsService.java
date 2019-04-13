@@ -15,4 +15,6 @@ public interface ShOrderGoodsService {
 
     ResponseVo addOrderGoods(ShOrder shOrder,List<ShShopCar> shShopCars);
 
+    ResponseVo selectByOrderGoods(ShGoodsOrder shGoodsOrder);
+
 }

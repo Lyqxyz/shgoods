@@ -1,5 +1,7 @@
 package com.shgoods.goods.service.impl;
 
+import com.shgoods.goods.mapper.ShBookMapper;
+import com.shgoods.goods.mapper.ShGoodsMapper;
 import com.shgoods.goods.mapper.ShOrderGoodsMapper;
 import com.shgoods.goods.mapper.ShShopCarMapper;
 import com.shgoods.goods.pojo.*;
@@ -21,6 +23,13 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
 
     @Autowired
     ShShopCarMapper shShopCarMapper;
+
+    @Autowired
+    ShBookMapper shBookMapper;
+
+    @Autowired
+    ShGoodsMapper shGoodsMapper;
+
 
     @Override
     public ResponseVo allByorder(ShOrder shOrder) {
@@ -98,5 +107,45 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
         }
 
         return ok;
+    }
+
+    @Override
+    public ResponseVo selectByOrderGoods(ShGoodsOrder shGoodsOrder) {
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        List<ShGoodsOrder> shGoodsOrders = shOrderGoodsMapper.selectByGoodsOrder(shGoodsOrder);
+
+        for (ShGoodsOrder goodsOrder : shGoodsOrders) {
+
+            if(goodsOrder.getGoIsBook().equals(1)){
+
+                ShBook shBook = new ShBook();
+
+                shBook.setBookId(goodsOrder.getGoIdAll());
+
+                ShBook shBook1 = shBookMapper.selectById(shBook);
+
+                goodsOrder.setGoBid(shBook1);
+
+            }else{
+
+
+                ShGoods shGoods = new ShGoods();
+
+                shGoods.setGoodsId(goodsOrder.getGoIdAll());
+
+                ShGoods shGoods1 = shGoodsMapper.selectById(shGoods);
+
+                goodsOrder.setGoGid(shGoods1);
+
+            }
+        }
+
+        ok.getInfo().put("data",shGoodsOrders);
+
+        return ok;
+
+
     }
 }

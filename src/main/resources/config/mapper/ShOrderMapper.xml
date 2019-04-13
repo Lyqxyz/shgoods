@@ -57,7 +57,7 @@
                                 order_address, order_updateTIme,
                                 order_creationTime, order_receiptTime )
         VALUES
-            (#{orderId},#{orderUid.userId},1,
+            (#{orderId},#{orderUid.userId},0,
             #{orderNum},#{orderPrice},1,0,#{orderAddress},NOW(),NOW(),NULL )
 
 

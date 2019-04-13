@@ -20,7 +20,8 @@
             go_oid orderId,
             go_count goCount,
             go_state goState,
-            go_isBook goIsBook
+            go_isBook goIsBook,
+            go_creationTime goCreationTime
         FROM
 	        sh_goods_order
 
