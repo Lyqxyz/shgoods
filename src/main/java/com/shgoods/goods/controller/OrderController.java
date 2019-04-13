@@ -133,5 +133,53 @@ public class OrderController {
 
     }
 
+    @ResponseBody
+    @GetMapping(path = "/payId/{id}")
+    public Object updateIsPay(@PathVariable("id")String id,HttpServletRequest request){
+
+        ShOrder shOrder = new ShOrder();
+
+        shOrder.setOrderId(id);
+
+        ResponseVo responseVo = shOrderService.updateIsPay(shOrder);
+
+        responseVo.setPath(request.getRequestURI());
+        return responseVo;
+
+    }
+
+    @ResponseBody
+    @GetMapping(path = "/recv/{id}")
+    public Object recv(@PathVariable("id")String id,HttpServletRequest request){
+
+        ShOrder shOrder = new ShOrder();
+
+        shOrder.setOrderId(id);
+
+        ResponseVo responseVo = shOrderService.updateRecv(shOrder);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return responseVo;
+
+    }
+
+    @ResponseBody
+    @GetMapping(path = "/del/{id}")
+    public Object del(@PathVariable("id")String id,HttpServletRequest request){
+
+        ShOrder shOrder = new ShOrder();
+
+        shOrder.setOrderId(id);
+
+        ResponseVo responseVo = shOrderService.delOrder(shOrder);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return responseVo;
+
+    }
+
+
 
 }

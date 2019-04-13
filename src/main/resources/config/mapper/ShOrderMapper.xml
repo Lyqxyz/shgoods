@@ -88,5 +88,22 @@
             AND su.user_id = #{userId}
 
     </select>
+    <update id="updateIsPay">
+        UPDATE sh_order SET order_isPay = 1 WHERE order_id=#{orderId}
+    </update>
+
+    <update id="updateRecv">
+
+        UPDATE sh_order
+        SET order_receipt = 1,
+        order_receiptTime = NOW( )
+        WHERE
+	        order_id=#{orderId}
+    </update>
+    <delete id="delOrder">
+
+        DELETE FROM sh_order WHERE order_id=#{orderId}
+
+    </delete>
 
 </mapper>

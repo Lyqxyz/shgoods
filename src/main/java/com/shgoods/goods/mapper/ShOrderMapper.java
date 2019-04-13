@@ -16,4 +16,10 @@ public interface ShOrderMapper {
 
      List<ShOrder> searchByUser(ShUser shUser);
 
+     Integer updateIsPay(ShOrder shOrder);
+
+     Integer updateRecv(ShOrder shOrder);
+
+     Integer delOrder(ShOrder shOrder);
+
 }

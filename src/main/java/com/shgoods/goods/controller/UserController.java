@@ -37,9 +37,6 @@ import java.util.List;
 @RequestMapping(value = "/user")
 public class UserController {
 
-
-
-
     @Autowired
     private FileUploadUtil fileUploadUtil;
 

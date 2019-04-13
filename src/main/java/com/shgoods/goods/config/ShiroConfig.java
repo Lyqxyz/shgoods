@@ -70,6 +70,8 @@ public class ShiroConfig {
         definition.put("/login","anon");
         definition.put("/check","anon");
 
+        definition.put("/indexLogin","anon");
+
 
 
         /**

@@ -75,4 +75,56 @@ public class ShOrderServiceImpl implements ShOrderService {
 
         return ok;
     }
+
+    @Override
+    public ResponseVo updateIsPay(ShOrder shOrder) {
+
+
+        if(Objects.isNull(shOrder)||Objects.isNull(shOrder.getOrderId())){
+
+
+            return ResponseUtil.isError();
+        }
+
+        Integer integer = shOrderMapper.updateIsPay(shOrder);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        return ok;
+    }
+
+    @Override
+    public ResponseVo updateRecv(ShOrder shOrder) {
+
+        if(Objects.isNull(shOrder)||Objects.isNull(shOrder.getOrderId())){
+
+
+            return ResponseUtil.isError();
+        }
+
+        Integer integer = shOrderMapper.updateRecv(shOrder);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        return ok;
+
+
+    }
+
+    @Override
+    public ResponseVo delOrder(ShOrder shOrder) {
+        if(Objects.isNull(shOrder)||Objects.isNull(shOrder.getOrderId())){
+
+
+            return ResponseUtil.isError();
+        }
+
+        Integer integer = shOrderMapper.delOrder(shOrder);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        return ok;
+
+
+    }
 }

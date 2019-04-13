@@ -56,14 +56,6 @@ public class RegController {
 
         if(bindingResult.hasErrors()){
 
-//            System.out.println("进来了");
-//            ResponseVo responseVo = new ResponseVo();
-//            Map<String, List<String>> errors =BindingErrorUtil.handlerErrors(bindingResult);
-//            responseVo.setCode("-1");
-//            responseVo.setDate(new Date());
-//            responseVo.setMessage("注册失败");
-//            responseVo.setPath(request.getRequestURI());
-//            responseVo.getErrors().put("AllError",errors);
 
             ResponseVo responseVo = BindingErrorUtil.common("注册失败", request.getRequestURL().toString(), bindingResult);
 

@@ -15,4 +15,10 @@ public interface ShOrderService {
      ResponseVo add(ShOrder shOrder, List<ShShopCar> shShopCars);
 
      ResponseVo selectByUser(ShUser shUser);
+
+     ResponseVo updateIsPay(ShOrder shOrder);
+
+     ResponseVo updateRecv(ShOrder shOrder);
+
+     ResponseVo delOrder(ShOrder shOrder);
 }

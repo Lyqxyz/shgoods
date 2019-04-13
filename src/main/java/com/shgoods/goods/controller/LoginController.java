@@ -93,8 +93,18 @@ public class LoginController {
     @GetMapping(value = "/logout")
     public String logout(){
 
-
         return "redirect:/login";
+    }
+
+    @ResponseBody
+    @PostMapping(path = "/indexLogin")
+    public Object indexLogin(@Validated LoginVo loginVo,HttpServletRequest request,HttpSession session){
+
+        System.out.println("aaaaaaaaaaaaaa");
+        ResponseVo login = shUserService.login(loginVo, request, session);
+
+        return login;
+
     }
 
 }
