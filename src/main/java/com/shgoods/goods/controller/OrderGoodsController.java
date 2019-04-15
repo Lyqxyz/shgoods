@@ -3,6 +3,7 @@ package com.shgoods.goods.controller;
 import com.shgoods.goods.pojo.ShGoodsOrder;
 import com.shgoods.goods.pojo.ShOrder;
 import com.shgoods.goods.pojo.ShRole;
+import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShOrderGoodsService;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,41 @@ public class OrderGoodsController {
         return responseVo;
 
     }
+
+
+    @ResponseBody
+    @GetMapping(path = "/User/{id}")
+    public Object selectByUser(@PathVariable(value = "id")String id, HttpServletRequest request){
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(id);
+
+        ResponseVo responseVo = shOrderGoodsService.selectByUser(shUser);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return responseVo;
+
+    }
+
+    @ResponseBody
+    @GetMapping(path = "/update/{id}")
+    public Object updateById(@PathVariable(value = "id")String id,HttpServletRequest request){
+
+
+        ShGoodsOrder shGoodsOrder = new ShGoodsOrder();
+
+        shGoodsOrder.setGoId(id);
+
+        ResponseVo responseVo = shOrderGoodsService.updataById(shGoodsOrder);
+
+        responseVo.setPath(request.getRequestURI());
+
+        return responseVo;
+
+    }
+
 
     @GetMapping(path = "/search")
     public String search(){

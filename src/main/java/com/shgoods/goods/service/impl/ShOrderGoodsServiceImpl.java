@@ -148,4 +148,58 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
 
 
     }
+
+    @Override
+    public ResponseVo selectByUser(ShUser shUser) {
+
+
+        List<ShGoodsOrder> shGoodsOrders = shOrderGoodsMapper.selectByUser(shUser);
+
+        for (ShGoodsOrder goodsOrder : shGoodsOrders) {
+
+            if (goodsOrder.getGoIsBook().equals(1)) {
+
+                ShBook shBook = new ShBook();
+
+                shBook.setBookId(goodsOrder.getGoIdAll());
+
+                ShBook shBook1 = shBookMapper.selectById(shBook);
+
+                goodsOrder.setGoBid(shBook1);
+
+            } else {
+
+
+                ShGoods shGoods = new ShGoods();
+
+                shGoods.setGoodsId(goodsOrder.getGoIdAll());
+
+                ShGoods shGoods1 = shGoodsMapper.selectById(shGoods);
+
+                goodsOrder.setGoGid(shGoods1);
+
+            }
+        }
+            ResponseVo ok = ResponseUtil.isOk();
+
+            ok.getInfo().put("data",shGoodsOrders);
+
+            return ok;
+    }
+
+    @Override
+    public ResponseVo updataById(ShGoodsOrder shGoodsOrder) {
+
+        Integer integer = shOrderGoodsMapper.updateById(shGoodsOrder);
+
+
+        if(integer.equals(1)){
+
+
+            return ResponseUtil.isOk();
+        }
+
+
+        return ResponseUtil.isError();
+    }
 }

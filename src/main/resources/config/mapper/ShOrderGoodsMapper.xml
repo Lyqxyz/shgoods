@@ -39,10 +39,49 @@
                                     go_state, go_isBook,
                                     go_updateTime, go_creationTime )
         VALUES
-        (#{goId},#{goIdAll},#{goOid.orderId},#{goCount},1,#{goIsBook},NOW(),NOW())
+        (#{goId},#{goIdAll},#{goOid.orderId},#{goCount},0,#{goIsBook},NOW(),NOW())
 
 
     </insert>
 
+    <select id="selectByUser" resultMap="info">
+        SELECT
+            go_id goId,
+            go_gid goIdAll,
+            go_oid orderId,
+            go_count goCount,
+            go_state goState,
+            go_isBook goIsBook,
+            go_creationTime goCreationTime
+        FROM
+            sh_goods_order sgo
+        WHERE
+            sgo.go_gid IN (
+            SELECT
+                book_id AS gid
+            FROM
+                sh_book sb,
+                sh_user su
+            WHERE
+                sb.book_uid = su.user_id
+                AND su.user_id = #{userId} UNION
+            SELECT
+                goods_id AS gid
+            FROM
+                sh_goods sg,
+                sh_user su
+            WHERE
+                sg.goods_uid = su.user_id
+                AND su.user_id = #{userId}
+            )
+            ORDER BY go_state
+    </select>
+
+    <update id="updateById">
+        UPDATE sh_goods_order
+        SET go_state = 1
+        WHERE
+            go_id=#{goId}
+    </update>
 
 </mapper>

@@ -4,6 +4,7 @@ package com.shgoods.goods;
 import com.shgoods.goods.mapper.ShOrderGoodsMapper;
 import com.shgoods.goods.pojo.ShGoodsOrder;
 import com.shgoods.goods.pojo.ShOrder;
+import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShOrderGoodsService;
 import com.shgoods.goods.vo.ResponseVo;
 import org.junit.Test;
@@ -40,6 +41,19 @@ public class GoodsOrderTest {
 
         System.out.println(responseVo);
 
+
+    }
+
+    @Test
+    public void test1(){
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId("98006696911175685");
+
+        List<ShGoodsOrder> shGoodsOrders = shOrderGoodsMapper.selectByUser(shUser);
+
+        System.out.println(shGoodsOrders);
 
     }
 
