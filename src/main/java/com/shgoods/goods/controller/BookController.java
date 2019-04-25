@@ -2,11 +2,13 @@ package com.shgoods.goods.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.shgoods.goods.mapper.ShBookMapper;
 import com.shgoods.goods.pojo.ShBook;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShBookDesService;
 import com.shgoods.goods.service.ShBookService;
 import com.shgoods.goods.util.BindingErrorUtil;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import com.shgoods.goods.vo.book.AddBookVo;
 import org.springframework.beans.BeanUtils;
@@ -36,6 +38,9 @@ public class BookController {
 
     @Autowired
     ShBookDesService shBookDesService;
+
+    @Autowired
+    ShBookMapper shBookMapper;
 
     @ResponseBody
     @PostMapping(value = "/add")
@@ -168,5 +173,35 @@ public class BookController {
 
         return responseVo;
     }
+
+    @ResponseBody
+    @PostMapping("/updateState")
+    public Object updateState(ShBook shBook){
+
+        Integer integer = shBookMapper.updateState(shBook);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("修改成功");
+
+        return ok;
+    }
+//
+//    @ResponseBody
+//    @PostMapping("/del/{id}")
+//    public Object del(@PathVariable(value = "id") String id){
+//
+//        ShBook shBook = new ShBook();
+//
+//        shBook.setBookId(id);
+//
+//        Integer integer = shBookMapper.del(shBook);
+//
+//        ResponseVo ok = ResponseUtil.isOk();
+//
+//        ok.setMessage("修改成功");
+//
+//        return ok;
+//    }
 
 }

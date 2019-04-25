@@ -2,13 +2,17 @@ package com.shgoods.goods.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.shgoods.goods.mapper.ShGoodsMapper;
 import com.shgoods.goods.pojo.ShGoods;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShBookService;
 import com.shgoods.goods.service.ShGoodsService;
 import com.shgoods.goods.util.BindingErrorUtil;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import com.shgoods.goods.vo.goods.GoodsVo;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +32,8 @@ public class GoodsController {
     @Autowired
     ShGoodsService shGoodsService;
 
+    @Autowired
+    ShGoodsMapper shGoodsMapper;
 
     @GetMapping(path = "/addView")
     public String addView(){
@@ -145,6 +151,20 @@ public class GoodsController {
 
         return responseVo;
 
+
+    }
+
+    @ResponseBody
+    @PostMapping(path = "/updateState")
+    public Object updateState(ShGoods shGoods){
+
+        Integer integer = shGoodsMapper.updateState(shGoods);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("更新成功");
+
+        return ok;
 
     }
 

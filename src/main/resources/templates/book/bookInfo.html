@@ -57,6 +57,7 @@
                                 <th>数量</th>
                                 <th>原价</th>
                                 <th>新旧</th>
+                                <th>审核</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -68,11 +69,11 @@
                                 <td>{{item.bookCount}}</td>
                                 <td>{{item.bookOriginalPrice}}</td>
                                 <td>{{item.bookNao}}</td>
+                                <td>{{item.bookState | state}}</td>
                                 <td>
-                                    <a href="#" class="text-warning" title="修改用户"> <i class="fa fa-pencil"></i></a>
-                                    <a href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
-                                    <a href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
-
+                                    <button @click="del(item)" class="btn btn-danger">删除</button>
+                                    <button @click="StateChange(item,1)" class="btn btn-warning">通过</button>
+                                    <button @click="StateChange(item,-1)" class="btn btn-warning">不通过</button>
                                 </td>
                             </tr>
 
@@ -121,18 +122,35 @@
             axios.baseURL='http://localhost:8080';
             axios.defaults.withCredentials=true;
             axios.get('/book/1/5').then(res=>{
-
                 this.a=res.data.info.data;
-
             }).catch(err=>{
 
                 console.log(err)
-
             })
         },
         data:{
             a:{}
 
+        },
+        filters:{
+
+            state(value){
+                let v= parseInt(value)
+
+                switch (v) {
+                    case 0:
+                        return '待审核'
+                    case 1:
+                        return '通过'
+                    case -1:
+                        return '不通过'
+                    default:
+                        return '未知'
+
+                }
+
+
+            }
         },
         methods:{
             page(n){
@@ -177,6 +195,49 @@
                     this.page(this.a.nextPage)
                 }
             },
+
+            redo(){
+                axios.baseURL='http://localhost:8080';
+                axios.defaults.withCredentials=true;
+                axios.get(`/book/${this.a.pageNum}/${this.a.pageSize}`).then(res=>{
+                    this.a=res.data.info.data;
+                }).catch(err=>{
+
+                    console.log(err)
+                })
+            },
+            StateChange(item,state){
+
+                let data=`bookId=${item.bookId}&bookState=${state}`
+                axios.post('/book/updateState',data).then(res=>{
+                    alert(res.data.message)
+                    this.redo()
+                }).catch(err=>{
+
+                    alert('服务器错误，刷新再试')
+                })
+
+
+            },
+            del(item){
+                axios.baseURL='http://localhost:8080';
+                axios.defaults.withCredentials=true;
+                let a  = confirm('确定删除？')
+                if(a){
+                    axios.get(`/book/del/${item.bookId}`).then(res=>{
+
+                        alert(res.data.message)
+
+                        this.redo();
+
+                    }).catch(err=>{
+
+                        alert("服务器错误，请刷新再试")
+
+                    })
+                }
+
+            }
 
         }
 

@@ -33,5 +33,8 @@ public interface ShBookMapper {
 
      ShBook selectWithUser(ShBook shBook);
 
+     Integer updateState(ShBook shBook);
+
+
 
 }

@@ -59,7 +59,7 @@
                         book_updateTime, book_creationTime,book_nao,book_uid )
         VALUES
         (#{bookId},#{bookIsbn},#{bookName},#{bookDes},#{bookCid},#{bookCount},
-        1,#{bookPublish},#{bookAuthor},#{bookOriginalPrice},#{bookSellingPrice},
+        0,#{bookPublish},#{bookAuthor},#{bookOriginalPrice},#{bookSellingPrice},
         NOW(),NOW(),#{bookNao},#{shUser.userId})
 
 
@@ -94,6 +94,7 @@
         book_name,
         book_isbn,
         book_creationTime,
+        book_state,
         su.user_id userId,
         su.user_num userNum,
         su.user_name userName,
@@ -103,7 +104,6 @@
         sh_user AS su
     WHERE
         sb.book_uid = su.user_id
-        AND sb.book_state =1
         AND su.user_id = #{userId}
     </select>
 
@@ -171,5 +171,10 @@
             AND sb.book_state = 1
             AND sb.book_id = #{bookId}
     </select>
+
+
+    <update id="updateState">
+        UPDATE  sh_book SET book_state =#{bookState} WHERE book_id = #{bookId}
+    </update>
 
 </mapper>

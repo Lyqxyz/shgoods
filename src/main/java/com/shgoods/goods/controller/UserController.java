@@ -94,8 +94,6 @@ public class UserController {
         return  responseVo;
 
     }
-    @RequiresRoles(value = {"user","admin"})
-
     @ResponseBody
     @GetMapping(value = "/delete/{userId}")
     public Object delUser(@PathVariable(value = "userId") String userId,HttpServletRequest request){
@@ -117,7 +115,6 @@ public class UserController {
 
         return "user/addUser";
     }
-
 
     @ResponseBody
     @PostMapping("/add")

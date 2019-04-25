@@ -28,7 +28,7 @@
         FROM
         	sh_class
         WHERE
-	        class_pid IS NULL
+	        class_pid IS NULL OR class_pid=''
     </select>
 
     <select id="withParentClass" resultMap="shClassInfo">

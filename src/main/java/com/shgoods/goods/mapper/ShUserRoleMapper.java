@@ -16,31 +16,31 @@ public interface ShUserRoleMapper {
 
 
     //查询用户拥有的角色
-    public List<ShUserRole> findAllRoleByShUser(ShUser shUser);
+     List<ShUserRole> findAllRoleByShUser(ShUser shUser);
 
     //查询用户没有的角色
-    public List<ShRole> findNoRoleByShUser(ShUser shUser);
+     List<ShRole> findNoRoleByShUser(ShUser shUser);
 
     //查询所有用户所拥有的角色
-    public List<ShUserRole> findAllUSerRole();
+     List<ShUserRole> findAllUSerRole();
 
     //禁用或删除用户角色 0  1 -1
-    public Integer forbidUserRole(ShUserRole shUserRole);
+     Integer forbidUserRole(ShUserRole shUserRole);
 
     //更新用户角色
     public Integer updateUserRole(ShUserRole shUserRole);
 
     //更新用户角色状态
-    public Integer updateState(ShUserRole shUserRole);
+     Integer updateState(ShUserRole shUserRole);
 
     //检查用户是否有这个角色
-    public ShUserRole isUserHasRole(ShUserRole shUserRole);
+     ShUserRole isUserHasRole(ShUserRole shUserRole);
 
     //插入用户角色
-    public Integer insertUserRole(ShUserRole shUserRole);
+     Integer insertUserRole(ShUserRole shUserRole);
 
     //查询用户拥有的角色
-    public ShUser findAllRole(ShUser shUser);
+     ShUser findAllRole(ShUser shUser);
 
 
 }

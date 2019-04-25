@@ -7,6 +7,7 @@ public class ShClass {
 
 
     private String classId;
+
     private String classNum;
 
     private String className;

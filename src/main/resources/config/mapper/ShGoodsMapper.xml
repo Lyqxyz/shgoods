@@ -47,7 +47,7 @@
                             goods_originalPrice, goods_updateTime,
                              goods_releaseTime,goods_uid,goods_nao )
 
-        VALUES(#{goodsId},#{goodsDes},#{goodsCount},1,#{goodsTitle},
+        VALUES(#{goodsId},#{goodsDes},#{goodsCount},0,#{goodsTitle},
         #{goodsCid1},#{goodsSellingPrice},#{goodsOriginalPrice},NOW(),
         NOW(),#{shUser.userId},#{goodsNao})
 
@@ -65,18 +65,16 @@
     </select>
     <select id="all" resultMap="info">
         SELECT
-              goods_id goodsId,
-              goods_title goodsTitle,
-              goods_count goodsCount,
-              goods_state goodsState,
-              goods_des gooodsDes,
-              goods_sellingPrice goodsSellingPrice,
-              goods_originalPrice goodsOriginalPrice
-
+            goods_id goodsId,
+            goods_title goodsTitle,
+            goods_count goodsCount,
+            goods_state goodsState,
+            goods_des goodsDes,
+            goods_nao goodsNao,
+            goods_sellingPrice goodsSellingPrice,
+            goods_originalPrice goodsOriginalPrice
         FROM
-              sh_goods
-
-
+            sh_goods
     </select>
 
     <select id="selectByUser" resultMap="info">
@@ -85,6 +83,7 @@
             goods_title goodsTitle,
             goods_des goodsDes,
             goods_ReleaseTime goodsReleaseTime,
+            goods_state goodsState,
             su.user_id userId,
             su.user_num userNum,
             su.user_name userName,
@@ -94,7 +93,7 @@
             sh_user su
         WHERE
             sg.goods_uid = su.user_id
-            AND sg.goods_state =1
+
             AND su.user_id = #{userId}
 
     </select>
@@ -156,4 +155,8 @@
         AND sg.goods_id=#{goodsId}
 
     </select>
+
+    <update id="updateState">
+        UPDATE sh_goods SET goods_state=#{goodsState} WHERE goods_id=#{goodsId}
+    </update>
 </mapper>

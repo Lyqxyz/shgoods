@@ -25,4 +25,6 @@ public interface ShGoodsMapper {
 
     ShGoods selectWithUser(ShGoods shGoods);
 
+    Integer updateState(ShGoods shGoods);
+
 }
