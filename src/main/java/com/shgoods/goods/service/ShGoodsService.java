@@ -22,5 +22,10 @@ public interface ShGoodsService {
 
     ResponseVo delById(ShGoods shGoods);
 
+    ResponseVo selectWithVar(String id);
+
+
+    ResponseVo updateGoods(ShGoods shGoods);
+
 
 }

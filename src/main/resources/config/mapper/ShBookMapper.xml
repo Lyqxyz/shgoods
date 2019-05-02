@@ -159,6 +159,7 @@
             book_des,
             book_sellingPrice,
             book_originalPrice,
+            book_nao,
             su.user_id userId,
             su.user_num userNum,
             su.user_name userName,
@@ -175,6 +176,29 @@
 
     <update id="updateState">
         UPDATE  sh_book SET book_state =#{bookState} WHERE book_id = #{bookId}
+    </update>
+
+    <select id="selectWithAllVar" resultMap="bookInfo">
+
+        SELECT * FROM sh_book WHERE book_id=#{bookId}
+
+    </select>
+    <update id="updateBook">
+        UPDATE sh_book
+        SET
+            book_name=#{bookName},
+            book_isbn=#{bookIsbn},
+            book_nao=#{bookNao},
+            book_publish=#{bookPublish},
+            book_author=#{bookAuthor},
+            book_originalPrice=#{bookOriginalPrice},
+            book_sellingPrice=#{bookSellingPrice},
+            book_cid=#{bookCid},
+            book_des=#{bookDes},
+            book_updateTime=NOW(),
+            book_state = 0
+        WHERE
+            book_id=#{bookId}
     </update>
 
 </mapper>

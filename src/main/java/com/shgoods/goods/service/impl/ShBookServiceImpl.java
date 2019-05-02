@@ -141,6 +141,35 @@ public class ShBookServiceImpl implements ShBookService {
 
     }
 
+    @Override
+    public ResponseVo selectWithAllVar(String id) {
+
+        ShBook shBook = shBookMapper.selectWithAllVar(id);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.getInfo().put("data",shBook);
+
+        return ok;
+
+    }
+
+    @Override
+    public ResponseVo updateBook(ShBook shBook) {
+
+
+        Integer integer = shBookMapper.updateBook(shBook);
+
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("更新成功");
+
+        return ok;
+
+
+    }
+
 
     public List<String> checkAttrs(ShBook shBook){
 

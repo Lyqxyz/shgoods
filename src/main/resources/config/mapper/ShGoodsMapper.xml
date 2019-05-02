@@ -141,7 +141,7 @@
         goods_count goodsCount,
         goods_sellingPrice goodsSellingPrice,
         goods_originalPrice goodsOriginalPrice,
-        goods_nao goods_nao,
+        goods_nao goodsNao,
         su.user_id userId,
         su.user_num userNum,
         su.user_name userName,
@@ -158,5 +158,36 @@
 
     <update id="updateState">
         UPDATE sh_goods SET goods_state=#{goodsState} WHERE goods_id=#{goodsId}
+    </update>
+
+    <select id="selectWithAllVar" resultMap="info">
+        SELECT
+            goods_id goodsId,
+            goods_title goodsTitle,
+            goods_count goodsCount,
+            goods_state goodsState,
+            goods_des goodsDes,
+            goods_nao goodsNao,
+            goods_cid goodsCid1,
+            goods_sellingPrice goodsSellingPrice,
+            goods_originalPrice goodsOriginalPrice
+        FROM
+            sh_goods
+        WHERE
+            goods_id =#{goodsId}
+    </select>
+
+    <update id="updateGoods">
+        UPDATE sh_goods
+        SET goods_nao =#{goodsNao},
+            goods_title=#{goodsTitle},
+            goods_des=#{goodsDes},
+            goods_cid = #{goodsCid1},
+            goods_state = 0,
+            goods_originalPrice =#{goodsOriginalPrice},
+            goods_sellingPrice =#{ goodsSellingPrice},
+            goods_updateTime = NOW( )
+        WHERE
+	        goods_id=#{goodsId}
     </update>
 </mapper>

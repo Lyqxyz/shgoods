@@ -20,4 +20,8 @@ public interface ShBookDesMapper {
 
     List<ShBookDescription> selectByClass(ShClass shClass);
 
+    Integer updatePic();
+
+    Integer delPic(String bookId);
+
 }

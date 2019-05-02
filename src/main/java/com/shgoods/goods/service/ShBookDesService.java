@@ -16,4 +16,6 @@ public interface ShBookDesService {
 
     ResponseVo del(ShBookDescription shBookDescription);
 
+    ResponseVo updatePic(ShBookDescription shBookDescription);
+
 }

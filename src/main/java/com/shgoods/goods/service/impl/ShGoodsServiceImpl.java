@@ -127,4 +127,33 @@ public class ShGoodsServiceImpl implements ShGoodsService {
 
 
     }
+
+    @Override
+    public ResponseVo selectWithVar(String id) {
+
+        ShGoods shGoods = shGoodsMapper.selectWithAllVar(id);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.getInfo().put("data",shGoods);
+
+        return ok;
+
+
+    }
+
+    @Override
+    public ResponseVo updateGoods(ShGoods shGoods) {
+
+
+        Integer integer = shGoodsMapper.updateGoods(shGoods);
+
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("修改成功");
+
+        return ok;
+
+    }
 }

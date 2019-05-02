@@ -46,9 +46,9 @@ public final class FileUploadUtil {
 
     private String accessPath="/upload/";
 
-    private long maxSize=1024*1024*300; //500kb
+    private long maxSize=1024*1024*30000; //500kb
 
-    private long minSize=1*1024;  //50kb
+    private long minSize=1;  //50kb
 
     /**
      * 校验类型
@@ -152,6 +152,40 @@ public final class FileUploadUtil {
 
     }
 
+
+    public List<String> upload(MultipartFile multipartFile,String type) throws IOException {
+
+        if (multipartFile==null){
+
+            throw  new FileUploadException("图片上传失败");
+        }
+
+        createFilePath();
+
+        String contentType = multipartFile.getContentType();
+
+        long size = multipartFile.getSize();
+
+        boolean b = this.checkSize(size);
+
+        boolean b1 = this.checkType(contentType);
+
+        if(!b){
+            throw new FileUploadException("图片超出大小");
+        }
+
+        if(!b1){
+
+            throw new FileUploadException("图片格式不正确");
+        }
+
+        List<String> paths = uploadGoodsImage(multipartFile,type);
+
+        return paths;
+
+    }
+
+
     public  List<List<String>> upload(MultipartFile[] multipartFiles,String type) throws IOException{
 
 
@@ -253,6 +287,7 @@ public final class FileUploadUtil {
 
 
         String t="";
+
         if(GOODSIMAGE.equals(type)){
 
             t=GOODSIMAGE;

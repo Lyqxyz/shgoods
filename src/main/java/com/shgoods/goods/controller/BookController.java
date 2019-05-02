@@ -89,17 +89,13 @@ public class BookController {
     @GetMapping(path = "/addView")
     public String addView(){
 
-
         return "book/addBook";
     }
-
-    @GetMapping(path = "info")
+    @GetMapping(path = "/info")
     public String info(){
-
 
         return "book/bookInfo";
     }
-
     @ResponseBody
     @GetMapping(value = "/{pageNum}/{pageSize}")
     public Object allUser(@PathVariable(value = "pageNum") Integer pageNum, @PathVariable(name = "pageSize") Integer pageSize, HttpServletRequest request){
@@ -186,22 +182,26 @@ public class BookController {
 
         return ok;
     }
-//
-//    @ResponseBody
-//    @PostMapping("/del/{id}")
-//    public Object del(@PathVariable(value = "id") String id){
-//
-//        ShBook shBook = new ShBook();
-//
-//        shBook.setBookId(id);
-//
-//        Integer integer = shBookMapper.del(shBook);
-//
-//        ResponseVo ok = ResponseUtil.isOk();
-//
-//        ok.setMessage("修改成功");
-//
-//        return ok;
-//    }
+
+    @ResponseBody
+    @GetMapping(path = "/arg/{id}")
+    public Object selectWithVar(@PathVariable("id")String id,HttpServletRequest request){
+
+        ResponseVo responseVo = shBookService.selectWithAllVar(id);
+
+
+        return responseVo;
+    }
+
+    @ResponseBody
+    @PostMapping("/updateBook/{id}")
+    public Object updateBook(ShBook shBook,@PathVariable("id")String id){
+
+        shBook.setBookId(id);
+
+        ResponseVo responseVo = shBookService.updateBook(shBook);
+
+        return responseVo;
+    }
 
 }

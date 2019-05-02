@@ -27,4 +27,8 @@ public interface ShGoodsMapper {
 
     Integer updateState(ShGoods shGoods);
 
+    ShGoods selectWithAllVar(String goodsId);
+
+    Integer updateGoods(ShGoods shGoods);
+
 }

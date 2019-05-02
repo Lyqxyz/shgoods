@@ -107,4 +107,12 @@
                 sb.book_id
 
     </select>
+
+    <update id="updatePic">
+
+    </update>
+
+    <delete id="delPic">
+        DELETE FROM sh_bookimagedescription WHERE des_gid = #{bookId}
+    </delete>
 </mapper>

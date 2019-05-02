@@ -24,4 +24,8 @@ public interface ShBookService {
 
      ResponseVo selectWithUser(ShBook shBook);
 
+     ResponseVo selectWithAllVar(String id);
+
+     ResponseVo updateBook(ShBook shBook);
+
 }

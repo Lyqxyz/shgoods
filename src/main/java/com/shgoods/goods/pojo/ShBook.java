@@ -21,6 +21,5 @@ public class ShBook {
     private Date bookCreationTime;
     private Date bookUpdateTime;
     private String bookCid;
-
     private ShUser shUser;
 }

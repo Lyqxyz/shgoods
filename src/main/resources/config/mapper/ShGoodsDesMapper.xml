@@ -106,4 +106,10 @@
             des_id=#{desId}
         </where>
     </delete>
+
+    <delete id="delPic">
+         DELETE FROM sh_goodsimagedescription
+         WHERE des_gid=#{desGid}
+
+    </delete>
 </mapper>

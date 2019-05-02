@@ -21,6 +21,8 @@ public interface ShGoodsDesMapper {
 
   List<ShGoodsDescription> selectByClass(ShClass shClass);
 
+  Integer delPic(String id);
+
 
 
 }

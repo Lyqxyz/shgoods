@@ -148,9 +148,15 @@ public class ShGoodsDesServiceImpl implements ShGoodsDesService {
 
         return responseVo;
 
+    }
 
+    @Override
+    public ResponseVo updatePic(ShGoodsDescription shGoodsDescription) {
 
+        shGoodsDesMapper.delPic(shGoodsDescription.getGoodsId().getGoodsId());
 
+        shGoodsDesMapper.add(shGoodsDescription);
 
+        return null;
     }
 }

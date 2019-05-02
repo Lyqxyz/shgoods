@@ -35,6 +35,11 @@ public interface ShBookMapper {
 
      Integer updateState(ShBook shBook);
 
+     ShBook selectWithAllVar(String id);
+
+     Integer updateBook(ShBook shBook);
+
+
 
 
 }

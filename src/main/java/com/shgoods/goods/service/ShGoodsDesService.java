@@ -16,4 +16,6 @@ public interface ShGoodsDesService {
 
     ResponseVo del(ShGoodsDescription shGoodsDescription);
 
+    ResponseVo updatePic(ShGoodsDescription shGoodsDescription);
+
 }

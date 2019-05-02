@@ -7,6 +7,7 @@ import com.shgoods.goods.pojo.ShBookDescription;
 import com.shgoods.goods.pojo.ShGoods;
 import com.shgoods.goods.service.ShBookDesService;
 import com.shgoods.goods.util.FileUploadUtil;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -145,6 +146,21 @@ public class ShBookDesServiceImpl implements ShBookDesService {
 
         return responseVo;
 
+
+    }
+
+    @Override
+    public ResponseVo updatePic(ShBookDescription shBookDescription) {
+
+        Integer integer = shBookDesMapper.delPic(shBookDescription.getGoodsId().getBookId());
+
+        Integer add = shBookDesMapper.add(shBookDescription);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("更新成功");
+
+        return ok;
 
     }
 }

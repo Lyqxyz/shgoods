@@ -168,4 +168,30 @@ public class GoodsController {
 
     }
 
+
+
+    @ResponseBody
+    @GetMapping("/arg/{id}")
+    public Object selectAllVar(@PathVariable("id")String id){
+
+
+        ResponseVo responseVo = shGoodsService.selectWithVar(id);
+
+        return responseVo;
+
+    }
+
+
+    @PostMapping("/updateGoods/{id}")
+    @ResponseBody
+    public Object updateGoods(ShGoods shGoods,@PathVariable(value = "id")String id){
+
+        shGoods.setGoodsId(id);
+
+        ResponseVo responseVo = shGoodsService.updateGoods(shGoods);
+
+        return responseVo;
+
+    }
+
 }

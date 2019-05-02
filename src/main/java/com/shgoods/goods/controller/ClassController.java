@@ -72,7 +72,6 @@ public class ClassController {
 
         shClass.setClassPid(addClassVo.getClassInfoPid());
 
-
         ResponseVo responseVo;
 
         if(result.hasErrors()){
