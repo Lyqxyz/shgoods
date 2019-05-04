@@ -75,7 +75,7 @@ public class ShUserRoleTest {
 
         ShUser shUser = new ShUser();
 
-        shUser.setUserNum("12004");
+        shUser.setUserId("97977401056690245");
 
         ShUser allRole = shUserRoleMapper.findAllRole(shUser);
 
@@ -90,9 +90,9 @@ public class ShUserRoleTest {
         userRoleAuth.setShUser(shUser);
 
 
-        String s = JSON.toJSONString(userRoleAuth);
 
-        System.out.println(s);
+
+        System.out.println(userRoleAuth);
 
     }
     @Test

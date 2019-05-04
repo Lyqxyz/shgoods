@@ -273,7 +273,6 @@ public final class FileUploadUtil {
         //上传图片
         file.transferTo(file2);
 
-
         //图片处理后地址
         String size =uploadPath+s+"5050"+suffix;
 

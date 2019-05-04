@@ -23,16 +23,16 @@ public interface ShUserService {
      * @param session
      * @return
      */
-    public ResponseVo login(LoginVo loginVo, HttpServletRequest request, HttpSession session);
+     ResponseVo login(LoginVo loginVo, HttpServletRequest request, HttpSession session);
 
     /**
      * 登录验证 查询用户
      * @param shUser
      * @return
      */
-    public ShUser checkLogin(ShUser shUser);
+     ShUser checkLogin(ShUser shUser);
 
-    public Integer afterLogin(ShUser shUser);
+     Integer afterLogin(ShUser shUser);
 
 
     /**
@@ -41,13 +41,13 @@ public interface ShUserService {
      * @param request
      * @return
      */
-    public ResponseVo register(RegVo regVo,HttpServletRequest request);
+     ResponseVo register(RegVo regVo,HttpServletRequest request);
 
     /**
      * 注册前校验
      * @return
      */
-    public List<String> attrsToCheck(ShUser shUser);
+     List<String> attrsToCheck(ShUser shUser);
 
 
     /**
@@ -55,14 +55,14 @@ public interface ShUserService {
      * @param shUser
      * @return
      */
-    public ResponseVo forbidUser(ShUser shUser);
+     ResponseVo forbidUser(ShUser shUser);
 
     /**
      * 删除用户(逻辑删除)
      * @param shUser
      * @return
      */
-    public ResponseVo delUser(ShUser shUser);
+     ResponseVo delUser(ShUser shUser);
 
 
     /**
@@ -70,7 +70,8 @@ public interface ShUserService {
      * @param shUser file
      * @return
      */
-    public ResponseVo addUser(ShUser shUser, MultipartFile file);
+     ResponseVo addUser(ShUser shUser, MultipartFile file);
 
 
+     ResponseVo updatePhoto(ShUser shUser);
 }

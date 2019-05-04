@@ -5,6 +5,7 @@ import com.shgoods.goods.mapper.ShUserMapper;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShUserService;
 import com.shgoods.goods.util.FileUploadUtil;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.LoginVo;
 import com.shgoods.goods.vo.RegVo;
 import com.shgoods.goods.vo.ResponseVo;
@@ -276,4 +277,20 @@ public class ShUserServiceImpl implements ShUserService {
 
         return responseVo;
     }
+
+    @Override
+    public ResponseVo updatePhoto(ShUser shUser) {
+
+
+        Integer integer = shUserMapper.updatePhoto(shUser);
+
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("上传成功");
+
+        return ok;
+
+    }
+
 }

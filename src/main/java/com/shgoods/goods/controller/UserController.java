@@ -8,6 +8,7 @@ import com.shgoods.goods.service.ShUserService;
 import com.shgoods.goods.service.dto.UserInfoDtoService;
 import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.util.FileUploadUtil;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import com.shgoods.goods.vo.user.UserAddVo;
 import org.apache.commons.collections.bag.SynchronizedSortedBag;
@@ -140,7 +141,36 @@ public class UserController {
     }
 
 
+    @PostMapping("/updatePhoto")
+    @ResponseBody
+    public Object updatePhoto(@RequestParam("uid")String uid,@RequestParam("file")MultipartFile file){
 
+        try {
 
+            String s = fileUploadUtil.upload(file);
 
+            ShUser shUser = new ShUser();
+
+            shUser.setUserId(uid);
+
+            shUser.setUserPhoto(s);
+
+            shUserService.updatePhoto(shUser);
+
+            ResponseVo ok = ResponseUtil.isOk();
+
+            ok.getInfo().put("path",s);
+
+            ok.setMessage("修改成功");
+
+            return ok;
+
+        } catch (IOException e) {
+
+            ResponseVo error = ResponseUtil.isError();
+            error.setMessage("头像上传失败");
+            return error;
+        }
+
+    }
 }

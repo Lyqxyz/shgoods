@@ -85,6 +85,7 @@
                 r.role_id = ar.ar_rid
                 AND a.authority_id = ar.ar_aid
                 AND r.role_id
+                AND a.authority_state=1
                 <foreach collection="list" item="role" open="IN(" close=")" separator=",">
                         #{role.roleId}
                 </foreach>
