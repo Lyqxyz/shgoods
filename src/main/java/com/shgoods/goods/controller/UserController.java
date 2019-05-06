@@ -47,6 +47,7 @@ public class UserController {
     @Autowired
     UserInfoDtoService userInfoDtoService;
 
+    @RequiresRoles({"aaa"})
     @GetMapping(value = "/info")
     public String info(){
 
@@ -140,6 +141,11 @@ public class UserController {
         return responseVo;
     }
 
+    @GetMapping("/unauthorized")
+    public String unauth(){
+
+        return "unauthorized/unauthorized";
+    }
 
     @PostMapping("/updatePhoto")
     @ResponseBody

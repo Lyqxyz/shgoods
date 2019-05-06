@@ -1,5 +1,6 @@
 package com.shgoods.goods.service;
 
+import com.shgoods.goods.bean.UserRoleAuth;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.vo.LoginVo;
 import com.shgoods.goods.vo.RegVo;
@@ -13,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface ShUserService {
-
-
     /**
      *
      * 登录验证
@@ -24,7 +23,6 @@ public interface ShUserService {
      * @return
      */
      ResponseVo login(LoginVo loginVo, HttpServletRequest request, HttpSession session);
-
     /**
      * 登录验证 查询用户
      * @param shUser
@@ -33,7 +31,6 @@ public interface ShUserService {
      ShUser checkLogin(ShUser shUser);
 
      Integer afterLogin(ShUser shUser);
-
 
     /**
      * 注册用户
@@ -49,7 +46,6 @@ public interface ShUserService {
      */
      List<String> attrsToCheck(ShUser shUser);
 
-
     /**
      * 禁用用户
      * @param shUser
@@ -64,7 +60,6 @@ public interface ShUserService {
      */
      ResponseVo delUser(ShUser shUser);
 
-
     /**
      * 增加用户
      * @param shUser file
@@ -74,4 +69,8 @@ public interface ShUserService {
 
 
      ResponseVo updatePhoto(ShUser shUser);
+
+     UserRoleAuth selectByUserId(String id);
+
+
 }

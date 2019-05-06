@@ -10,6 +10,7 @@ import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.pojo.ShUserRole;
 import com.shgoods.goods.service.ShUserRoleService;
+import com.shgoods.goods.service.ShUserService;
 import com.shgoods.goods.vo.ResponseVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +33,9 @@ public class ShUserRoleTest {
 
     @Autowired
     ShUserRoleService shUserRoleService;
+
+    @Autowired
+    ShUserService shUserService;
 
     @Test
     public void test1(){
@@ -140,6 +144,15 @@ public class ShUserRoleTest {
         ResponseVo add = shUserRoleService.add(shUserRole);
 
         System.out.println(add);
+
+    }
+
+    @Test
+    public void test45(){
+
+        UserRoleAuth userRoleAuth = shUserService.selectByUserId("97995090751913988");
+
+        System.out.println(userRoleAuth);
 
     }
 

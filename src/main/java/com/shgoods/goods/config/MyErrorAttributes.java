@@ -25,16 +25,15 @@ public class MyErrorAttributes extends DefaultErrorAttributes {
     public Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
         Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, includeStackTrace);
 
-        errorAttributes.remove("exception");
+        String message =(String) webRequest.getAttribute("message",0);
 
-        errorAttributes.remove("trace");
+//        String exception =(String) webRequest.getAttribute("exception",0);
 
-        errorAttributes.remove("errors");
+//        errorAttributes.put("exception",exception);
 
-        errorAttributes.put("message","服务器错误");
+        errorAttributes.put("message",message);
 
         errorAttributes.put("code","-1");
-
 
         return errorAttributes;
     }

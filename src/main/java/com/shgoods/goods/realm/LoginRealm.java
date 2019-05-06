@@ -1,9 +1,14 @@
 package com.shgoods.goods.realm;
 
+import com.shgoods.goods.bean.UserRoleAuth;
+import com.shgoods.goods.mapper.ShRoleMapper;
+import com.shgoods.goods.pojo.ShAuthority;
+import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -18,6 +23,7 @@ public class LoginRealm extends AuthorizingRealm {
     @Autowired
     ShUserService shUserService;
 
+
     @Override
     public String getName() {
         return "LoginRealm";
@@ -26,23 +32,44 @@ public class LoginRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
-        System.out.println("进来了 =222222222222");
+        System.out.println("先授权");
 
-        Object primaryPrincipal = principalCollection.getPrimaryPrincipal();
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
-        System.out.println(primaryPrincipal);
+        ShUser primaryPrincipal = (ShUser) principalCollection.getPrimaryPrincipal();
 
-        return null;
+        UserRoleAuth userRoleAuth = shUserService.selectByUserId(primaryPrincipal.getUserId());
+
+        for (ShRole shRole : userRoleAuth.getShRoles()) {
+
+            simpleAuthorizationInfo.addRole(shRole.getRoleName());
+
+            simpleAuthorizationInfo.addRole(shRole.getRoleNum());
+
+        }
+
+        for (ShAuthority shAuthority : userRoleAuth.getShAuthorities()) {
+
+            simpleAuthorizationInfo.addStringPermission(shAuthority.getAuthorityName());
+
+            simpleAuthorizationInfo.addStringPermission(shAuthority.getAuthorityNum());
+
+        }
+
+        return simpleAuthorizationInfo;
 
     }
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
+
         String principal =(String) authenticationToken.getPrincipal();
+
         ShUser shUser = new ShUser();
 
         shUser.setUserNum(principal);
+
         ShUser login = shUserService.checkLogin(shUser);
 
         if(login==null){
@@ -55,6 +82,7 @@ public class LoginRealm extends AuthorizingRealm {
         }
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(login,login.getUserPwd(), ByteSource.Util.bytes(login.getUserNum()),getName());
+
         return authenticationInfo;
     }
 }

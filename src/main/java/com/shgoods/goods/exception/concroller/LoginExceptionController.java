@@ -35,13 +35,13 @@ public class LoginExceptionController {
         return responseinfo;
     }
 
-    @ResponseBody
-    @ExceptionHandler(Exception.class)
-    public Object handAllException(Exception e,HttpServletRequest request){
-        ResponseVo responseinfo = responseinfo("服务器错误,请稍后再试!");
-        responseinfo.setPath(request.getRequestURI());
-        return responseinfo;
-    }
+//    @ExceptionHandler(Exception.class)
+//    public String handAllException(Exception e,HttpServletRequest request){
+//
+//        request.setAttribute("javax.servlet.error.status_code",500);
+//        request.setAttribute("message","服务器繁忙");
+//        return "forward:/error";
+//    }
 
     public  ResponseVo responseinfo(String errormsg){
 

@@ -9,6 +9,8 @@ import com.shgoods.goods.vo.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,7 @@ public class LoginController {
 
     @Autowired
     ShUserService shUserService;
+
 
     @GetMapping(value = "/login")
     public String login(Model model, HttpSession session) {
@@ -100,7 +103,7 @@ public class LoginController {
     @PostMapping(path = "/indexLogin")
     public Object indexLogin(@Validated LoginVo loginVo,HttpServletRequest request,HttpSession session){
 
-        System.out.println("aaaaaaaaaaaaaa");
+
         ResponseVo login = shUserService.login(loginVo, request, session);
 
         return login;

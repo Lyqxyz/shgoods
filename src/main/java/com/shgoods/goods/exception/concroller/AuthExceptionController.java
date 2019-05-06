@@ -3,6 +3,7 @@ package com.shgoods.goods.exception.concroller;
 
 import com.shgoods.goods.vo.ResponseVo;
 import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -10,25 +11,34 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
+/**
+ * 授权异常
+ */
 @ControllerAdvice
 public class AuthExceptionController {
 
-    @ResponseBody
     @ExceptionHandler(value = UnauthenticatedException.class)
-    public Object authexception(HttpServletRequest request){
+    public String authException(HttpServletRequest request,Exception e){
 
-        ResponseVo responseVo = new ResponseVo();
+        System.out.println(e.getMessage());
 
-        responseVo.setCode("-1");
+        request.setAttribute("javax.servlet.error.status_code",401);
 
-        responseVo.setDate(new Date());
+        request.setAttribute("message","你没有被授权");
 
-        responseVo.setMessage("没有权限");
+        request.setAttribute("code","-1");
 
-        responseVo.setPath(request.getRequestURI());
-
-        return responseVo;
+        return "forward:/error";
 
     }
+
+
+//    @ExceptionHandler(value = UnauthenticatedException.class)
+//    public String authexception1(HttpServletRequest request){
+//
+//
+//        return "unauthorized/unauthorized";
+//
+//    }
 
 }

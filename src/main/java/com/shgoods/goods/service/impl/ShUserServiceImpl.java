@@ -1,7 +1,11 @@
 package com.shgoods.goods.service.impl;
 
+import com.shgoods.goods.bean.UserRoleAuth;
 import com.shgoods.goods.exception.FileUploadException;
+import com.shgoods.goods.mapper.ShAuthorityRoleMapper;
 import com.shgoods.goods.mapper.ShUserMapper;
+import com.shgoods.goods.mapper.ShUserRoleMapper;
+import com.shgoods.goods.pojo.ShAuthority;
 import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShUserService;
 import com.shgoods.goods.util.FileUploadUtil;
@@ -42,6 +46,12 @@ public class ShUserServiceImpl implements ShUserService {
     @Autowired
     FileUploadUtil fileUploadUtil;
 
+    @Autowired
+    ShUserRoleMapper shUserRoleMapper;
+
+    @Autowired
+    ShAuthorityRoleMapper shAuthorityRoleMapper;
+
     @Override
     public ResponseVo login(LoginVo loginVo, HttpServletRequest request, HttpSession session) {
 
@@ -54,12 +64,21 @@ public class ShUserServiceImpl implements ShUserService {
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(loginVo.getUsername(), loginVo.getPwd());
             try {
                 currentUser.login(usernamePasswordToken);
+
+//                currentUser.checkRole("admin");
+
                 responseVo.setCode("1");
+
                 responseVo.setMessage("登录成功");
+
                 ShUser principal = (ShUser)currentUser.getPrincipal();
+
                 principal.setUserLoginip(request.getRemoteAddr());
+
                 Integer integer = this.afterLogin(principal);
+
                 session.setAttribute("user",principal);
+
                 responseVo.getInfo().put("user",principal);
 
             } catch (UnknownAccountException uae) {
@@ -78,16 +97,13 @@ public class ShUserServiceImpl implements ShUserService {
 
                 log.info(usernamePasswordToken.getPrincipal() + "密码不正确");
                 responseVo.setCode("-1");
-
                 responseVo.setMessage("密码不正确");
             } catch (AuthenticationException ae) {
-
                 responseVo.setCode("-1");
                 responseVo.setMessage("服务器错误");
                 log.info(ae.getMessage());
             }
         }
-
         responseVo.setDate(new Date());
         responseVo.setPath(request.getRequestURI());
         return  responseVo;
@@ -290,6 +306,29 @@ public class ShUserServiceImpl implements ShUserService {
         ok.setMessage("上传成功");
 
         return ok;
+
+    }
+
+    @Override
+    public UserRoleAuth selectByUserId(String id) {
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId("97977401056690245");
+
+        ShUser allRole = shUserRoleMapper.findAllRole(shUser);
+
+        List<ShAuthority> shAuthorities = shAuthorityRoleMapper.AllAuthByRoles(allRole.getShRoles());
+
+        UserRoleAuth userRoleAuth = new UserRoleAuth();
+
+        userRoleAuth.setShAuthorities(shAuthorities);
+
+        userRoleAuth.setShRoles(allRole.getShRoles());
+
+
+        return userRoleAuth;
+
 
     }
 
