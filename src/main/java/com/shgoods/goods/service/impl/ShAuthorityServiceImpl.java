@@ -63,9 +63,11 @@ public class ShAuthorityServiceImpl implements ShAuthorityService {
     public ResponseVo forbid(ShAuthority shAuthority) {
 
         ResponseVo responseVo = new ResponseVo();
+
         if(shAuthority!=null&&shAuthority.getAuthorityId()!=null){
 
             Integer integer = shAuthorityMapper.forbidAuthority(shAuthority);
+
             if(integer==1){
                 responseVo.setCode("1");
                 responseVo.setMessage("禁用成功");
@@ -110,6 +112,34 @@ public class ShAuthorityServiceImpl implements ShAuthorityService {
         responseVo.setDate(new Date());
 
         return responseVo;
+    }
+
+    @Override
+    public ResponseVo active(ShAuthority shAuthority) {
+
+        ResponseVo responseVo = new ResponseVo();
+        if(shAuthority!=null&&shAuthority.getAuthorityId()!=null){
+
+            Integer integer = shAuthorityMapper.forbidAuthority(shAuthority);
+            if(integer==1){
+                responseVo.setCode("1");
+                responseVo.setMessage("激活成功");
+            }else{
+                responseVo.setCode("-1");
+                responseVo.setMessage("已是激活状态");
+                responseVo.getErrors().put("errors", Arrays.asList("用户已经是激活状态"));
+            }
+
+        }else{
+            responseVo.setCode("-1");
+            responseVo.setMessage("激活失败");
+            responseVo.getErrors().put("errors", Arrays.asList("用户id为空"));
+        }
+        responseVo.setDate(new Date());
+
+        return responseVo;
+
+
     }
 
     public List<String> checkAttrs(ShAuthority shAuthority){

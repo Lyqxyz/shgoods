@@ -138,5 +138,15 @@ public class RoleController {
     }
 
 
+    @GetMapping("/active/{roleId}")
+    @ResponseBody
+    public Object active(@PathVariable("roleId")String roleId){
+
+        ResponseVo active = shRoleService.active(roleId);
+
+        return active;
+
+    }
+
 
 }

@@ -72,5 +72,6 @@ public interface ShUserService {
 
      UserRoleAuth selectByUserId(String id);
 
+     ResponseVo indexLogin(LoginVo loginVo, HttpServletRequest request, HttpSession session);
 
 }

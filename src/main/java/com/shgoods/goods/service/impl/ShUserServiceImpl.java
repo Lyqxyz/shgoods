@@ -314,7 +314,7 @@ public class ShUserServiceImpl implements ShUserService {
 
         ShUser shUser = new ShUser();
 
-        shUser.setUserId("97977401056690245");
+        shUser.setUserId(id);
 
         ShUser allRole = shUserRoleMapper.findAllRole(shUser);
 
@@ -326,9 +326,62 @@ public class ShUserServiceImpl implements ShUserService {
 
         userRoleAuth.setShRoles(allRole.getShRoles());
 
-
         return userRoleAuth;
 
+
+    }
+
+    @Override
+    public ResponseVo indexLogin(LoginVo loginVo, HttpServletRequest request, HttpSession session) {
+
+        ResponseVo responseVo = new ResponseVo();
+
+        Subject currentUser = SecurityUtils.getSubject();
+
+        if (!currentUser.isAuthenticated()) {
+
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(loginVo.getUsername(), loginVo.getPwd());
+            try {
+                currentUser.login(usernamePasswordToken);
+
+                responseVo.setCode("1");
+
+                responseVo.setMessage("登录成功");
+
+                ShUser principal = (ShUser)currentUser.getPrincipal();
+
+                principal.setUserLoginip(request.getRemoteAddr());
+
+                this.afterLogin(principal);
+
+                session.setAttribute("user",principal);
+
+                responseVo.getInfo().put("user",principal);
+
+            } catch (UnknownAccountException uae) {
+                log.info(usernamePasswordToken.getPrincipal() + "账户不存在");
+                responseVo.setCode("-1");
+                responseVo.setMessage("账户不存在");
+            } catch (LockedAccountException lae) {
+                log.info(usernamePasswordToken.getPrincipal() + "用户被锁定了 ");
+                responseVo.setCode("-1");
+                responseVo.setMessage("用户被锁定了");
+
+            } catch (IncorrectCredentialsException e) {
+                log.info(usernamePasswordToken.getPrincipal() + "密码不正确");
+                responseVo.setCode("-1");
+                responseVo.setMessage("密码不正确");
+            } catch (AuthenticationException ae) {
+                responseVo.setCode("-1");
+                responseVo.setMessage("服务器错误");
+                log.info(ae.getMessage());
+            }
+        }
+        responseVo.setDate(new Date());
+
+        responseVo.setPath(request.getRequestURI());
+
+        return  responseVo;
 
     }
 

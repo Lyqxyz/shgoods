@@ -7,14 +7,17 @@ import java.util.List;
 
 public interface ShRoleService {
 
-   public List<ShRole> findAll();
+    List<ShRole> findAll();
 
-   public ResponseVo forbidRole(ShRole shRole);
+    ResponseVo forbidRole(ShRole shRole);
 
-   public ResponseVo delRole(ShRole shRole);
+    ResponseVo delRole(ShRole shRole);
 
-   public ResponseVo addRole(ShRole shRole);
+    ResponseVo addRole(ShRole shRole);
 
-   public List<String> checkAttrs(ShRole shRole);
+    List<String> checkAttrs(ShRole shRole);
+
+    ResponseVo active(String roleId);
+
 
 }

@@ -104,7 +104,7 @@ public class LoginController {
     public Object indexLogin(@Validated LoginVo loginVo,HttpServletRequest request,HttpSession session){
 
 
-        ResponseVo login = shUserService.login(loginVo, request, session);
+        ResponseVo login = shUserService.indexLogin(loginVo, request, session);
 
         return login;
 

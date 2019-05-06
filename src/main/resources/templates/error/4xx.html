@@ -1,17 +1,44 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${status}">4xx</title>
     <style>
+        #con{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .info{
+            font-size: 50px;
+            color: red;
+            margin: 20px;
+        }
+        .goBack{
 
+            text-decoration: none;
+        }
     </style>
+    <script>
+        window.onload=()=>{
+            let a = document.querySelector('.goBack')
+            a.addEventListener('click',(e)=>{
+                e.preventDefault()
+                window.history.go(-1)
+            })
+        }
+
+    </script>
 </head>
 <body>
-<h2 th:text="${status}">404</h2>
-<h2 th:text="${message}">404</h2>
-<!--<h2 th:text="${errors}">404</h2>-->
-<!--<h2 th:text="${exception}">404</h2>-->
-
+<div id = "con">
+    <div class="info" th:text="${status}">400</div>
+    <div class="info" th:text="${message}">你没有权限</div>
+    <a href="#" class="goBack">返回</a>
+</div>
 </body>
 </html>

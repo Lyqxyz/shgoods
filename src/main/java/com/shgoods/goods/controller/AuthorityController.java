@@ -153,5 +153,24 @@ public class AuthorityController {
     }
 
 
+    @ResponseBody
+    @GetMapping("/active/{authId}")
+    public Object active(@PathVariable String authId,HttpServletRequest request){
+
+        ShAuthority shAuthority = new ShAuthority();
+
+        shAuthority.setAuthorityState(1);
+
+        shAuthority.setAuthorityId(authId);
+
+        ResponseVo forbid = shAuthorityService.active(shAuthority);
+
+        forbid.setPath(request.getRequestURI());
+
+        forbid.setDate(new Date());
+
+        return forbid;
+
+    }
 
 }

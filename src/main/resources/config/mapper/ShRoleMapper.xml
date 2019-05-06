@@ -136,4 +136,11 @@
         SELECT role_id FROM sh_role WHERE role_id=#{roleId} AND role_state!=-1
     </select>
 
+    <update id="active">
+        UPDATE sh_role
+        SET role_state = 1,role_updateTime=NOW()
+        WHERE
+            role_id =#{roleId}
+    </update>
+
 </mapper>

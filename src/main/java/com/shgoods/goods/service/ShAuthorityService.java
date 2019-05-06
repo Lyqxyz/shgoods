@@ -10,12 +10,14 @@ import java.util.List;
  */
 public interface ShAuthorityService {
 
-    public ResponseVo add(ShAuthority shAuthority);
+     ResponseVo add(ShAuthority shAuthority);
 
-    public List<ShAuthority> info();
+     List<ShAuthority> info();
 
-    public ResponseVo forbid(ShAuthority shAuthority);
+     ResponseVo forbid(ShAuthority shAuthority);
 
-    public ResponseVo del(ShAuthority shAuthority);
+     ResponseVo del(ShAuthority shAuthority);
+
+     ResponseVo active(ShAuthority shAuthority);
 
 }

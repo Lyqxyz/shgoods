@@ -14,32 +14,32 @@ public interface ShRoleMapper {
 
 
     //查询所有角色
-    public List<ShRole> findAllRole();
+     List<ShRole> findAllRole();
 
     //插入角色
-    public Integer insertRole(ShRole shRole);
+     Integer insertRole(ShRole shRole);
 
     //根据条件查询
-    public List<ShRole> findAllRoleByCondition(ShRole shRole);
+     List<ShRole> findAllRoleByCondition(ShRole shRole);
 
     //根据角色修改
-    public Integer updateRole(ShRole shRole);
+     Integer updateRole(ShRole shRole);
 
     //禁用角色的状态
-    public Integer forbidRole(ShRole shRole);
+     Integer forbidRole(ShRole shRole);
 
     //禁用角色的状态
-    public Integer delRole(ShRole shRole);
+     Integer delRole(ShRole shRole);
 
     //检查角色是否可用
-    public ShRole usableRole(ShRole shRole);
+     ShRole usableRole(ShRole shRole);
 
-    public ShRole selectRoleById(ShRole shRole);
+     ShRole selectRoleById(ShRole shRole);
 
+     ShRole checkRoleNum(ShRole shRole);
 
-    public ShRole checkRoleNum(ShRole shRole);
+     ShRole checkRoleName(ShRole shRole);
 
-    public ShRole checkRoleName(ShRole shRole);
-
+     Integer active(String roleId);
 
 }

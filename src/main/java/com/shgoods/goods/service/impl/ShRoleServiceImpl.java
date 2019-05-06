@@ -3,6 +3,7 @@ package com.shgoods.goods.service.impl;
 import com.shgoods.goods.mapper.ShRoleMapper;
 import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.service.ShRoleService;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -121,5 +122,17 @@ public class ShRoleServiceImpl implements ShRoleService {
             errors.add("角色名已经存在了");
         }
         return errors;
+    }
+
+    @Override
+    public ResponseVo active(String roleId) {
+
+        shRoleMapper.active(roleId);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("激活成功");
+
+        return ok;
     }
 }

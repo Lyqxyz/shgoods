@@ -70,9 +70,9 @@
                                 <td>{{item.roleDes}}</td>
                                 <td>{{item.roleState | state}}</td>
                                 <td>
-                                    <a href="#" class="text-warning" title="修改用户"> <i class="fa fa-pencil"></i></a>
-                                    <a @click.prevent="deleteRole(item.roleId)" href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
-                                    <a @click.prevent="forbidRole(item.roleId)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
+                                    <a @click.prebent="active(item.roleId)" href="#" class="text-warning" title="修改角色"> <i class="fa fa-pencil"></i></a>
+                                    <a @click.prevent="deleteRole(item.roleId)" href="#" class="text-danger" title="删除角色"><i class="fa fa-trash"></i></a>
+                                    <a @click.prevent="forbidRole(item.roleId)" href="#" class="text-danger" title="禁用角色"><i class="fa fa-times-circle"></i></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -147,20 +147,14 @@
         data:{
             r:{}
         },
-
         created(){
-
             axios.baseURL='http://localhost:8080';
             axios.defaults.withCredentials=true;
             axios.get('/role/info/1/4').then(res=>{
                 this.r=res.data.info.data;
-
             }).catch(err=>{
-
                 console.log(err)
-
             })
-
         },
 
         methods:{
@@ -249,9 +243,21 @@
             },
             deleteRole(roleId){
                 this.checkState(roleId,'delete');
+            },
+            redo(){
+                axios.get(`/role/info/${this.r.pageNum}/${this.r.pageSize}`).then(res=>{
+                    this.r=res.data.info.data;
+                }).catch(err=>{
+                    console.log(err)
+                })
+            },
+            active(roleId){
+                axios.get('/role/active/'+roleId).then(res=>{
+                    alert(res.data.message)
+                    this.redo();
+                })
+
             }
-
-
         }
     })
 

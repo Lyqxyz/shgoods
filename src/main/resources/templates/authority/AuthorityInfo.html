@@ -67,11 +67,11 @@
                                 <td>{{item.authorityNum}}</td>
                                 <td>{{item.authorityName}}</td>
                                 <td>{{item.authorityDes}}</td>
-                                <td>{{item.authorityState}}</td>
+                                <td>{{item.authorityState | state}}</td>
                                 <td>
-                                    <a href="#" class="text-warning" title="修改用户"> <i class="fa fa-pencil"></i></a>
-                                    <a @click.prevent="deleteAuth(item.authorityId)" href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
-                                    <a @click.prevent="forbidAuth(item.authorityId)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
+                                    <a @click.prevent="active(item.authorityId)" href="#" class="text-warning" title="修改权限"> <i class="fa fa-pencil"></i></a>
+                                    <a @click.prevent="deleteAuth(item.authorityId)" href="#" class="text-danger" title="删除权限"><i class="fa fa-trash"></i></a>
+                                    <a @click.prevent="forbidAuth(item.authorityId)" href="#" class="text-danger" title="禁用权限"><i class="fa fa-times-circle"></i></a>
                                 </td>
                             </tr>
 
@@ -112,6 +112,33 @@
 </body>
 
 <script>
+
+
+    Vue.filter('state', function (value) {
+
+        try {
+            if(value===null||value==='undefined'){
+
+                return '未知';
+            }
+            let state= parseInt(value)
+            switch (state) {
+                case 0:
+                    return '禁用';
+                case 1:
+                    return '正常';
+                case -1:
+                    return '删除';
+                default:
+                    return '未知';
+
+            }
+        }catch (e) {
+
+            return '未知';
+        }
+
+    })
 
     let vm =new Vue({
         el:'#authinfo',
@@ -221,6 +248,22 @@
             },
             deleteAuth(authorityId){
                 this.checkState(authorityId,'delete');
+            },
+            redo(){
+
+                axios.get(`/auth/info/${this.r.pageNum}/${this.r.pageSize}`).then(res=>{
+                    this.r=res.data.info.data;
+                }).catch(err=>{
+                    console.log(err)
+                })
+            },
+            active(authorityId){
+                axios.get(`/auth/active/${authorityId}`).then(res=>{
+
+                    alert(res.data.message)
+                    this.redo();
+                })
+
             }
 
 

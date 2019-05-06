@@ -88,7 +88,6 @@
             authority_updateTime = NOW( )
         WHERE
 	        authority_id=#{authorityId}
-
     </update>
 
     <select id="checkAuthority" resultMap="AllAuthority">
