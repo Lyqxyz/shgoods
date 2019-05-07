@@ -13,6 +13,7 @@ public interface ShAuthorityRoleService {
 
     ResponseVo forbid(ShAuthorityRole shAuthorityRole);
 
+    ResponseVo del(String arId);
 
 
 }

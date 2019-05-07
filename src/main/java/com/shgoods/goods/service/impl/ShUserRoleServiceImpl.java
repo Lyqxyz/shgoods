@@ -4,6 +4,7 @@ import com.shgoods.goods.mapper.ShUserMapper;
 import com.shgoods.goods.mapper.ShUserRoleMapper;
 import com.shgoods.goods.pojo.*;
 import com.shgoods.goods.service.ShUserRoleService;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -125,5 +126,17 @@ public class ShUserRoleServiceImpl implements ShUserRoleService {
         return responseVo;
 
 
+    }
+
+    @Override
+    public ResponseVo del(String urid) {
+
+        Integer del = shUserRoleMapper.del(urid);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("删除成功");
+
+        return ok;
     }
 }

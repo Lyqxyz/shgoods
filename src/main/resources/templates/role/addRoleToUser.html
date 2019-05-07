@@ -78,7 +78,7 @@
                         </div>
                     </form>
                     <button @click="select" class="btn btn-info btn-sm mr-2" type="button">查询</button>
-                    <button class="btn btn-info btn-sm" type="button">重置</button>
+                    <button @click="reset" class="btn btn-info btn-sm" type="button">重置</button>
 
                 </div>
             </div>
@@ -99,14 +99,13 @@
                             <td>{{item.urRid.roleName}}</td>
                             <td>{{item.urState}}</td>
                             <td>
-                                <a href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
-                                <a @click="forbid(item)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
+                                <a  @click="forbid(item)" href="#" class="text-danger" title="删除用户角色"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="row">
+            <div class="row" style="overflow-y: scroll">
                 <h6 class="text-info">
                     此用户没有的角色
                 </h6>
@@ -168,11 +167,10 @@
 
                         let msg=res.data.message
                         if(res.data.code==='-1'){
-                            alert(msg)
+                            //alert(msg)
+                            alert(res.data.errors.errors.join(' '))
                         }else{
-
                             this.info=res.data.info
-
                             this.user.id= res.data.info.user.userId
                         }
 
@@ -181,11 +179,9 @@
                         alert("服务器错误!!!")
                     })
 
-
                 }
             },
             add(item,index){
-
                 axios.baseURL='http://localhost:8080';
 
                 axios.defaults.withCredentials=true;
@@ -221,22 +217,19 @@
 
             },
             forbid(item){
-
                 axios.baseURL='http://localhost:8080';
-
                 axios.defaults.withCredentials=true;
-
                 axios.get('/userRole/forbid/'+item.urId).then(res=>{
-
                     let {code,message}=res.data
-
                     if(code==='-1'){
                         alert(message)
                     }else{
-                        item.urState=0;
+                        item.urState=-1;
                         alert(message)
-                    }
 
+                        this.select();
+
+                    }
                 }).catch(err=>{
 
                     alert("服务器错误")
@@ -245,6 +238,11 @@
 
 
 
+            },
+            reset(){
+                this.user.id=''
+                this.user.num=''
+                this.info={}
             }
 
         }

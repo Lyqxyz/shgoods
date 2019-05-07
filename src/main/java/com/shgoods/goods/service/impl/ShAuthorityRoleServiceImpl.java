@@ -6,6 +6,7 @@ import com.shgoods.goods.pojo.ShAuthority;
 import com.shgoods.goods.pojo.ShAuthorityRole;
 import com.shgoods.goods.pojo.ShRole;
 import com.shgoods.goods.service.ShAuthorityRoleService;
+import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,5 +128,17 @@ public class ShAuthorityRoleServiceImpl implements ShAuthorityRoleService {
 
         return responseVo;
 
+    }
+
+    @Override
+    public ResponseVo del(String arId) {
+
+        Integer del = shAuthorityRoleMapper.del(arId);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("删除成功");
+
+        return ok;
     }
 }

@@ -36,6 +36,7 @@ public interface ShAuthorityRoleMapper {
     //查询角色是否有次权限
      ShAuthorityRole hasAuth(ShAuthorityRole shAuthorityRole);
 
+     Integer del(String arid);
 
 
 }

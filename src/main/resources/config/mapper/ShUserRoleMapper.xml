@@ -129,6 +129,7 @@
         <result property="roleCreationTime" column="role_creationTime"/>
         <result property="roleState" column="role_state"/>
     </resultMap>
+
     <select id="findNoRoleByShUser" resultMap="UserNoRole">
 
         SELECT
@@ -204,5 +205,13 @@
         WHERE
             ur_id=#{urId}
     </update>
+
+    <delete id="del">
+        DELETE
+        FROM
+            sh_user_role
+        WHERE
+            ur_id =#{urId}
+    </delete>
 
 </mapper>

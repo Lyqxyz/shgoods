@@ -11,4 +11,6 @@ public interface ShUserRoleService {
     ResponseVo add(ShUserRole shUserRole);
 
     ResponseVo forbid(ShUserRole shUserRole);
+
+    ResponseVo del(String urid);
 }

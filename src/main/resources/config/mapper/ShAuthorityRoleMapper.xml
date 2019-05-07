@@ -219,4 +219,12 @@
             AND
               authority_state!=-1
     </select>
+
+    <delete id="del">
+        DELETE
+        FROM
+            sh_authority_role
+        WHERE
+            ar_id=#{arId}
+    </delete>
 </mapper>

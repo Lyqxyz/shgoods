@@ -65,7 +65,7 @@ public class ShUserServiceImpl implements ShUserService {
             try {
                 currentUser.login(usernamePasswordToken);
 
-//                currentUser.checkRole("admin");
+               currentUser.checkRole("1111");
 
                 responseVo.setCode("1");
 
@@ -318,11 +318,24 @@ public class ShUserServiceImpl implements ShUserService {
 
         ShUser allRole = shUserRoleMapper.findAllRole(shUser);
 
-        List<ShAuthority> shAuthorities = shAuthorityRoleMapper.AllAuthByRoles(allRole.getShRoles());
-
         UserRoleAuth userRoleAuth = new UserRoleAuth();
 
-        userRoleAuth.setShAuthorities(shAuthorities);
+        if(Objects.isNull(allRole.getShRoles())){
+
+            userRoleAuth.setShAuthorities(null);
+
+        }else{
+            List<ShAuthority> shAuthorities = shAuthorityRoleMapper.AllAuthByRoles(allRole.getShRoles());
+
+            if (Objects.isNull(shAuthorities)){
+
+                userRoleAuth.setShAuthorities(null);
+
+            }else{
+                userRoleAuth.setShAuthorities(shAuthorities);
+            }
+
+        }
 
         userRoleAuth.setShRoles(allRole.getShRoles());
 

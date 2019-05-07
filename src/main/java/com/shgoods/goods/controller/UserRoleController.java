@@ -47,11 +47,8 @@ public class UserRoleController {
     @ResponseBody
     public Object forbid(@PathVariable(value = "urId") String urId,HttpServletRequest request){
 
-        ShUserRole shUserRole = new ShUserRole();
 
-        shUserRole.setUrId(urId);
-
-        ResponseVo forbid = shUserRoleService.forbid(shUserRole);
+        ResponseVo forbid = shUserRoleService.del(urId);
 
         return forbid;
 

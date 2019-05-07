@@ -28,7 +28,7 @@ public interface ShUserRoleMapper {
      Integer forbidUserRole(ShUserRole shUserRole);
 
     //更新用户角色
-    public Integer updateUserRole(ShUserRole shUserRole);
+     Integer updateUserRole(ShUserRole shUserRole);
 
     //更新用户角色状态
      Integer updateState(ShUserRole shUserRole);
@@ -41,6 +41,9 @@ public interface ShUserRoleMapper {
 
     //查询用户拥有的角色
      ShUser findAllRole(ShUser shUser);
+
+
+     Integer del(String urid);
 
 
 }

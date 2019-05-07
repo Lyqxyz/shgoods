@@ -14,6 +14,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Objects;
+
 /**
  * @author lyq
  */
@@ -40,19 +42,24 @@ public class LoginRealm extends AuthorizingRealm {
 
         UserRoleAuth userRoleAuth = shUserService.selectByUserId(primaryPrincipal.getUserId());
 
-        for (ShRole shRole : userRoleAuth.getShRoles()) {
+        if(!Objects.isNull(userRoleAuth.getShRoles())){
+            for (ShRole shRole : userRoleAuth.getShRoles()) {
 
-            simpleAuthorizationInfo.addRole(shRole.getRoleName());
+                simpleAuthorizationInfo.addRole(shRole.getRoleName());
 
-            simpleAuthorizationInfo.addRole(shRole.getRoleNum());
+                simpleAuthorizationInfo.addRole(shRole.getRoleNum());
 
+            }
         }
 
-        for (ShAuthority shAuthority : userRoleAuth.getShAuthorities()) {
+        if(!Objects.isNull( userRoleAuth.getShAuthorities())){
+            for (ShAuthority shAuthority : userRoleAuth.getShAuthorities()) {
 
-            simpleAuthorizationInfo.addStringPermission(shAuthority.getAuthorityName());
+                simpleAuthorizationInfo.addStringPermission(shAuthority.getAuthorityName());
 
-            simpleAuthorizationInfo.addStringPermission(shAuthority.getAuthorityNum());
+                simpleAuthorizationInfo.addStringPermission(shAuthority.getAuthorityNum());
+
+            }
 
         }
 

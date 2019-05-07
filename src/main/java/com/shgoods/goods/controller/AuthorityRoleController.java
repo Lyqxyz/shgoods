@@ -46,13 +46,8 @@ public class AuthorityRoleController {
     @ResponseBody
     public Object forbid(@PathVariable(value = "arId") String arId,HttpServletRequest request){
 
-        ShAuthorityRole shAuthorityRole = new ShAuthorityRole();
 
-        shAuthorityRole.setArState(0);
-
-        shAuthorityRole.setArId(arId);
-
-        ResponseVo forbid = shAuthorityRoleService.forbid(shAuthorityRole);
+        ResponseVo forbid = shAuthorityRoleService.del(arId);
 
         return forbid;
 
