@@ -183,6 +183,7 @@
             goods_title=#{goodsTitle},
             goods_des=#{goodsDes},
             goods_cid = #{goodsCid1},
+            goods_count=#{goodsCount},
             goods_state = 0,
             goods_originalPrice =#{goodsOriginalPrice},
             goods_sellingPrice =#{ goodsSellingPrice},

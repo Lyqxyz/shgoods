@@ -191,6 +191,7 @@
             book_nao=#{bookNao},
             book_publish=#{bookPublish},
             book_author=#{bookAuthor},
+            book_count=#{bookCount},
             book_originalPrice=#{bookOriginalPrice},
             book_sellingPrice=#{bookSellingPrice},
             book_cid=#{bookCid},

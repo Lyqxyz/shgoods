@@ -320,6 +320,11 @@ public class ShUserServiceImpl implements ShUserService {
 
         UserRoleAuth userRoleAuth = new UserRoleAuth();
 
+        if(Objects.isNull(allRole)){
+
+            return userRoleAuth;
+        }
+
         if(Objects.isNull(allRole.getShRoles())){
 
             userRoleAuth.setShAuthorities(null);

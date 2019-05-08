@@ -82,7 +82,6 @@ public class BookDesController {
 
                 }else if(image.contains("100200")){
 
-
                     shBookDescription.setDesMdPath(image);
 
                 }else if(image.contains("300500")){
