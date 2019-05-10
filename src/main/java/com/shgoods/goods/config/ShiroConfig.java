@@ -123,6 +123,8 @@ public class ShiroConfig {
 
         definition.put("/search/**","anon");
 
+        definition.put("/email/**","anon");
+
 
 
 
