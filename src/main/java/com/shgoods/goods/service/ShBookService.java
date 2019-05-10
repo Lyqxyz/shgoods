@@ -28,4 +28,6 @@ public interface ShBookService {
 
      ResponseVo updateBook(ShBook shBook);
 
+     ResponseVo updateState(ShBook shBook);
+
 }

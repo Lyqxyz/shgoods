@@ -116,6 +116,18 @@ public class ShBookServiceImpl implements ShBookService {
             Integer del = shBookMapper.del(shBook);
 
             if(del==1){
+                try {
+
+                    solrClient.deleteById("bookCollection",shBook.getBookId(),1000);
+
+                } catch (SolrServerException e) {
+
+                    e.printStackTrace();
+
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
                 responseVo.setCode("1");
                 responseVo.setMessage("删除成功");
             }else{
@@ -178,16 +190,63 @@ public class ShBookServiceImpl implements ShBookService {
     @Override
     public ResponseVo updateBook(ShBook shBook) {
 
-
         Integer integer = shBookMapper.updateBook(shBook);
 
-
         ResponseVo ok = ResponseUtil.isOk();
+
+        ShBookSolr shBookSolr = new ShBookSolr();
+
+        BeanUtils.copyProperties(shBook,shBookSolr);
+
+        shBookSolr.setBookState(0);
+
+        try {
+
+            solrClient.addBean("bookCollection",shBookSolr,1000);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SolrServerException e) {
+            e.printStackTrace();
+        }
+
 
         ok.setMessage("更新成功");
 
         return ok;
 
+
+    }
+
+    @Override
+    public ResponseVo updateState(ShBook shBook) {
+
+        Integer integer = shBookMapper.updateState(shBook);
+
+        ShBook shBook1 = shBookMapper.selectById(shBook);
+
+        ShBookSolr shBookSolr = new ShBookSolr();
+
+        BeanUtils.copyProperties(shBook1,shBookSolr);
+
+        try {
+
+            solrClient.addBean("bookCollection",shBookSolr,1000);
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        } catch (SolrServerException e) {
+
+            e.printStackTrace();
+        }
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("修改成功");
+
+        return ok;
 
     }
 

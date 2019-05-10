@@ -24,8 +24,9 @@ public interface ShGoodsService {
 
     ResponseVo selectWithVar(String id);
 
-
     ResponseVo updateGoods(ShGoods shGoods);
+
+    ResponseVo updateState(ShGoods shGoods);
 
 
 }

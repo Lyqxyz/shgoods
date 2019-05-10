@@ -127,7 +127,8 @@
             goods_id goodsId,
             goods_title goodsTitle,
             goods_des goodsDes,
-            goods_sellingPrice goodsSellingPrice
+            goods_sellingPrice goodsSellingPrice,
+            goods_state goodsState
         FROM
             sh_goods sg
         WHERE

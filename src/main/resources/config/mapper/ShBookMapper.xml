@@ -140,12 +140,15 @@
             book_name,
             book_isbn,
             book_creationTime,
-            book_sellingPrice
+            book_sellingPrice,
+            book_author,
+            book_publish,
+            book_des,
+            book_state
         FROM
             sh_book sb
         WHERE
             book_id=#{bookId}
-
     </select>
     <select id="selectWithUser" resultMap="bookInfo">
         SELECT

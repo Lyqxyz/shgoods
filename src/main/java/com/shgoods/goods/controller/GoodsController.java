@@ -158,13 +158,10 @@ public class GoodsController {
     @PostMapping(path = "/updateState")
     public Object updateState(ShGoods shGoods){
 
-        Integer integer = shGoodsMapper.updateState(shGoods);
+        ResponseVo responseVo = shGoodsService.updateState(shGoods);
 
-        ResponseVo ok = ResponseUtil.isOk();
 
-        ok.setMessage("更新成功");
-
-        return ok;
+        return responseVo;
 
     }
 

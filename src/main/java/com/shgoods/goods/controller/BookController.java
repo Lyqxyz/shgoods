@@ -174,13 +174,13 @@ public class BookController {
     @PostMapping("/updateState")
     public Object updateState(ShBook shBook){
 
-        Integer integer = shBookMapper.updateState(shBook);
 
-        ResponseVo ok = ResponseUtil.isOk();
 
-        ok.setMessage("修改成功");
 
-        return ok;
+        ResponseVo responseVo = shBookService.updateState(shBook);
+
+
+        return responseVo;
     }
 
     @ResponseBody

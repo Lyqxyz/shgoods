@@ -145,7 +145,7 @@ public class SolrTest {
     public void test4() throws IOException, SolrServerException {
 
 
-        solrClient.deleteByQuery("bookCollection","bookId:98181431699701769",2000);
+        solrClient.deleteByQuery("bookCollection","bookId:98187268694474754",2000);
     }
     @Test
     public void test5() throws IOException, SolrServerException {
