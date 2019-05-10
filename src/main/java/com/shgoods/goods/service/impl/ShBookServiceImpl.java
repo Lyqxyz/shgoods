@@ -1,6 +1,7 @@
 package com.shgoods.goods.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.shgoods.goods.bean.ShBookSolr;
 import com.shgoods.goods.mapper.ShBookMapper;
 import com.shgoods.goods.pojo.ShBook;
 import com.shgoods.goods.pojo.ShClass;
@@ -8,10 +9,14 @@ import com.shgoods.goods.pojo.ShUser;
 import com.shgoods.goods.service.ShBookService;
 import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.ws.Response;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -22,6 +27,9 @@ public class ShBookServiceImpl implements ShBookService {
 
     @Autowired
     ShBookMapper shBookMapper;
+
+    @Autowired
+    SolrClient solrClient;
 
     @Override
     public ResponseVo addBook(ShBook shBook) {
@@ -42,6 +50,19 @@ public class ShBookServiceImpl implements ShBookService {
 
             Integer integer = shBookMapper.addBook(shBook);
 
+            ShBookSolr shBookSolr = new ShBookSolr();
+
+            BeanUtils.copyProperties(shBook,shBookSolr);
+
+            try {
+                solrClient.addBean("bookCollection",shBookSolr,2000);
+            } catch (IOException e) {
+
+                e.printStackTrace();
+
+            } catch (SolrServerException e) {
+                e.printStackTrace();
+            }
             if(integer==1){
                 responseVo.setCode("1");
                 responseVo.setMessage("添加成功");

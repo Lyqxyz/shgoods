@@ -27,7 +27,7 @@
 
 	    WHERE
 	        go_oid=#{goOid.orderId}
-	        AND go_state=1
+
     </select>
     <insert id="shopCarToOrder">
         <selectKey  order="BEFORE" keyProperty="goId" keyColumn="goId" resultType="string">

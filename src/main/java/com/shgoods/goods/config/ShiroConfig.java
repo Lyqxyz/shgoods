@@ -59,6 +59,7 @@ public class ShiroConfig {
         definition.put("/css/**","anon");
         definition.put("/js/**","anon");
         definition.put("/images/**","anon");
+        definition.put("/img/**","anon");
         definition.put("/fonts/**","anon");
         definition.put("/favicon.ico","anon");
         definition.put("/upload/**","anon");
@@ -118,6 +119,9 @@ public class ShiroConfig {
         definition.put("/goodsDes/**","anon");
 
         definition.put("/index/**","anon");
+
+
+        definition.put("/search/**","anon");
 
 
 
