@@ -74,4 +74,6 @@ public interface ShUserService {
 
      ResponseVo indexLogin(LoginVo loginVo, HttpServletRequest request, HttpSession session);
 
+
+
 }

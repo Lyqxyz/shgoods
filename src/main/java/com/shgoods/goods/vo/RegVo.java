@@ -34,8 +34,11 @@ public class RegVo {
     @NotNull(message = "电话解析异常")
     private String phone;
 
-
     private Integer gender;
+
+    @NotBlank(message = "验证码不能为空")
+    @NotNull(message = "验证码解析异常")
+    private String code;
 
 
 }

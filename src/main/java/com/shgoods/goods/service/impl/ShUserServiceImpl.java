@@ -125,7 +125,6 @@ public class ShUserServiceImpl implements ShUserService {
     @Override
     public ResponseVo register(RegVo regVo, HttpServletRequest request) {
 
-
         ResponseVo responseVo = new ResponseVo();
 
         ShUser shUser= new ShUser();
