@@ -53,6 +53,9 @@ public interface ShUserMapper {
 
      Integer updatePhoto(ShUser shUser);
 
+     Integer updatePwd(ShUser shUser);
 
+
+     ShUser selectByEmail(String email);
 
 }

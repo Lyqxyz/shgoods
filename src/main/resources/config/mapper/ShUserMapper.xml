@@ -282,5 +282,20 @@
             user_id =#{userId}
     </update>
 
+    <update id="updatePwd">
+        UPDATE sh_user
+        SET user_pwd =#{userPwd}
+        WHERE
+            user_email =#{userEmail}
+    </update>
+
+    <select id="selectByEmail" resultMap="login">
+        SELECT
+            user_num
+        FROM
+            sh_user
+        WHERE
+            user_email =#{userEmail}
+    </select>
 
 </mapper>

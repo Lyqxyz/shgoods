@@ -9,29 +9,15 @@ import java.util.concurrent.ThreadLocalRandom;
 @Data
 public class EmailCode {
 
-    private String email;
-
-    private String code;
-
-    private LocalDateTime localDateTime;
-
     /**
      * 过期时间120s
      */
-    private static final long EXPIRE_SECOND=10;
+    public static final long EXPIRE_SECOND=120;
 
-    /**
-     *
-     * @return true 过期了 false 没有过期
-     */
-    public  boolean isExpire(){
+    public static final String EMAIL_TYPE_RER="reg";
 
-        LocalDateTime now = LocalDateTime.now();
+    public static final String EMAIL_TYPE_CHANGE_PWD="changePwd";
 
-        LocalDateTime localDateTime = this.localDateTime.plusSeconds(EXPIRE_SECOND);
-
-        return now.isAfter(localDateTime);
-    }
     public static String random(){
 
         Random random = new Random();

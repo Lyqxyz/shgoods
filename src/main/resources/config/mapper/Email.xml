@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shgoods.goods.mapper.EmailMapper">
+    <insert id="add" useGeneratedKeys="true" keyColumn="email_id" keyProperty="emailId">
+
+        <selectKey keyProperty="emailId" keyColumn="emailId" order="BEFORE" resultType="string">
+            SELECT UUID_SHORT() as emailId
+        </selectKey>
+        INSERT INTO sh_email ( email_id, email_address,email_type, email_created,email_code, email_update )
+        VALUES
+            (#{emailId},#{emailAddress},#{emailType},#{emailCreated},#{emailCode},#{emailUpdate})
+    </insert>
+    <update id="update">
+        UPDATE sh_email
+        SET
+            email_code =#{emailCode},
+            email_update =#{emailUpdate}
+        WHERE
+	        email_address=#{emailAddress} AND email_type=#{emailType}
+    </update>
+
+    <select id="select" resultType="com.shgoods.goods.bean.Email">
+        SELECT
+            email_id emailId,
+            email_address emailAddress,
+            email_type emailType,
+            email_code emailCode,
+            email_created emailCreated,
+            email_update emailUpdate
+        FROM
+            sh_email
+        WHERE
+            email_address = #{emailAddress}
+            AND email_type = #{emailType}
+
+    </select>
+</mapper>

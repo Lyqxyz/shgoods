@@ -75,7 +75,7 @@ public class LoginRealm extends AuthorizingRealm {
 
         ShUser shUser = new ShUser();
 
-        shUser.setUserNum(principal);
+        shUser.setUserNum(principal.trim());
 
         ShUser login = shUserService.checkLogin(shUser);
 
