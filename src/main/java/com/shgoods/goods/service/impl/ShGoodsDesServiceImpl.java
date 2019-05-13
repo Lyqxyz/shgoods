@@ -44,7 +44,7 @@ public class ShGoodsDesServiceImpl implements ShGoodsDesService {
 
             responseVo.setCode("-1");
 
-            responseVo.setMessage("书籍不存在");
+            responseVo.setMessage("闲置不存在");
 
         }else{
             if(Objects.isNull(shGoods)||Objects.isNull(shGoods.getGoodsId())){

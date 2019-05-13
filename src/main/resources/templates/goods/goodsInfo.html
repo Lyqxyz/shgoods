@@ -69,6 +69,7 @@
                                 <td>{{item.goodsNao}}</td>
                                 <td>{{item.goodsState | state}}</td>
                                 <td>
+                                    <button class="btn btn-info" @click="show(item)">详情</button>
                                     <button @click="del(item)" class="btn btn-danger">删除</button>
                                     <button @click="StateChange(item,1)" class="btn btn-warning">通过</button>
                                     <button @click="StateChange(item,-1)" class="btn btn-warning">不通过</button>
@@ -105,6 +106,32 @@
                     </div>
 
                 </div>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="exampleModalLabel">详情</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">闲置id:{{item.goodsId}}</li>
+                                    <li class="list-group-item">闲置标题:{{item.goodsTitle}}</li>
+                                    <li class="list-group-item">闲置描述:{{item.goodsDes}}</li>
+                                    <li class="list-group-item">闲置原价:{{item.goodsOriginalPrice}}</li>
+                                    <li class="list-group-item">闲置售价:{{item.goodsSellingPrice}}</li>
+                                    <li class="list-group-item">
+                                        <img :src="img" alt="闲置图片" width="100%">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -130,8 +157,9 @@
             })
         },
         data:{
-            a:{}
-
+            a:{},
+            item:{},
+            img:''
         },
         filters:{
 
@@ -164,6 +192,7 @@
             }
         },
         methods:{
+
             redo(){
                 axios.baseURL='http://localhost:8080';
                 axios.defaults.withCredentials=true;
@@ -246,6 +275,23 @@
                     })
                 }
 
+            },
+            show(item){
+                console.log(item)
+                axios.get(`/goodsDes/search/${item.goodsId}`).then(res=>{
+
+                    let img= res.data.info.BookDesInfo[0]===undefined?'/img/no.jpg': res.data.info.BookDesInfo[0].desInfo;
+
+                    // this.img =res.data.info.
+                    this.img=img
+                    console.log(res.data)
+                }).catch(err=>{
+                    console.log(err)
+                    alert('服务器错误')
+                })
+
+                this.item=item
+                $('#exampleModal').modal('show')
             }
 
         }
