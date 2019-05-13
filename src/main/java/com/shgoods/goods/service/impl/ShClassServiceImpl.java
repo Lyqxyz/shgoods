@@ -109,4 +109,49 @@ public class ShClassServiceImpl implements ShClassService {
 
         return ok;
     }
+
+    @Override
+    public ResponseVo del(String classId) {
+
+        if(Objects.isNull(classId)){
+
+            ResponseVo error = ResponseUtil.isError();
+            error.setMessage("参数错误");
+
+            return error;
+        }
+
+        Integer del = shClassMapper.del(classId);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("删除成功");
+
+        return ok;
+    }
+
+    @Override
+    public ResponseVo update(ShClass shClass) {
+
+        List<String> strings = this.checkAttrs(shClass);
+
+        if(strings.size()>0){
+
+            ResponseVo error = ResponseUtil.isError();
+
+            error.setMessage("添加失败");
+
+            error.getErrors().put("err",strings);
+
+            return error;
+        }else{
+
+            Integer update = shClassMapper.update(shClass);
+
+            ResponseVo ok = ResponseUtil.isOk();
+            ok.setMessage("修改成功");
+
+            return ok;
+        }
+    }
 }

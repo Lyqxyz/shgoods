@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.css}">
+    <link rel="stylesheet" th:href="@{/css/dialog.css}">
+    <script th:src="@{/js/jquery.3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/js/qs.js}"></script>
+    <script th:src="@{/js/axios.min.js}"></script>
+    <script th:src="@{/js/validator.min.js}"></script>
+    <script th:src="@{/js/holder.js}"></script>
+    <script th:src="@{/js/dialog.js}"></script>
+    <style>
+        body{
+            margin-top: 70px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid" id="AllClass">
+    <div th:replace="~{common/common :: headNav}"></div>
+    <div class="row mt-2 mb-2">
+        <div th:replace="~{common/common :: leftNav}"></div>
+        <div class="col-lg-10">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <i class="fa fa-search"></i>分类信息
+                </div>
+                <div class="col-lg-4 offset-lg-6 col-md-6 offset-md-4 col-sm-6">
+                    <button class="btn btn-info" data-toggle="collapse" data-target="#colA" aria-expanded="true">隐藏</button>
+                </div>
+            </div>
+            <div class="row">
+                <div id="colA" class="collapse show"  data-parent="#accordion">
+                    <form>
+                        <div class="form-row">
+                            <label for="classId" class="col-form-label">父分类</label>
+                            <div class="col-sm-9 col-lg-8">
+                                <select @change="picChange" v-model="pid" id="classId" class="form-control">
+                                    <option v-for="item in pidInfo.data" :key="item.classId"  :value="item.classId">{{item.className}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <h6 class="text-info mt-1"></h6>
+                <table class="table table-hover table-responsive-sm">
+                    <thead>
+                        <tr>
+                            <th>分类id</th>
+                            <th>分类编号</th>
+                            <th>分类名</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in info">
+                            <td>{{item.classId}}</td>
+                            <td>{{item.classNum}}</td>
+                            <td>{{item.className}}</td>
+                            <td>
+                                <button class="btn btn-info" @click="show(item)">详情</button>
+                                <button class="btn btn-danger" @click="del(item)">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="c_classId" class="col-form-label">分类id：{{item.classId}}</label>
+                                    <input v-model="item.classId" type="hidden" class="form-control" id="c_classId">
+                                </div>
+                                <div class="form-group">
+                                    <label for="c_classNum" class="col-form-label">分类编号</label>
+                                    <input v-model="item.classNum" class="form-control" id="c_classNum" type="text">
+                                </div>
+                                <div class="form-group">
+                                    <label for="c_className" class="col-form-label">分类名</label>
+                                    <input v-model="item.className" type="text" class="form-control" id="c_className">
+                                </div>
+                                <div class="form-group">
+                                    <label for="c_pclassId" class="col-form-label">父分类</label>
+                                    <select v-model="item.classPid" @change="picChange" id="c_pclassId" class="form-control">
+                                        <option v-for="item in pidInfo.data" :key="item.classId"  :value="item.classId">{{item.className}}</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="button" @click="save" class="btn btn-primary">修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+    <script>
+        let vm = new Vue({
+            el:'#AllClass',
+
+            created(){
+
+                axios.get('/class/InfoWithoutPid').then(res=>{
+                    this.pidInfo= res.data.info
+
+                    console.log(this.pidInfo)
+                    // alert(res.data.message)
+                }).catch(err=>{
+                    console.log(err)
+                   //alert("服务错误")
+                })
+            },
+            data:{
+                pidInfo:[],
+                info:[],
+                pid:'',
+                item:{}
+            },
+            methods:{
+                picChange(e){
+
+                    this.change(this.pid)
+                },
+                change(pid){
+                    axios.get(`/class/pid/${pid}`).then(res=>{
+                        this.info=res.data.info.data
+                    }).catch(err=>{
+
+                        console.log(err)
+                        alert("服务器错误")
+                    })
+                },
+                del(item){
+
+                    let res = window.confirm('确认删除')
+
+                    if(res){
+                        axios.validateStatus=status=>status>=200&&status<=500;
+                        axios.get(`/class/del/${item.classId}`,{
+                            validateStatus(status) {
+                                return status>=200&&status<500; // 状态码在大于或等于500时才会 reject
+                            }
+
+                        }).then(res=>{
+
+                            let {code,message}= res.data
+
+                            if(code==='1'){
+                                this.change(this.pid)
+                                alert(message)
+                            }else{
+                                alert(message)
+                            }
+                        }).catch(err=>{
+                            console.log(err)
+                            // alert('没有权限')
+                        })
+                        console.log(item)
+                    }
+                    console.log(res)
+                },
+                save(){
+
+                    let postdata = Qs.stringify(this.item)
+
+                    axios.post('/class/update',postdata,{
+                        validateStatus(status) {
+                            return status>=200&&status<500; // 状态码在大于或等于500时才会 reject
+                        }
+                    }).then(res=>{
+
+                        let {code,message,errors}=res.data
+
+                        if(code==='-1'){
+                            if(errors){
+                                let msg = errors.err.join(' ')
+                                alert(msg)
+                            }
+                            alert(message)
+
+                        }else{
+
+                            $('#myModal').modal('hide')
+                        }
+                        console.log(res.data)
+
+                    }).catch(err=>{
+
+                        console.log(err)
+                        alert('服务器错误')
+                    })
+                    console.log(this.item)
+                },
+                show(item){
+
+                    this.item=item
+
+                    $('#myModal').modal('show')
+
+                    $('#myModal').on('hide.bs.modal',()=>{
+
+                        this.change(this.pid)
+                    })
+
+
+                }
+            },
+        })
+
+    </script>
+</html>

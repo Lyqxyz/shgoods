@@ -24,4 +24,8 @@ public interface ShClassMapper {
 
      List<ShClass> withParentClass();
 
+     Integer del(String classId);
+
+     Integer update(ShClass shClass);
+
 }

@@ -84,5 +84,19 @@
 
     </select>
 
+    <delete id="del">
+
+        DELETE FROM sh_class WHERE class_id=#{classId}
+
+    </delete>
+    <update id="update">
+        UPDATE sh_class
+        SET class_num =#{classNum},
+        class_name =#{className},
+        class_pid =#{classPid}
+
+        WHERE
+            class_id=#{classId}
+    </update>
 
 </mapper>

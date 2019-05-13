@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -173,6 +170,36 @@ public class ClassController {
 
 
         return responseVo;
+    }
+
+
+    @RequiresRoles("classRole")
+    @ResponseBody
+    @GetMapping("/del/{id}")
+    public Object del(@PathVariable(value = "id") String id){
+
+        ResponseVo del = shClassService.del(id);
+        return del;
+
+    }
+
+    @ResponseBody
+    @PostMapping("/update")
+    public Object updateClass(ShClass shClass){
+
+        ResponseVo update = shClassService.update(shClass);
+
+
+
+        return update;
+    }
+
+
+    @GetMapping("/classInfo")
+    public String classInfo(){
+
+
+        return "classInfo/ClassInfo";
     }
 
 

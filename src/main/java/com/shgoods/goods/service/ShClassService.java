@@ -19,6 +19,10 @@ public interface ShClassService {
 
      List<ShClass> getClassByPid(ShClass shClass);
 
-    ResponseVo withParentClass();
+     ResponseVo withParentClass();
+
+     ResponseVo del(String classId);
+
+     ResponseVo update(ShClass shClass);
 
 }
