@@ -9,6 +9,7 @@ import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -93,9 +94,17 @@ public class OrderGoodsController {
     }
 
 
+    @GetMapping(path = "/search/{orderNum}")
+    public String search(@PathVariable("orderNum")String orderNum, Model model){
+
+        model.addAttribute("orderNum",orderNum);
+
+        return "order/orderSearch";
+    }
     @GetMapping(path = "/search")
-    public String search(){
+    public String search1(){
 
         return "order/orderSearch";
     }
 }
+

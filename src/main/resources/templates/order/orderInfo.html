@@ -58,17 +58,16 @@
                                 <th>订单是否收货</th>
                                 <th>订单转态</th>
                                 <th>详情</th>
-                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(item,index) in r.list" :key="item.orderId">
                                 <td>{{item.orderId}}</td>
-                                <td>{{item.orderNum}}</td>
+                                <td><a :href="'/GoodsOrder/search/'+item.orderNum">{{item.orderNum}}</a></td>
                                 <td>{{item.orderUid.userId}}</td>
                                 <td>{{item.orderUid.userName}}</td>
-                                <td>{{item.orderReceipt}}</td>
-                                <td>{{item.orderState}}</td>
+                                <td>{{item.orderReceipt | isSend}}</td>
+                                <td>{{item.orderState | state}}</td>
                                 <td><button @click="showInfo(item.orderId)" class="btn btn-info">详情</button></td>
                             </tr>
                         </tbody>
@@ -109,7 +108,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">用户提示</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">订单详情</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -117,11 +116,9 @@
 
                     <div class="modal-body">
                         <div class="thumbnail">
-                            <h3>详情</h3>
                             <div class="caption">
-
                                 <p class="text-info">订单交易价格:{{info.orderPrice}}</p>
-                                <p class="text-info">订单是否支付:{{info.orderIsPay}}</p>
+                                <p class="text-info">订单是否支付:{{info.orderIsPay | isPay}}</p>
                                 <p class="text-info">订单收货时间:{{info.orderReceiptTime}}</p>
                                 <p class="text-info">订单收货地址:{{info.orderAddress}}</p>
                                 <p class="text-info">订单更新时间:{{info.orderUpdateTime}}</p>
@@ -138,82 +135,46 @@
 
 <script>
 
-    let a = {
-        code: "1",
-        date: "2019-03-06 19:35:54",
-        errors: { },
-        info: {
-            data: {
-                endRow: 2,
-                hasNextPage: true,
-                hasPreviousPage: false,
-                isFirstPage: true,
-                isLastPage: false,
-                list: [
-                    {
-                        orderAddress: "",
-                        orderCreationTime: null,
-                        orderId: "98092238432632832",
-                        orderNum: "98092238432632832",
-                        orderPrice: 12345,
-                        orderReceiptTime: null,
-                        orderUid: {
-                            shRoles: [ ],
-                            userEmail: "",
-                            userId: "97977401056690241",
-                            userLoginip: "",
-                            userName: "用户7",
-                            userNum: "12007",
-                            userPhone: "",
-                            userPhoto: "",
-                            userPwd: "",
-                            userRegip: ""
-                        },
-                        orderUpdateTime: null
-                    },
-                    {
-                        orderAddress: "",
-                        orderCreationTime: null,
-                        orderId: "98092238432632833",
-                        orderNum: "98092238432632833",
-                        orderPrice: 45622,
-                        orderReceiptTime: null,
-                        orderUid: {
-                            shRoles: [ ],
-                            userEmail: "",
-                            userId: "98006696911175684",
-                            userLoginip: "",
-                            userName: "12345464",
-                            userNum: "12018",
-                            userPhone: "",
-                            userPhoto: "",
-                            userPwd: "",
-                            userRegip: ""
-                        },
-                        orderUpdateTime: null
-                    }
-                ],
-                navigateFirstPage: 1,
-                navigateLastPage: 2,
-                navigatePages: 3,
-                navigatepageNums: [
-                    1,
-                    2
-                ],
-                nextPage: 2,
-                pageNum: 1,
-                pageSize: 2,
-                pages: 2,
-                prePage: 0,
-                size: 2,
-                startRow: 1,
-                total: 3
-            }
-        },
-        message: "请求成功",
-        path: "/order/info/1/2"
-    }
 
+    Vue.filter('isPay',(val)=>{
+        if(parseInt(val)===1){
+            return '已支付'
+        }else if(parseInt(val)===0){
+
+            return '未支付'
+        }else {
+            return '未知'
+        }
+
+
+    })
+
+    Vue.filter('isSend',(val)=>{
+
+        if(parseInt(val)===1){
+            return '签收'
+        }else if(parseInt(val)===0){
+
+            return '未签收'
+        }else {
+            return '未知'
+        }
+
+    })
+
+    Vue.filter('state',(val)=>{
+        if(parseInt(val)===1){
+            return '正常'
+        }else if(parseInt(val)===0){
+
+            return '未知'
+        }else {
+
+            return '异常'
+        }
+
+
+    })
     new Vue({
         el:'#orderInfo',
 
@@ -226,8 +187,9 @@
 
             axios.baseURL='http://localhost:8080';
             axios.defaults.withCredentials=true;
-            axios.get('/order/info/1/2').then(res=>{
+            axios.get('/order/info/1/4').then(res=>{
                 this.r=res.data.info.data;
+                console.log(this.r)
 
             }).catch(err=>{
 
@@ -236,6 +198,7 @@
             })
 
         },
+
 
         methods:{
 

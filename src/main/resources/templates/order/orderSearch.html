@@ -31,7 +31,6 @@
     <div class="row mt-2 mb-2">
         <div th:replace="~{common/common :: leftNav}"></div>
         <div class="col-lg-10">
-
             <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-2">
                     <i class="fa fa-search"></i>搜索订单
@@ -54,14 +53,15 @@
                                 <label for="orderId" class="col-sm-3 col-form-label">订单id</label>
                                 <div class="col-sm-9">
                                     <input v-model="orderGoods.orderid" id="orderId" type="text" class="form-control"  placeholder="请输入订单id">
+                                    <input type="hidden" th:value="${orderNum==null?1:orderNum}" id="orderNum">
                                 </div>
                             </div>
-                            <div class="form-group row mr-1">
-                                <label for="GoodsId" class="col-sm-3 col-lg-4 col-form-label">商品id</label>
-                                <div class="col-sm-9 col-lg-8">
-                                    <input v-model="orderGoods.goodsid" id="GoodsId" disabled type="text" class="form-control"  placeholder="尚未开通">
-                                </div>
-                            </div>
+<!--                            <div class="form-group row mr-1">-->
+<!--                                <label for="GoodsId" class="col-sm-3 col-lg-4 col-form-label">商品id</label>-->
+<!--                                <div class="col-sm-9 col-lg-8">-->
+<!--                                    <input v-model="orderGoods.goodsid" id="GoodsId" disabled type="text" class="form-control"  placeholder="尚未开通">-->
+<!--                                </div>-->
+<!--                            </div>-->
 
                             <button @click="search" class="btn btn-info btn-sm mr-2" type="button">查询</button>
                             <button class="btn btn-info btn-sm" type="button">重置</button>
@@ -82,10 +82,10 @@
                         <th>数量</th>
                         <th>状态</th>
                         <th>是否是书</th>
+                        <th>详情</th>
                     </tr>
                     </thead>
                     <tbody>
-
                     <tr v-for="item in info">
                         <td>{{item.goId}}</td>
                         <td>{{item.goOid.orderId}}</td>
@@ -93,24 +93,35 @@
                         <td>{{item.goCount}}</td>
                         <td>{{item.goState | state}}</td>
                         <td>{{item.goIsBook}}</td>
+                        <td><button class="btn btn-info" @click="show(item)">详情</button></td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>
 
-
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">详情</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
 
-
 </body>
 <script>
-
-
-
-
     Vue.filter('state', function (value) {
 
         try {
@@ -128,7 +139,6 @@
                     return '删除';
                 default:
                     return '未知';
-
             }
         }catch (e) {
 
@@ -137,29 +147,48 @@
 
     })
 
-    Vue.filter('gender',function (value) {
-
-        try {
-            let gender= parseInt(value)
-
-            switch (gender) {
-                case 0:
-                    return '女';
-                case 1:
-                    return '男';
-                default:
-                    return '未知';
-            }
-        }
-        catch (e) {
-            return '未知';
-        }
-    })
-
+    // Vue.filter('gender',function (value) {
+    //
+    //     try {
+    //         let gender= parseInt(value)
+    //
+    //         switch (gender) {
+    //             case 0:
+    //                 return '女';
+    //             case 1:
+    //                 return '男';
+    //             default:
+    //                 return '未知';
+    //         }
+    //     }
+    //     catch (e) {
+    //         return '未知';
+    //     }
+    // })
 
     let vm = new Vue({
         el:'#orderGoodsInfo',
 
+        created(){
+
+            let orderNumObj = document.querySelector('#orderNum')
+
+            let orderNum= orderNumObj.value
+
+            if(parseInt(orderNum)===1){
+
+                console.log(orderNum)
+            }else{
+
+
+                this.init(orderNum)
+
+                console.log('aaaaa')
+            }
+
+
+
+        },
         data:{
 
             orderGoods:{
@@ -178,30 +207,54 @@
                     alert('订单id不能为空')
 
                 }else{
-
-
-                    let url = 'http://localhost:8080/GoodsOrder/info/'+this.orderGoods.orderid
-                    console.log(url);
-                    axios.get(url).then(res=>{
-
-                        let {code,msg} = res.data;
-
-                        if(code==='-1'){
-
-                            alert(msg)
-                        }else{
-
-                            this.info=res.data.info.info;
-                        }
-
-                    }).catch(err=>{
-
-                        alert('服务器错误')
-                    })
-                    
+                    this.init(this.orderGoods.orderid)
                 }
 
             },
+
+            init(orderNum){
+                let url = 'http://localhost:8080/GoodsOrder/info/'+orderNum
+                console.log(url);
+                axios.get(url).then(res=>{
+
+                    let {code,msg} = res.data;
+
+                    if(code==='-1'){
+
+                        alert(msg)
+                    }else{
+                        this.info=res.data.info.info;
+                        console.log(this.info)
+                    }
+                }).catch(err=>{
+
+                    alert('服务器错误')
+                })
+
+            },
+            show(item){
+
+                console.log(item)
+                let orderNum = item.goOid.orderId
+
+                let goodsid = item.goIdAll
+
+                let isBook = item.goIsBook
+
+
+                if(parseInt(isBook)===1){
+
+
+                }else{
+
+
+                }
+
+
+                console.log(orderNum,goodsid,isBook)
+
+                $('#myModal').modal('show')
+            }
         },
         computed:{
 
