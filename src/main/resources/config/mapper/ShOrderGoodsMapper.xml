@@ -39,7 +39,7 @@
                                     go_state, go_isBook,
                                     go_updateTime, go_creationTime )
         VALUES
-        (#{goId},#{goIdAll},#{goOid.orderId},#{goCount},0,#{goIsBook},NOW(),NOW())
+        (#{goId},#{goIdAll},#{goOid.orderNum},#{goCount},1,#{goIsBook},NOW(),NOW())
 
 
     </insert>

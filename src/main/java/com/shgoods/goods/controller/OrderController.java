@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.shgoods.goods.pojo.*;
 import com.shgoods.goods.service.ShOrderService;
+import com.shgoods.goods.service.impl.ShOrderServiceImpl;
 import com.shgoods.goods.util.BindingErrorUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import com.shgoods.goods.vo.order.AddOrderVo;
@@ -79,15 +80,11 @@ public class OrderController {
 
         }else{
 
-            String s = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddHH"));
-
             ShOrder shOrder = new ShOrder();
 
             ShUser shUser = new ShUser();
 
             String uid = addOrderVo.getOrderUid();
-
-            String substring = uid.substring(5,uid.length());
 
             shUser.setUserId(uid);
 
@@ -95,7 +92,7 @@ public class OrderController {
 
             shOrder.setOrderUid(shUser);
 
-            shOrder.setOrderNum(substring+s);
+            shOrder.setOrderNum(ShOrderServiceImpl.randomOrderNum());
 
             String shopcars = addOrderVo.getShopcars();
 
@@ -139,7 +136,7 @@ public class OrderController {
 
         ShOrder shOrder = new ShOrder();
 
-        shOrder.setOrderId(id);
+        shOrder.setOrderNum(id);
 
         ResponseVo responseVo = shOrderService.updateIsPay(shOrder);
 
@@ -154,7 +151,7 @@ public class OrderController {
 
         ShOrder shOrder = new ShOrder();
 
-        shOrder.setOrderId(id);
+        shOrder.setOrderNum(id);
 
         ResponseVo responseVo = shOrderService.updateRecv(shOrder);
 
@@ -175,6 +172,16 @@ public class OrderController {
         ResponseVo responseVo = shOrderService.delOrder(shOrder);
 
         responseVo.setPath(request.getRequestURI());
+
+        return responseVo;
+
+    }
+
+    @GetMapping("/select/{num}")
+    @ResponseBody
+    public Object selectByNum(@PathVariable("num")String orderNum){
+
+        ResponseVo responseVo = shOrderService.selectByNum(orderNum);
 
         return responseVo;
 

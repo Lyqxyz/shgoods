@@ -22,4 +22,6 @@ public interface ShOrderMapper {
 
      Integer delOrder(ShOrder shOrder);
 
+     ShOrder selectByNum(String orderNum);
+
 }

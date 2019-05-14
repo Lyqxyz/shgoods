@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="form-group row mr-1">
-                                <label for="orderId" class="col-sm-3 col-form-label">订单id</label>
+                                <label for="orderId" class="col-sm-3 col-form-label">订单号</label>
                                 <div class="col-sm-9">
                                     <input v-model="orderGoods.orderid" id="orderId" type="text" class="form-control"  placeholder="请输入订单id">
                                     <input type="hidden" th:value="${orderNum==null?1:orderNum}" id="orderNum">
@@ -77,7 +77,7 @@
                     <tr>
                         <!--<th>id</th>-->
                         <th>商品订单id</th>
-                        <th>订单id</th>
+                        <th>订单号</th>
                         <th>商品id</th>
                         <th>数量</th>
                         <th>状态</th>
@@ -92,7 +92,7 @@
                         <td>{{item.goIdAll}}</td>
                         <td>{{item.goCount}}</td>
                         <td>{{item.goState | state}}</td>
-                        <td>{{item.goIsBook}}</td>
+                        <td>{{item.goIsBook ===1?'是':'不是'}}</td>
                         <td><button class="btn btn-info" @click="show(item)">详情</button></td>
                     </tr>
                     </tbody>
@@ -107,7 +107,24 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
-                            ...
+                            <ul class="list-group">
+                                <li class="list-group-item">订单号:{{orderInfo.orderNum}}</li>
+                                <li class="list-group-item">订单创建时间:{{orderInfo.orderCreationTime}}</li>
+                                <li class="list-group-item">订单是否支付:{{orderInfo.orderIsPay===1?'已支付':'未支付'}}</li>
+                                <li class="list-group-item">订单是否签收:{{orderInfo.orderReceipt===1?'签收':'未签收'}}</li>
+                                <li class="list-group-item">订单收货地址:{{orderInfo.orderAddress}}</li>
+                            </ul>
+                            <ul class="list-group" v-if="isBook===1">
+                                <li class="list-group-item">书籍id:{{bookInfo.bookId}}</li>
+                                <li class="list-group-item">书籍名：{{bookInfo.bookName}}</li>
+                                <li class="list-group-item">书籍作者：{{bookInfo.bookAuthor}}</li>
+                                <li class="list-group-item">书籍出版商：{{bookInfo.bookPublish}}</li>
+                                <li class="list-group-item">书籍ISBN号：{{bookInfo.bookIsbn}}</li>
+                            </ul>
+                            <ul class="list-group" v-if="isBook===0">
+                                <li class="list-group-item">闲置标题:{{goodsInfo.goodsTitle}}</li>
+                                <li class="list-group-item">闲置描述:{{goodsInfo.goodsDes}}</li>
+                            </ul>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -180,13 +197,9 @@
                 console.log(orderNum)
             }else{
 
-
                 this.init(orderNum)
-
                 console.log('aaaaa')
             }
-
-
 
         },
         data:{
@@ -197,7 +210,11 @@
                 orderid:''
 
             },
-            info:[]
+            info:[],
+            isBook:'',
+            goodsInfo:'',
+            bookInfo:'',
+            orderInfo:''
         },
         methods:{
             search(){
@@ -214,7 +231,6 @@
 
             init(orderNum){
                 let url = 'http://localhost:8080/GoodsOrder/info/'+orderNum
-                console.log(url);
                 axios.get(url).then(res=>{
 
                     let {code,msg} = res.data;
@@ -229,6 +245,21 @@
                 }).catch(err=>{
 
                     alert('服务器错误')
+
+                    console.log(err)
+                })
+
+                axios.get(`/order/select/${orderNum}`).then(res=>{
+
+                    console.log('aaaaaaa')
+
+                    console.log(res.data)
+
+                    this.orderInfo=res.data.info.data
+
+                }).catch(err=>{
+
+                    console.log(err)
                 })
 
             },
@@ -241,15 +272,23 @@
 
                 let isBook = item.goIsBook
 
+                this.isBook=isBook
 
                 if(parseInt(isBook)===1){
 
+                    axios.get(`/book/arg/${goodsid}`).then(res=>{
+
+                        this.bookInfo=res.data.info.data
+                        console.log(res.data)
+                    })
 
                 }else{
+                    axios.get(`/goods/arg/${goodsid}`).then(res=>{
 
-
+                        this.goodsInfo=res.data.info.data
+                        console.log(res.data)
+                    })
                 }
-
 
                 console.log(orderNum,goodsid,isBook)
 

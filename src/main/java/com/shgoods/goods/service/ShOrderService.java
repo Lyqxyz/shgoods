@@ -21,4 +21,6 @@ public interface ShOrderService {
      ResponseVo updateRecv(ShOrder shOrder);
 
      ResponseVo delOrder(ShOrder shOrder);
+
+     ResponseVo selectByNum(String num);
 }

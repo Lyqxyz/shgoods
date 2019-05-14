@@ -10,24 +10,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
 public class OrderTest {
 
-    @Autowired
-    ShOrderService shOrderService;
-
     @Test
-    public void test(){
+    public void test1(){
 
-        ShOrder shOrder = new ShOrder();
 
-        shOrder.setOrderId("98147021008928773");
+        for(int i=1;i<100;i++){
 
-        ResponseVo responseVo = shOrderService.updateRecv(shOrder);
+            String s = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss"));
 
-        System.out.println(responseVo);
+            String s1 = UUID.randomUUID().toString();
 
+            System.out.println(s1);
+
+            String substring = s1.substring(9, 18);
+
+            System.out.println(substring+s);
+        }
 
     }
 }

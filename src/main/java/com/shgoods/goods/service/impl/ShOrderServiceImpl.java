@@ -12,8 +12,11 @@ import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class ShOrderServiceImpl implements ShOrderService {
@@ -80,7 +83,7 @@ public class ShOrderServiceImpl implements ShOrderService {
     public ResponseVo updateIsPay(ShOrder shOrder) {
 
 
-        if(Objects.isNull(shOrder)||Objects.isNull(shOrder.getOrderId())){
+        if(Objects.isNull(shOrder)||Objects.isNull(shOrder.getOrderNum())){
 
 
             return ResponseUtil.isError();
@@ -96,7 +99,7 @@ public class ShOrderServiceImpl implements ShOrderService {
     @Override
     public ResponseVo updateRecv(ShOrder shOrder) {
 
-        if(Objects.isNull(shOrder)||Objects.isNull(shOrder.getOrderId())){
+        if(Objects.isNull(shOrder)||Objects.isNull(shOrder.getOrderNum())){
 
 
             return ResponseUtil.isError();
@@ -126,5 +129,31 @@ public class ShOrderServiceImpl implements ShOrderService {
         return ok;
 
 
+    }
+
+    @Override
+    public ResponseVo selectByNum(String num) {
+
+        ShOrder shOrder = shOrderMapper.selectByNum(num);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.getInfo().put("data",shOrder);
+
+        return ok;
+
+    }
+
+    public static String randomOrderNum(){
+
+        String s = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss"));
+
+        String s1 = UUID.randomUUID().toString();
+
+        System.out.println(s1);
+
+        String substring = s1.substring(9, 18);
+
+       return substring+s;
     }
 }
