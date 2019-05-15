@@ -93,6 +93,15 @@ public class OrderGoodsController {
 
     }
 
+    @ResponseBody
+    @GetMapping("/del/{id}")
+    public Object del(@PathVariable String id){
+
+        ResponseVo del = shOrderGoodsService.del(id);
+
+        return del;
+    }
+
 
     @GetMapping(path = "/search/{orderNum}")
     public String search(@PathVariable("orderNum")String orderNum, Model model){

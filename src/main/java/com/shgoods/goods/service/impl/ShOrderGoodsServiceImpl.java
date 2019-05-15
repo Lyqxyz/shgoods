@@ -169,7 +169,6 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
 
             } else {
 
-
                 ShGoods shGoods = new ShGoods();
 
                 shGoods.setGoodsId(goodsOrder.getGoIdAll());
@@ -201,5 +200,20 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
 
 
         return ResponseUtil.isError();
+    }
+
+    @Override
+    public ResponseVo del(String id) {
+
+
+        Integer del = shOrderGoodsMapper.del(id);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("删除成功");
+
+        return ok;
+
+
     }
 }

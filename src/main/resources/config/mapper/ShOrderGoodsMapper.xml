@@ -74,7 +74,7 @@
                 sg.goods_uid = su.user_id
                 AND su.user_id = #{userId}
             )
-            ORDER BY go_state
+            ORDER BY go_state DESC
     </select>
 
     <update id="updateById">
@@ -82,6 +82,10 @@
         SET go_state = 1
         WHERE
             go_id=#{goId}
+    </update>
+
+    <update id="del">
+        DELETE FROM sh_goods_order WHERE go_id=#{goId}
     </update>
 
 </mapper>

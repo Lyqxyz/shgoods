@@ -18,5 +18,7 @@ public interface ShOrderGoodsMapper {
 
      Integer updateById(ShGoodsOrder shGoodsOrder);
 
+     Integer del(String id);
+
 
 }

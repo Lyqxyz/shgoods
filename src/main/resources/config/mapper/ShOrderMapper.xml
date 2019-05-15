@@ -23,6 +23,8 @@
         <result column="userName" property="orderUid.userName"/>
         <result column="userId" property="orderUid.userId"/>
         <result column="userNum" property="orderUid.userNum"/>
+        <result column="userPhone" property="orderUid.userPhone"/>
+        <result column="userEmail" property="orderUid.userEmail"/>
 
     </resultMap>
 
@@ -121,7 +123,9 @@
             order_creationTime orderCreationTime,
             order_address orderAddress,
             user_num userNum,
-            user_name userName
+            user_name userName,
+            user_phone userPhone,
+            user_email userEmail
         FROM
             sh_order so,
             sh_user su
