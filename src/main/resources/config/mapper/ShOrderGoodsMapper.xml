@@ -12,6 +12,9 @@
         <result column="goUpdateTime" property="goUpdateTime"/>
         <result column="orderId" property="goOid.orderId"/>
         <result column="goState" property="goState"/>
+
+        <result column="goRes" property="goRes"/>
+
     </resultMap>
     <select id="selectByGoodsOrder" resultMap="info">
         SELECT
@@ -21,6 +24,7 @@
             go_count goCount,
             go_state goState,
             go_isBook goIsBook,
+            go_res goRes,
             go_creationTime goCreationTime
         FROM
 	        sh_goods_order
@@ -52,6 +56,7 @@
             go_count goCount,
             go_state goState,
             go_isBook goIsBook,
+             go_res goRes,
             go_creationTime goCreationTime
         FROM
             sh_goods_order sgo
@@ -80,6 +85,13 @@
     <update id="updateById">
         UPDATE sh_goods_order
         SET go_state = 1
+        WHERE
+            go_id=#{goId}
+    </update>
+
+    <update id="resetById">
+        UPDATE sh_goods_order
+        SET go_state = -1,go_res=#{goRes}
         WHERE
             go_id=#{goId}
     </update>

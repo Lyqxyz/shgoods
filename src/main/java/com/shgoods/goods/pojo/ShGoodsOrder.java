@@ -30,6 +30,8 @@ public class ShGoodsOrder {
 
     private String goIdAll;
 
+    private String goRes;
+
     /**
      * isBook 封装goBId;
      */

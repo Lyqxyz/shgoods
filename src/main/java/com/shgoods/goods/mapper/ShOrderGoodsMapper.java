@@ -18,6 +18,8 @@ public interface ShOrderGoodsMapper {
 
      Integer updateById(ShGoodsOrder shGoodsOrder);
 
+     Integer resetById(ShGoodsOrder shGoodsOrder);
+
      Integer del(String id);
 
 

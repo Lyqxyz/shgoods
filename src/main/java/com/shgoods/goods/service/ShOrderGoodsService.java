@@ -22,6 +22,8 @@ public interface ShOrderGoodsService {
 
     ResponseVo updataById(ShGoodsOrder shGoodsOrder);
 
+    ResponseVo resetById(ShGoodsOrder shGoodsOrder);
+
     ResponseVo del(String id);
 
 }

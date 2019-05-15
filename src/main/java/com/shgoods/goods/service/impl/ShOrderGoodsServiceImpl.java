@@ -203,6 +203,19 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
     }
 
     @Override
+    public ResponseVo resetById(ShGoodsOrder shGoodsOrder) {
+
+
+        Integer integer = shOrderGoodsMapper.resetById(shGoodsOrder);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("取消成功");
+
+        return ok;
+    }
+
+    @Override
     public ResponseVo del(String id) {
 
 

@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
@@ -103,6 +100,25 @@ public class OrderGoodsController {
     }
 
 
+    @ResponseBody
+    @PostMapping("/reset")
+    public Object reset(@RequestParam("id")String id,
+                        @RequestParam("res")String res){
+
+        ShGoodsOrder shGoodsOrder  =new ShGoodsOrder();
+
+        shGoodsOrder.setGoId(id);
+
+        shGoodsOrder.setGoRes(res);
+
+        ResponseVo responseVo = shOrderGoodsService.resetById(shGoodsOrder);
+
+        return responseVo;
+
+
+    }
+
+
     @GetMapping(path = "/search/{orderNum}")
     public String search(@PathVariable("orderNum")String orderNum, Model model){
 
@@ -110,6 +126,10 @@ public class OrderGoodsController {
 
         return "order/orderSearch";
     }
+
+
+
+
     @GetMapping(path = "/search")
     public String search1(){
 
