@@ -150,8 +150,6 @@ public class ShOrderServiceImpl implements ShOrderService {
 
         String s1 = UUID.randomUUID().toString();
 
-        System.out.println(s1);
-
         String substring = s1.substring(9, 18);
 
        return substring+s;

@@ -114,6 +114,12 @@
                                 <li class="list-group-item">订单是否签收:{{orderInfo.orderReceipt===1?'签收':'未签收'}}</li>
                                 <li class="list-group-item">订单收货地址:{{orderInfo.orderAddress}}</li>
                             </ul>
+
+                            <ul class="list-group">
+                                <li class="list-group-item">发货状态：{{item.goState | gState}}</li>
+                                <li class="list-group-item" v-if="item.goState===-1">未发货原因：{{item.goRes}}</li>
+
+                            </ul>
                             <ul class="list-group" v-if="isBook===1">
                                 <li class="list-group-item">书籍id:{{bookInfo.bookId}}</li>
                                 <li class="list-group-item">书籍名：{{bookInfo.bookName}}</li>
@@ -183,6 +189,21 @@
     //     }
     // })
 
+    Vue.filter('gState',(value)=>{
+
+        let v= parseInt(value)
+
+        switch (v) {
+            case 1:
+                return '已发货'
+            case 0:
+                return '待发货'
+            case -1:
+                return '取消发货'
+            default:
+                return '未知'
+        }
+    })
     let vm = new Vue({
         el:'#orderGoodsInfo',
 
@@ -214,7 +235,8 @@
             isBook:'',
             goodsInfo:'',
             bookInfo:'',
-            orderInfo:''
+            orderInfo:'',
+            item:''
         },
         methods:{
             search(){
@@ -257,6 +279,7 @@
 
                     this.orderInfo=res.data.info.data
 
+
                 }).catch(err=>{
 
                     console.log(err)
@@ -266,6 +289,8 @@
             show(item){
 
                 console.log(item)
+
+                this.item=item
                 let orderNum = item.goOid.orderId
 
                 let goodsid = item.goIdAll
@@ -279,18 +304,14 @@
                     axios.get(`/book/arg/${goodsid}`).then(res=>{
 
                         this.bookInfo=res.data.info.data
-                        console.log(res.data)
                     })
 
                 }else{
                     axios.get(`/goods/arg/${goodsid}`).then(res=>{
 
                         this.goodsInfo=res.data.info.data
-                        console.log(res.data)
                     })
                 }
-
-                console.log(orderNum,goodsid,isBook)
 
                 $('#myModal').modal('show')
             }

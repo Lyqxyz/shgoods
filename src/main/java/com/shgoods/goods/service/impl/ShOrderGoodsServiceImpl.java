@@ -66,7 +66,6 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
         }
         responseVo.setDate(new Date());
 
-
         return responseVo;
 
 
