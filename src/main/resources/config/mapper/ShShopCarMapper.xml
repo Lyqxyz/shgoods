@@ -129,5 +129,14 @@
 
     </delete>
 
+    <select id="countByUser" resultType="int" parameterType="string">
+        SELECT
+            COUNT( * )
+        FROM
+            sh_shopcar
+        WHERE
+            shopCar_uid = #{uid}
+    </select>
+
 
 </mapper>

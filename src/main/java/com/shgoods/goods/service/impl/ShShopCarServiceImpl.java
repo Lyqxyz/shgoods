@@ -112,9 +112,7 @@ public class ShShopCarServiceImpl implements ShShopCarService {
         if(Objects.isNull(shShopCar)||
                 Objects.isNull(shShopCar.getShopCarGid())||
                 Objects.isNull(shShopCar.getShopCarUid()) ){
-
             return ResponseUtil.isError();
-
         }
 
         ResponseVo ok = ResponseUtil.isOk();
@@ -123,14 +121,21 @@ public class ShShopCarServiceImpl implements ShShopCarService {
 
         if(Objects.isNull(has)){
 
-            Integer add = shShopCarMapper.add(shShopCar);
+            int i = shShopCarMapper.countByUser(shShopCar.getShopCarUid());
 
-            System.out.println(shShopCar);
+            if(i>=10){
+                ResponseVo error = ResponseUtil.isError();
+
+                error.setMessage("购物车满了");
+
+                return error;
+            }
+
+            Integer add = shShopCarMapper.add(shShopCar);
 
         }else{
 
             Integer integer = shShopCarMapper.updateShopCar(has);
-
         }
 
         return ok;

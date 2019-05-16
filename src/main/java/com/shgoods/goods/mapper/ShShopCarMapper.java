@@ -24,5 +24,7 @@ public interface ShShopCarMapper {
 
      Integer delShopCar(ShShopCar shShopCar); //真实删除
 
+     int countByUser(String uid);
+
 
 }
