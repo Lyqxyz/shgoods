@@ -24,10 +24,10 @@ public class LoginVo {
     @NotBlank(message = "密码不能为空")
     @NotNull(message = "密码解析错误")
     private String pwd;
-    /**
-     * token检验
-     */
-    @NotBlank(message = "错误提交")
-    @NotNull(message = "非法提交")
-    private String token;
+//    /**
+//     * token检验
+//     */
+//    @NotBlank(message = "错误提交")
+//    @NotNull(message = "非法提交")
+//    private String token;
 }

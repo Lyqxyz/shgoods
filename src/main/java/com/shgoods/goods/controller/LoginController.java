@@ -51,28 +51,32 @@ public class LoginController {
             return "redirect:/index";
         }
 
-        String token = UUID.randomUUID().toString();
-
-        session.setAttribute("token", token);
-
-        model.addAttribute("token", token);
+//        String token = UUID.randomUUID().toString();
+//
+//        log.info("token:"+token);
+//
+//        session.setAttribute("token", token);
+//
+//        model.addAttribute("token", token);
 
         return "user/login";
     }
 
     @ResponseBody
-    @PostMapping(value = "/check", params = "token")
+    @PostMapping(value = "/check")
     public Object check(@Validated LoginVo loginVo, BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
 
-        String token = (String) session.getAttribute("token");
-        if (token == null) {
-
-            throw new LoginException("非法登录");
-        }
-        if (!loginVo.getToken().equals(token)) {
-
-            throw new LoginException("非法登录");
-        }
+//        String token = (String) session.getAttribute("token");
+//
+//        log.info(token);
+//        if (token == null) {
+//
+//            throw new LoginException("非法登录");
+//        }
+//        if (!loginVo.getToken().equals(token)) {
+//
+//            throw new LoginException("非法登录");
+//        }
         if (bindingResult.hasErrors()) {
             ResponseVo responseVo = new ResponseVo();
             Map<String, List<String>> errors = BindingErrorUtil.handlerErrors(bindingResult);

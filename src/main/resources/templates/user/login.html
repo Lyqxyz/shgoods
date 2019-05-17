@@ -89,7 +89,7 @@
                 login:{
                     username:'',
                     pwd:'',
-                    token:'',
+                    // token:'',
                 },
                 remember:'',
                 error1Msg:'',
@@ -109,13 +109,13 @@
             },
             methods: {
                 Login: function () {
-                    this.login.token = this.$refs.token.value;
+                  //  this.login.token = this.$refs.token.value;
 
                     let username =validator.isEmpty(this.login.username);
 
                     let pwd =validator.isEmpty(this.login.pwd);
 
-                    let token =validator.isUUID( this.login.token);
+                    //let token =validator.isUUID( this.login.token);
 
                     if(username){
                         this.error1Msg='用户名不能为空';
@@ -129,14 +129,15 @@
                         this.error2Msg='';
                     }
                     axios.baseURL='http://localhost:8080';
-                    axios.defaults.withCredentials=true;
-                    axios.validateStatus = (status)=>{
-                        return status>=200 && status<=500
-                    }
-                     if(!username && !pwd && token){
+                    // axios.defaults.withCredentials=true;
+                     if(!username && !pwd ){
 
                         let data=Qs.stringify(this.login);
-                        axios.post('/check',data,{}).then(res=>{
+                        axios.post('/check',data,{
+                            validateStatus(status){
+                                return status>=200 && status<500
+                            }
+                        }).then(res=>{
 
                             if(res.data.code==='1'){
 

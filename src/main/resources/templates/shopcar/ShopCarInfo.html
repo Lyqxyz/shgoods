@@ -74,9 +74,10 @@
                                 <td>{{item.shopCarCreationTime}}</td>
                                 <td>{{item.shopCarUpdateTime}}</td>
                                 <td>
-                                    <a href="#" class="text-warning" title="修改用户"> <i class="fa fa-pencil"></i></a>
-                                    <a @click.prevent="deleteRole(item.shopCarId)" href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
-                                    <a @click.prevent="forbidRole(item.shopCarId)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
+                                    <button @click="show(item)" class="btn btn-info">详情</button>
+                                    <button  @click.prevent="deleteRole(item.shopCarId)" class="btn btn-danger">删除</button>
+<!--                                    <a href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>-->
+<!--                                    <a @click.prevent="forbidRole(item.shopCarId)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>-->
                                 </td>
                             </tr>
                         </tbody>
@@ -85,7 +86,6 @@
                 </div>
 
                 <div class="row">
-
                     <div class="col-lg-8 offset-lg-2">
                         <!--分页-->
                         <nav aria-label="Page navigation example">
@@ -110,6 +110,35 @@
                     </div>
 
                 </div>
+
+
+                <div class="modal fade  bs-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="exampleModalLabel">详情</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">用户:{{userInfo.userName}}</li>
+                                    <li class="list-group-item">用户电话:{{userInfo.userPhone}}</li>
+                                </ul>
+                                <ul class="list-group" v-if="OkBook===1">
+                                    <li class="list-group-item">书籍名:{{bookInfo.bookName}}</li>
+                                    <li class="list-group-item">书籍作者:{{bookInfo.bookAuthor}}</li>
+                                </ul>
+                                <ul class="list-group" v-if="OkBook===0">
+                                    <li class="list-group-item">闲置标题:{{goodsInfo.goodsTitle}}</li>
+                                    <li class="list-group-item">闲置描述:{{goodsInfo.goodsDes}}</li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -120,21 +149,16 @@
     let vm =new Vue({
         el:'#shopcarinfo',
         data:{
-            r:{}
+            r:{},
+            userInfo:'',
+            OkBook:'',
+            bookInfo:'',
+            goodsInfo:''
         },
 
         created(){
 
-            axios.baseURL='http://localhost:8080';
-            axios.defaults.withCredentials=true;
-            axios.get('/shopcar/info/1/2').then(res=>{
-                this.r=res.data.info.data;
-
-            }).catch(err=>{
-
-                console.log(err)
-
-            })
+           this.init();
 
         },
 
@@ -174,6 +198,18 @@
                     this.page(this.r.prePage)
                 }
             },
+            init(){
+                axios.baseURL='http://localhost:8080';
+                axios.defaults.withCredentials=true;
+                axios.get('/shopcar/info/1/2').then(res=>{
+                    this.r=res.data.info.data;
+
+                }).catch(err=>{
+
+                    console.log(err)
+
+                })
+            },
             next(){
                 if( this.r.hasNextPage){
                     this.page(this.r.nextPage)
@@ -190,7 +226,6 @@
 
                     let message=res.data.message;
                     if(res.data.code==='1'){
-
                         if(method==='forbid'){
                             b.shopCarState= 0;
                         }else if (method==='delete') {
@@ -198,7 +233,6 @@
                         }else{
                             b.shopCarState=1;
                         }
-
                         infoDialog.dialog.update({
                             autoClose : 1500,
                             infoText : message,
@@ -219,7 +253,6 @@
                         infoIcon : '/images/icon/fail.png'
                     });
                 })
-
             },
             forbidRole(shopCarId){
                 alert("没有开通")
@@ -227,6 +260,39 @@
             },
             deleteRole(shopCarId){
                 this.checkState(shopCarId,'delete');
+
+                this.init()
+            },
+            show(item){
+
+                let {shopCarUid,shopCarGid,shopCarOkBook} = item
+
+                this.OkBook =shopCarOkBook
+                this.userInfo=item.shUser
+
+                if(shopCarOkBook===1){
+                    axios.get(`/book/arg/${shopCarGid}`).then(res=>{
+                        this.bookInfo=res.data.info.data
+                        console.log(res.data)
+                    }).catch(err=>{
+
+                        console.log(err)
+                    })
+
+                }else{
+                    axios.get(`/goods/arg/${shopCarGid}`).then(res=>{
+
+                        this.goodsInfo=res.data.info.data
+
+                    }).catch(err=>{
+
+                        console.log(err)
+                    })
+
+                }
+
+                $('#exampleModal').modal('show')
+
             }
 
 
