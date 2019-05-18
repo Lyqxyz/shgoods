@@ -160,6 +160,7 @@
 
            this.init();
 
+
         },
 
         methods:{
@@ -217,41 +218,47 @@
             },
             checkState(roleId,method){
                 let b=this.r.list.filter((item,index)=>item.shopCarId===roleId)[0];
-                let infoDialog = $.dialog({
-                    type : 'info',
-                    infoText : '加载中…',
-                    infoIcon : '/images/icon/loading.gif'
-                });
+                // let infoDialog = $.dialog({
+                //     type : 'info',
+                //     infoText : '加载中…',
+                //     infoIcon : '/images/icon/loading.gif'
+                // });
                 axios.get(`/shopcar/${method}/${b.shopCarId}/`).then(res=>{
-
                     let message=res.data.message;
                     if(res.data.code==='1'){
-                        if(method==='forbid'){
-                            b.shopCarState= 0;
-                        }else if (method==='delete') {
-                            b.shopCarState=-1;
-                        }else{
-                            b.shopCarState=1;
-                        }
-                        infoDialog.dialog.update({
-                            autoClose : 1500,
-                            infoText : message,
-                            infoIcon : '/images/icon/success.png'
-                        });
+                        // if(method==='forbid'){
+                        //     b.shopCarState= 0;
+                        // }else if (method==='delete') {
+                        //     b.shopCarState=-1;
+                        // }else{
+                        //     b.shopCarState=1;
+                        // }
+                        // infoDialog.dialog.update({
+                        //     autoClose : 1500,
+                        //     infoText : message,
+                        //     infoIcon : '/images/icon/success.png'
+                        // });
+                        alert(message)
+
+                        this.redo()
 
                     }else{
-                        infoDialog.dialog.update({
-                            autoClose : 1500,
-                            infoText : message,
-                            infoIcon : '/images/icon/fail.png'
-                        });
+                        // infoDialog.dialog.update({
+                        //     autoClose : 1500,
+                        //     infoText : message,
+                        //     infoIcon : '/images/icon/fail.png'
+                        // });
+
+                        alert(message)
                     }
                 }).catch(err=>{
-                    infoDialog.dialog.update({
-                        autoClose : 1500,
-                        infoText : message,
-                        infoIcon : '/images/icon/fail.png'
-                    });
+                    // infoDialog.dialog.update({
+                    //     autoClose : 1500,
+                    //     infoText : message,
+                    //     infoIcon : '/images/icon/fail.png'
+                    // });
+
+                    alert("服务器错误")
                 })
             },
             forbidRole(shopCarId){
@@ -293,7 +300,17 @@
 
                 $('#exampleModal').modal('show')
 
-            }
+            },
+            redo(){
+                axios.baseURL='http://localhost:8080';
+                // axios.defaults.withCredentials=true;
+                axios.get(`/shopcar/info/${this.r.pageNum}/${this.r.pageSize}`).then(res=>{
+                    this.r=res.data.info.data;
+                }).catch(err=>{
+
+                    console.log(err)
+                })
+            },
 
 
         }
