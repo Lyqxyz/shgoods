@@ -25,4 +25,6 @@ public interface ShClassService {
 
      ResponseVo update(ShClass shClass);
 
+     ResponseVo updatePid(ShClass shClass);
+
 }

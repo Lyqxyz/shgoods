@@ -93,7 +93,16 @@
         UPDATE sh_class
         SET class_num =#{classNum},
         class_name =#{className},
-        class_pid =#{classPid}
+--         class_pid =#{classPid}
+
+        WHERE
+            class_id=#{classId}
+    </update>
+
+    <update id="updatePid">
+        UPDATE sh_class
+        SET
+            class_pid =#{classPid}
 
         WHERE
             class_id=#{classId}

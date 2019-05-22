@@ -28,4 +28,7 @@ public interface ShClassMapper {
 
      Integer update(ShClass shClass);
 
+
+     Integer updatePid(ShClass shClass);
+
 }

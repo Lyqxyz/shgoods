@@ -70,10 +70,13 @@ public interface ShUserService {
 
      ResponseVo updatePhoto(ShUser shUser);
 
+
      UserRoleAuth selectByUserId(String id);
+
 
      ResponseVo indexLogin(LoginVo loginVo, HttpServletRequest request, HttpSession session);
 
 
+     ResponseVo restoreUser(ShUser shUser);
 
 }

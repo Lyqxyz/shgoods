@@ -402,4 +402,20 @@ public class ShUserServiceImpl implements ShUserService {
 
     }
 
+    @Override
+    public ResponseVo restoreUser(ShUser shUser) {
+
+        if(Objects.isNull(shUser)||Objects.isNull(shUser.getUserId())){
+            return ResponseUtil.isError();
+        }
+
+        Integer integer = shUserMapper.restoreUser(shUser);
+
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("恢复成功");
+
+        return ok;
+    }
 }

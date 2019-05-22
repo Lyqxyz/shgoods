@@ -67,8 +67,8 @@
                                 <th>用户状态</th>
                                 <!--<th>学院编号</th>-->
                                 <th>学院名字</th>
-                                <th>学院状态</th>
-                                <th>详细</th>
+<!--                                <th>学院状态</th>-->
+                                <th>详情</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -83,13 +83,12 @@
                                 <td>{{item.userLoginip}}</td>
                                 <td>{{item.userState | state}}</td>
                                 <td>{{item.collegeName}}</td>
-                                <td>{{item.collegeState | state}}</td>
-                                <th><button @click="info(item.userNum)" class="btn btn-info">点击</button></th>
+<!--                                <td>{{item.collegeState | state}}</td>-->
+                                <th><button @click="info(item.userNum)" class="btn btn-info">查看</button></th>
                                 <td>
-                                    <a href="#" class="text-warning" title="修改用户"><i class="fa fa-pencil"></i></a>
-                                    <a href="#" class="text-info" title="恢复用户"><i class="fa fa-asterisk"></i></a>
-                                    <a @click.prevent="deleteUser(item.userNum)" href="#" class="text-danger" title="删除用户"><i class="fa fa-trash"></i></a>
-                                    <a @click.prevent="forbidUser(item.userNum)" href="#" class="text-danger" title="禁用用户"><i class="fa fa-times-circle"></i></a>
+                                    <button class="btn btn-warning" @click="restore(item)">恢复用户</button>
+                                    <a @click.prevent="deleteUser(item.userNum)" href="#" class="btn btn-danger" title="删除用户">删除用户</a>
+                                    <a @click.prevent="forbidUser(item.userNum)" href="#" class="btn btn-danger" title="禁用用户">禁用用户</a>
                                 </td>
                             </tr>
 
@@ -129,7 +128,7 @@
         </div>
 
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">用户详情</h5>
@@ -155,10 +154,10 @@
                                     <li class="list-group-item">用户注册ip:{{b.userRegip}}</li>
                                     <li class="list-group-item">用户注册时间:{{b.userRegtime}}</li>
                                     <li class="list-group-item">用户上次登录时间:{{b.userLogintime}}</li>
-                                    <li class="list-group-item">学院id:{{b.collegeId}}</li>
-                                    <li class="list-group-item">学院编号:{{b.collegeNum}}</li>
+<!--                                    <li class="list-group-item">学院id:{{b.collegeId}}</li>-->
+<!--                                    <li class="list-group-item">学院编号:{{b.collegeNum}}</li>-->
                                     <li class="list-group-item">学院名:{{b.collegeName}}</li>
-                                    <li class="list-group-item">学院状态:{{b.collegeState | state}}</li>
+<!--                                    <li class="list-group-item">学院状态:{{b.collegeState | state}}</li>-->
                                     <li class="list-group-item">学院描述:{{b.collegeDes}}</li>
                                 </ul>
                             </div>
@@ -222,17 +221,7 @@
             el:'#UserInfo',
             created(){
 
-                axios.baseURL='http://localhost:8080';
-                axios.defaults.withCredentials=true;
-                axios.get('/user/users/1/4').then(res=>{
-
-                    this.a=res.data.info.data;
-
-                }).catch(err=>{
-
-                    console.log(err)
-
-                })
+                this.init();
             },
             mounted(){
 
@@ -244,6 +233,18 @@
 
             },
             methods:{
+                init(){
+                    axios.baseURL='http://localhost:8080';
+                    axios.get('/user/users/1/6').then(res=>{
+
+                        this.a=res.data.info.data;
+
+                    }).catch(err=>{
+
+                        console.log(err)
+
+                    })
+                },
                 page(n){
 
                     if(n!==this.a.pageNum){
@@ -339,6 +340,29 @@
                 },
                 deleteUser(userNum){
                     this.checkState(userNum,'delete');
+                },
+                restore(item){
+
+                    let ok = window.confirm('是否恢复')
+                    if(ok){
+
+                        axios.get(`/user/restore/${item.userId}`).then(res=>{
+
+                            let {code,message} = res.data
+
+                            if(code==='1'){
+                                alert(message)
+                                this.init()
+                            }else{
+                                alert(message)
+                            }
+                        }).catch(err=>{
+
+                            console.log(err)
+                            alert("服务繁忙！！！")
+                        })
+
+                    }
                 }
 
 

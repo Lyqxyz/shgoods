@@ -34,7 +34,7 @@
 
             <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-2">
-                    <i class="fa fa-search"></i>搜索用户
+                    <i class="fa fa-search"></i>添加书籍图片
                 </div>
                 <div class="col-lg-4 offset-lg-6 col-md-6 offset-md-4 col-sm-6">
                     <button class="btn btn-info" data-toggle="collapse" data-target="#colA" aria-expanded="true">隐藏</button>
@@ -48,24 +48,22 @@
                                 <label for="bookID" class="col-sm-3 col-lg-4 col-form-label">书籍id</label>
                                 <div class="col-sm-9 col-lg-8">
                                     <input v-model="bookid" id="bookID" type="text" class="form-control"  placeholder="书籍id">
+                                    <input type="hidden" id="book" name="bookId" th:value="${bookId==null?1:bookId}">
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">上传头像</span>
+                                <span class="input-group-text">上传图片</span>
                             </div>
                             <div class="custom-file">
                                 <input multiple @change="fileChange" accept="image/*" id="bookPic" type="file" class="custom-file-input">
-                                <label class="custom-file-label" for="bookPic">选择图像</label>
+                                <label class="custom-file-label" for="bookPic">选择图片</label>
                             </div>
                         </div>
                     </form>
                     <button @click="search" class="btn btn-info btn-sm mr-2" type="button">查询</button>
                     <button @click="upload" class="btn btn-info btn-sm" type="button">上传</button>
-
                 </div>
             </div>
             <div class="row" v-for="item in imagePaths">
@@ -96,6 +94,18 @@
     let vm = new Vue({
 
         el: '#bookDes',
+        created(){
+
+            let bookid = document.getElementById('book').value
+
+            if(bookid==='1'){
+
+            }else{
+
+                this.bookid=bookid
+                this.find(bookid)
+            }
+        },
         data: {
             bookid: '',
             files: '',
@@ -104,12 +114,16 @@
         methods: {
             search() {
 
-                if(this.bookid===''){
-                    alert("书籍id不能为空")
-                    return
-                }
+               this.find(this.bookid)
 
-                axios.get('http://localhost:8080/bookDes/search/' + this.bookid)
+            },
+
+            find(bookId){
+                if(bookId===''){
+                    alert("书籍id不能为空")
+                    return;
+                }
+                axios.get('http://localhost:8080/bookDes/search/'+bookId)
                     .then(res => {
 
                         let {code,message,info} = res.data;
@@ -125,9 +139,8 @@
                         }
                     }).catch(err => {
 
-                        alert("服务器错误")
+                    alert("服务器错误")
                 });
-
             },
             fileChange(e) {
 

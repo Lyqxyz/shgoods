@@ -113,6 +113,7 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
                             <button type="button" @click="save" class="btn btn-primary">修改</button>
+                            <button type="button" class="btn btn-warning" @click="savePid">修改父分类</button>
                         </div>
                     </div>
                 </div>
@@ -232,6 +233,38 @@
                     })
 
 
+                },
+                savePid(){
+
+                    let postdata = Qs.stringify(this.item)
+
+                    axios.post('/class/updatePid',postdata,{
+                        validateStatus(status) {
+                            return status>=200&&status<500; // 状态码在大于或等于500时才会 reject
+                        }
+                    }).then(res=>{
+
+                        let {code,message,errors}=res.data
+
+                        if(code==='-1'){
+                            if(errors){
+                                let msg = errors.err.join(' ')
+                                alert(msg)
+                            }
+                            alert(message)
+
+                        }else{
+
+                            $('#myModal').modal('hide')
+                        }
+                        console.log(res.data)
+
+                    }).catch(err=>{
+
+                        console.log(err)
+                        alert('服务器错误')
+                    })
+                    console.log(this.item)
                 }
             },
         })

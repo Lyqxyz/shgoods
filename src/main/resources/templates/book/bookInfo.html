@@ -111,7 +111,7 @@
 
 
                 <div class="modal fade bs-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="exampleModalLabel">详情</h4>
@@ -136,6 +136,7 @@
                                 </ul>
                             </div>
                             <div class="modal-footer">
+                                <button class="btn btn-info" @click="toAddPic">修改图片</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             </div>
                         </div>
@@ -227,7 +228,6 @@
                     this.page(this.a.nextPage)
                 }
             },
-
             redo(){
                 axios.baseURL='http://localhost:8080';
                 axios.defaults.withCredentials=true;
@@ -289,6 +289,13 @@
                     alert("服务器错误")
                 })
                 $('#exampleModal').modal('show')
+            },
+            toAddPic(){
+
+                console.log(this.item.bookId)
+
+                window.location = '/bookDes/AddPic/'+this.item.bookId;
+
             }
 
         }

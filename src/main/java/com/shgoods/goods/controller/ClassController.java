@@ -194,6 +194,16 @@ public class ClassController {
         return update;
     }
 
+    @ResponseBody
+    @PostMapping("/updatePid")
+    public Object updatePid(ShClass shClass){
+
+        ResponseVo update = shClassService.updatePid(shClass);
+
+
+        return update;
+    }
+
 
     @GetMapping("/classInfo")
     public String classInfo(){

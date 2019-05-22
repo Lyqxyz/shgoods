@@ -221,7 +221,7 @@
         SET user_state = 1
 
         WHERE
-                user_id=#{userId}
+            user_id=#{userId}
 
     </update>
 

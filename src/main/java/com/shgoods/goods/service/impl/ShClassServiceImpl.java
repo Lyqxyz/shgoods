@@ -139,7 +139,7 @@ public class ShClassServiceImpl implements ShClassService {
 
             ResponseVo error = ResponseUtil.isError();
 
-            error.setMessage("添加失败");
+            error.setMessage("修改失败");
 
             error.getErrors().put("err",strings);
 
@@ -153,5 +153,17 @@ public class ShClassServiceImpl implements ShClassService {
 
             return ok;
         }
+    }
+
+    @Override
+    public ResponseVo updatePid(ShClass shClass) {
+
+
+        Integer integer = shClassMapper.updatePid(shClass);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("更新成功");
+        return ok;
     }
 }

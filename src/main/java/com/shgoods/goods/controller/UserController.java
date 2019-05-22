@@ -47,7 +47,7 @@ public class UserController {
     @Autowired
     UserInfoDtoService userInfoDtoService;
 
-    @RequiresRoles({"aaa"})
+//    @RequiresRoles({"aaa"})
     @GetMapping(value = "/info")
     public String info(){
 
@@ -179,4 +179,20 @@ public class UserController {
         }
 
     }
+
+
+    @ResponseBody
+    @GetMapping("/restore/{uid}")
+    public Object restore(@PathVariable(value = "uid")String uid){
+
+        ShUser shUser = new ShUser();
+
+        shUser.setUserId(uid);
+
+        ResponseVo responseVo = shUserService.restoreUser(shUser);
+
+        return responseVo;
+
+    }
+
 }

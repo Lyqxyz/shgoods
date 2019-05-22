@@ -10,6 +10,7 @@ import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -79,6 +80,14 @@ public class GoodsDesController {
 
     }
 
+
+    @GetMapping(path = "/AddPic/{goodsId}")
+    public String addPic(@PathVariable String goodsId, Model model){
+
+        model.addAttribute("goodsId",goodsId);
+        return "goods/GoodsAddPic";
+
+    }
 
     @ResponseBody
     @PostMapping("/updatePic")

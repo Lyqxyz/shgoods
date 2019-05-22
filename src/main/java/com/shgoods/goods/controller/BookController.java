@@ -175,10 +175,7 @@ public class BookController {
     public Object updateState(ShBook shBook){
 
 
-
-
         ResponseVo responseVo = shBookService.updateState(shBook);
-
 
         return responseVo;
     }

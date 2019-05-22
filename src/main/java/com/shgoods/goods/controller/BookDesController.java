@@ -10,6 +10,7 @@ import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -108,6 +109,16 @@ public class BookDesController {
             return error;
 
         }
+
+    }
+
+    @GetMapping(path = "/AddPic/{bookId}")
+    public String addPic1(@PathVariable(value = "bookId")String bookId, Model model){
+
+
+        model.addAttribute("bookId",bookId);
+
+        return "book/bookAddPic";
 
     }
 

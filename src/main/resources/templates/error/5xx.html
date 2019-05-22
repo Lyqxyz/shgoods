@@ -1,18 +1,44 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${status}">4xx</title>
     <style>
-        h1{
-            margin: 200px auto;
-            font-size: 200px;
+        #con{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .info{
+            font-size: 50px;
             color: red;
+            margin: 20px;
+        }
+        .goBack{
+
+            text-decoration: none;
         }
     </style>
+    <script>
+        window.onload=()=>{
+            let a = document.querySelector('.goBack')
+            a.addEventListener('click',(e)=>{
+                e.preventDefault()
+                window.history.go(-1)
+            })
+        }
+
+    </script>
 </head>
 <body>
-<h1>500</h1>
-
+<div id = "con">
+    <div class="info" th:text="${status}">500</div>
+    <div class="info" th:text="${message}">服务器崩溃了</div>
+    <a href="#" class="goBack">返回</a>
+</div>
 </body>
 </html>
