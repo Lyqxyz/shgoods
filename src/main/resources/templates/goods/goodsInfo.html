@@ -127,6 +127,7 @@
                                 </ul>
                             </div>
                             <div class="modal-footer">
+                                <button type="button" class="btn btn-warning" @click="toAddPic">修改图片</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             </div>
                         </div>
@@ -292,6 +293,9 @@
 
                 this.item=item
                 $('#exampleModal').modal('show')
+            },
+            toAddPic(){
+                window.location = '/goodsDes/AddPic/'+this.item.goodsId
             }
 
         }
