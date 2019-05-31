@@ -26,5 +26,7 @@ public interface ShShopCarMapper {
 
      int countByUser(String uid);
 
+     int updataCount(ShShopCar shShopCar);
+
 
 }

@@ -141,4 +141,17 @@ public class ShShopCarServiceImpl implements ShShopCarService {
         return ok;
 
     }
+
+    @Override
+    public ResponseVo updataCount(ShShopCar shShopCar) {
+
+
+        shShopCarMapper.updataCount(shShopCar);
+
+        ResponseVo ok = ResponseUtil.isOk();
+
+        ok.setMessage("添加成功");
+
+        return ok;
+    }
 }

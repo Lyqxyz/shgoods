@@ -112,4 +112,13 @@ public class ShopCarController {
         return responseVo;
     }
 
+    @ResponseBody
+    @PostMapping(path = "/updateCount")
+    public Object updateCount(ShShopCar shShopCar){
+
+        ResponseVo responseVo = shShopCarService.updataCount(shShopCar);
+
+        return responseVo;
+    }
+
 }

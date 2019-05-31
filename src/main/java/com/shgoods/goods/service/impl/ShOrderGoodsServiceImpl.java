@@ -92,7 +92,7 @@ public class ShOrderGoodsServiceImpl implements ShOrderGoodsService {
 
             shGoodsOrder.setGoIsBook(shShopCar.getShopCarOkBook());
 
-            shGoodsOrder.setGoState(1);
+            shGoodsOrder.setGoState(0);
 
             shGoodsOrder.setGoIdAll(shShopCar.getShopCarGid());
 

@@ -12,6 +12,7 @@ import com.shgoods.goods.util.ResponseUtil;
 import com.shgoods.goods.vo.ResponseVo;
 import com.shgoods.goods.vo.user.UserAddVo;
 import org.apache.commons.collections.bag.SynchronizedSortedBag;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.BeanUtils;
@@ -47,7 +48,7 @@ public class UserController {
     @Autowired
     UserInfoDtoService userInfoDtoService;
 
-//    @RequiresRoles({"aaa"})
+    @RequiresRoles(value = {"1111","管理员"},logical = Logical.OR)
     @GetMapping(value = "/info")
     public String info(){
 

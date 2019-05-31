@@ -145,5 +145,8 @@
             shopCar_uid = #{uid}
     </select>
 
+    <update id="updataCount">
+        UPDATE sh_shopcar SET shopCar_count=#{shopCarCount} WHERE shopCar_id=#{shopCarId}
+    </update>
 
 </mapper>

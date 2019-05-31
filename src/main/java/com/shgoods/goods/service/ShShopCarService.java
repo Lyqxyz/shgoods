@@ -16,7 +16,7 @@ public interface ShShopCarService {
 
      ResponseVo addShopCar(ShShopCar shShopCar);
 
-
+     ResponseVo updataCount(ShShopCar shShopCar);
 
 
 }
