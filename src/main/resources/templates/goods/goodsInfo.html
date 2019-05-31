@@ -147,7 +147,7 @@
         created(){
             axios.baseURL='http://localhost:8080';
             axios.defaults.withCredentials=true;
-            axios.get('/goods/1/3').then(res=>{
+            axios.get('/goods/1/6').then(res=>{
 
                 this.a=res.data.info.data;
                 console.log(this.a)

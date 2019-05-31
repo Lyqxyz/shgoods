@@ -64,37 +64,29 @@
         user_gender,
         user_loginip,
         user_regtime,
-        user_isactive,
-        user_cid,
-        college_id,
-        college_des,
-        college_num,
-        college_name
+        user_isactive
+
         FROM
-        sh_user,
-        sh_college
+        sh_user
+
         <where>
-            <if test="userCid!=null">
-                sh_user.user_cid = sh_college.college_id
+
+            <if test="userId!=null and userId!=''">
+                 user_id=#{userId}
             </if>
-            <if test="userId!=null">
-                AND user_id=#{userId}
-            </if>
-            <if test="userNum!=null">
+            <if test="userNum!=null and userNum!=''">
                 AND user_num=#{userNum}
             </if>
-            <if test="userName!=null">
+            <if test="userName!=null and userName !=''">
                 AND user_name=#{userName}
             </if>
-            <if test="userPhone!=null">
+            <if test="userPhone!=null and userPhone!=''">
                 AND user_phone=#{userPhone}
             </if>
-            <if test="userEmail!=null">
+            <if test="userEmail!=null and userEmail!=''">
                 AND user_email=#{userEmail}
             </if>
-            <if test="userPwd!=null">
-                AND user_pwd=#{userPwd}
-            </if>
+
         </where>
     </select>
 

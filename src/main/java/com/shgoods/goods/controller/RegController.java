@@ -84,7 +84,7 @@ public class RegController {
 
                 ResponseVo error = ResponseUtil.isError();
 
-                error.setMessage("请点在发送至邮箱");
+                error.setMessage("请点击发送至邮箱");
 
                 return error;
             }

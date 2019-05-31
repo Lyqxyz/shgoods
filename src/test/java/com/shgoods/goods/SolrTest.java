@@ -71,7 +71,7 @@ public class SolrTest {
 
         SolrQuery solrQuery = new SolrQuery();
 
-        solrQuery.setQuery("重庆");
+        solrQuery.setQuery("出版");
 
         solrQuery.setParam("df","allBook");
 
