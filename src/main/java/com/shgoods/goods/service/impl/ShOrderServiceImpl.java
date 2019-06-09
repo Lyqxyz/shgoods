@@ -116,7 +116,7 @@ public class ShOrderServiceImpl implements ShOrderService {
 
     @Override
     public ResponseVo delOrder(ShOrder shOrder) {
-        if(Objects.isNull(shOrder)||Objects.isNull(shOrder.getOrderId())){
+        if(Objects.isNull(shOrder)||Objects.isNull(shOrder.getOrderNum())){
 
 
             return ResponseUtil.isError();

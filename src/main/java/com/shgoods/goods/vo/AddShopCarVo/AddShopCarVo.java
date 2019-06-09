@@ -12,6 +12,6 @@ public class AddShopCarVo {
 
     private Integer okBook;
 
-    private String count;
+    private Integer count;
 
 }

@@ -34,18 +34,15 @@ public class ShopCarController {
         return "shopcar/ShopCarInfo";
     }
 
-
     @ResponseBody
-    @GetMapping(value = "/delete/{shopCarId}")
-    public Object delUser(@PathVariable(value = "shopCarId") String shopCarId,HttpServletRequest request){
+    @GetMapping("/delete/{shopcarId}")
+    public Object del(@PathVariable("shopcarId")String shopcarId){
 
         ShShopCar shShopCar = new ShShopCar();
 
-        shShopCar.setShopCarId(shopCarId);
+        shShopCar.setShopCarId(shopcarId);
 
         ResponseVo del = shShopCarService.del(shShopCar);
-
-        del.setPath(request.getRequestURI());
 
         return  del;
 
@@ -104,6 +101,8 @@ public class ShopCarController {
         shShopCar.setShopCarGid(addShopCarVo.getGid());
 
         shShopCar.setShopCarOkBook(addShopCarVo.getOkBook());
+
+        shShopCar.setShopCarCount(addShopCarVo.getCount());
 
         ResponseVo responseVo = shShopCarService.addShopCar(shShopCar);
 

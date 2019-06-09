@@ -167,7 +167,7 @@ public class OrderController {
 
         ShOrder shOrder = new ShOrder();
 
-        shOrder.setOrderId(id);
+        shOrder.setOrderNum(id);
 
         ResponseVo responseVo = shOrderService.delOrder(shOrder);
 

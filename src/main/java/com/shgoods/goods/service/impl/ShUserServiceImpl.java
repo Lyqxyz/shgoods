@@ -65,7 +65,7 @@ public class ShUserServiceImpl implements ShUserService {
             try {
                 currentUser.login(usernamePasswordToken);
 
-               currentUser.checkRole("1111");
+                currentUser.checkRole("1111");
 
                 responseVo.setCode("1");
 
@@ -103,6 +103,26 @@ public class ShUserServiceImpl implements ShUserService {
                 responseVo.setMessage("服务器错误");
                 log.info(ae.getMessage());
             }
+        }else {
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(loginVo.getUsername(), loginVo.getPwd());
+
+            currentUser.login(usernamePasswordToken);
+
+            currentUser.checkRole("1111");
+
+            responseVo.setCode("1");
+
+            responseVo.setMessage("登录成功");
+
+            ShUser principal = (ShUser)currentUser.getPrincipal();
+
+            principal.setUserLoginip(request.getRemoteAddr());
+
+            Integer integer = this.afterLogin(principal);
+
+            session.setAttribute("user",principal);
+
+            responseVo.getInfo().put("user",principal);
         }
         responseVo.setDate(new Date());
         responseVo.setPath(request.getRequestURI());

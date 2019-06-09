@@ -110,7 +110,7 @@
                                 shopCar_updateTime, shopCar_creationTime,shopCar_okBook )
         VALUES
         (#{shopCarId},#{shopCarGid},#{shopCarUid},
-        1,1,NOW(),NOW(),#{shopCarOkBook} )
+        #{shopCarCount},1,NOW(),NOW(),#{shopCarOkBook} )
 
     </insert>
     <select id="has" resultMap="ShopCarInfo">

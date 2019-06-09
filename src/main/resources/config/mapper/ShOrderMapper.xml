@@ -104,7 +104,7 @@
     </update>
     <delete id="delOrder">
 
-        DELETE FROM sh_order WHERE order_id=#{orderId}
+        DELETE FROM sh_order WHERE order_num=#{orderNum}
 
     </delete>
 

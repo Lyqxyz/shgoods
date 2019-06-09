@@ -32,6 +32,10 @@ public class LoginExceptionController {
 
         ResponseVo responseinfo = responseinfo(e.getMessage());
         responseinfo.setPath(request.getRequestURI());
+
+        responseinfo.setCode("-1");
+
+        responseinfo.setMessage("登录失败");
         return responseinfo;
     }
 
